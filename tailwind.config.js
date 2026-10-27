@@ -9,7 +9,7 @@ module.exports = {
         line: '#e7e5e4',
       },
       fontFamily: {
-        sans: ['"Google Sans"', '"Noto Sans Thai"', 'system-ui', 'sans-serif'],
+        sans: ['"Noto Sans Thai"', 'system-ui', 'sans-serif'],
       },
     },
   },
