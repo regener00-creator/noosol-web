@@ -5,11 +5,11 @@ module.exports = {
     extend: {
       colors: {
         ink: '#111111',
-        soft: '#f5f5f4',
+        soft: '#f5f5f7',
         line: '#e7e5e4',
       },
       fontFamily: {
-        sans: ['"Noto Sans Thai"', 'system-ui', 'sans-serif'],
+        sans: ['"Google Sans"', 'system-ui', 'sans-serif'],
       },
     },
   },

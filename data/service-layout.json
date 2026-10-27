@@ -1,0 +1,17 @@
+{
+ "/services/service-1.png": {
+  "x": 190,
+  "y": 8,
+  "s": 1.55
+ },
+ "/services/service-2.png": {
+  "x": 187,
+  "y": -53,
+  "s": 1.8
+ },
+ "/services/service-3.png": {
+  "x": 127,
+  "y": 79,
+  "s": 2
+ }
+}

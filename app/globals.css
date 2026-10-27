@@ -10,7 +10,325 @@ body {
   @apply bg-white text-ink antialiased;
 }
 
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.grain-surface {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.22'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
+.initial-loader {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.initial-loader.is-exiting {
+  pointer-events: none;
+}
+
+.initial-loader-panel {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  width: calc(50% + 18px);
+  background: #fff;
+  filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.09));
+  transition: transform 0.78s cubic-bezier(0.72, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.initial-loader-panel-left {
+  left: 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 8px) 0,
+    100% 6%,
+    calc(100% - 14px) 13%,
+    100% 21%,
+    calc(100% - 10px) 30%,
+    100% 40%,
+    calc(100% - 16px) 49%,
+    100% 59%,
+    calc(100% - 9px) 69%,
+    100% 78%,
+    calc(100% - 14px) 88%,
+    100% 95%,
+    calc(100% - 7px) 100%,
+    0 100%
+  );
+}
+
+.initial-loader-panel-right {
+  right: 0;
+  clip-path: polygon(
+    8px 0,
+    100% 0,
+    100% 100%,
+    7px 100%,
+    0 94%,
+    14px 87%,
+    0 79%,
+    10px 69%,
+    0 59%,
+    16px 50%,
+    0 40%,
+    10px 30%,
+    0 21%,
+    14px 13%,
+    0 6%
+  );
+}
+
+.initial-loader-content {
+  opacity: 1;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.initial-loader.is-exiting .initial-loader-content {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.initial-loader.is-exiting .initial-loader-panel-left {
+  transform: translateX(-103%) rotate(-0.8deg);
+}
+
+.initial-loader.is-exiting .initial-loader-panel-right {
+  transform: translateX(103%) rotate(0.8deg);
+}
+
+@keyframes loader-logo-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.initial-loader-logo {
+  animation: loader-logo-in 0.72s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+
 ::selection {
   background: #111;
   color: #fff;
+}
+
+/* แถบผลงานวิ่งอัตโนมัติ */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.marquee-track-left {
+  animation: marquee-left 70s linear infinite;
+}
+
+.marquee-track-right {
+  animation: marquee-right 70s linear infinite;
+}
+
+.marquee:hover .marquee-track-left,
+.marquee:hover .marquee-track-right {
+  animation-play-state: paused;
+}
+
+/* โลโก้ลูกค้าค่อยๆ จางเมื่อเข้าและออกจากขอบ */
+.logo-marquee-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.portfolio-category-tabs {
+  scrollbar-width: none;
+}
+
+.product-category-tabs {
+  scrollbar-width: none;
+}
+
+.portfolio-category-tabs::-webkit-scrollbar,
+.product-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.portfolio-tab-indicator {
+  transition:
+    width 0.48s cubic-bezier(0.22, 0.8, 0.24, 1),
+    transform 0.48s cubic-bezier(0.22, 0.8, 0.24, 1);
+  will-change: width, transform;
+}
+
+.portfolio-manual-scroll {
+  scrollbar-width: none;
+}
+
+.portfolio-manual-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes portfolio-card-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.012);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(3px) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.portfolio-card-pop {
+  animation: portfolio-card-pop 0.78s cubic-bezier(0.22, 0.8, 0.24, 1) var(--portfolio-card-delay, 0ms) both;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 640px) {
+  .logo-marquee-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+}
+
+/* การ์ดสินค้าลอยขึ้นเบาๆ ตอนสลับหมวด (ไม่เฟด กันภาพกระพริบ) */
+@keyframes fade-up {
+  from {
+    transform: translateY(18px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.28, 0.11, 0.32, 1) both;
+}
+
+/* เด้งขึ้นเมื่อเปิดหน้า/เลื่อนมาถึง คล้ายจังหวะ spring ของ Framer */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px) scale(0.975);
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+[data-reveal].is-revealed {
+  animation: reveal-bounce 0.82s cubic-bezier(0.22, 0.8, 0.24, 1) var(--reveal-delay, 0ms) both;
+}
+
+@keyframes reveal-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.975);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(-7px) scale(1.008);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(3px) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ข้อความหน้าแรกค่อย ๆ ปรากฏทีละบรรทัด หลังหน้าจอโหลดเปิดออก */
+[data-hero-drop] {
+  opacity: 0;
+  transform: none;
+  will-change: opacity;
+}
+
+[data-hero-drop].is-hero-entered {
+  animation: hero-line-fade 0.85s ease-out var(--hero-drop-delay, 0ms) both;
+}
+
+@keyframes hero-line-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* แถบรูปผลงานตามหมวด */
+.portfolio-marquee-track {
+  animation: portfolio-marquee 55s linear infinite;
+}
+
+.portfolio-marquee:hover .portfolio-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes portfolio-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 0.5rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track-left,
+  .marquee-track-right,
+  .portfolio-marquee-track,
+  .fade-up,
+  .portfolio-card-pop,
+  .initial-loader-logo,
+  [data-hero-drop].is-hero-entered,
+  [data-reveal].is-revealed {
+    animation: none;
+  }
+
+  .initial-loader-panel,
+  .initial-loader-content {
+    transition: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-hero-drop] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .portfolio-marquee {
+    overflow-x: auto;
+  }
 }
