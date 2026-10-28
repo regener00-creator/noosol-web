@@ -4,6 +4,7 @@ import ProductExplorer from '@/components/ProductExplorer';
 import ServiceCards from '@/components/ServiceCards';
 import PortfolioExplorer from '@/components/PortfolioExplorer';
 import LogoMarquee from '@/components/LogoMarquee';
+import LazyVideo from '@/components/LazyVideo';
 import Faq from '@/components/Faq';
 import { site } from '@/lib/site';
 
@@ -61,13 +62,13 @@ export default async function Home() {
       <section id="home" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="pb-20 pt-28 text-center sm:pt-44">
-            <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
+            <h1 className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
               NOOSOL
             </h1>
-            <h2 data-hero-drop data-hero-delay="500" className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
+            <h2 className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
               โรงงานรับผลิตกระเป๋าและถุงผ้าสปันบอนด์
             </h2>
-            <p data-hero-drop data-hero-delay="1000" className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
+            <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
               ประสบการณ์มากกว่า 30 ปี
             </p>
 
@@ -114,15 +115,9 @@ export default async function Home() {
                   data-reveal-delay={index * 70}
                   className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
                 >
-                  <video
+                  <LazyVideo
                     src={`/videos/${file}`}
                     poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    disablePictureInPicture
                     aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
                     className="aspect-[9/16] min-w-0 max-w-full bg-black object-cover"
                   />

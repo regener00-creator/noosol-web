@@ -2,7 +2,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RevealOnScroll from '@/components/RevealOnScroll';
-import InitialLoader from '@/components/InitialLoader';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { site } from '@/lib/site';
 
 export const viewport = {
@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-sans">
-        <InitialLoader />
+        <GoogleAnalytics />
         <RevealOnScroll />
         <Navbar />
         <main className="min-h-screen">{children}</main>
