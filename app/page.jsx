@@ -62,13 +62,13 @@ export default async function Home() {
       <section id="home" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="pb-20 pt-28 text-center sm:pt-44">
-            <h1 className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
+            <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
               NOOSOL
             </h1>
-            <h2 className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
+            <h2 data-hero-drop data-hero-delay="500" className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
               โรงงานรับผลิตกระเป๋าและถุงผ้าสปันบอนด์
             </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
+            <p data-hero-drop data-hero-delay="1000" className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
               ประสบการณ์มากกว่า 30 ปี
             </p>
 

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import InitialLoader from '@/components/InitialLoader';
 import { site } from '@/lib/site';
 
 export const viewport = {
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-sans">
+        <InitialLoader />
         <GoogleAnalytics />
         <RevealOnScroll />
         <Navbar />

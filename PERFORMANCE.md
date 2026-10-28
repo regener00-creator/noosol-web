@@ -1,6 +1,6 @@
 # Performance and measurement
 
-- The full-screen InitialLoader is retained as a fallback component but is no longer mounted. Hero copy is visible in the server-rendered HTML, without waiting for hydration or entrance animations.
+- At the owner's request, the original full-screen InitialLoader and sequenced hero entrance animations are mounted again. Preserve this opening design when making future performance changes.
 - Showcase videos render posters with preload="none" and no source URL until they enter the viewport. They pause offscreen or when the tab is hidden. Reduced-motion and data-saving users get manual playback.
 - Existing Google Sans typography, Poppins hero branding and bold product prices are preserved.
 
@@ -16,4 +16,4 @@ contact_click records channel (line, phone, shopee, facebook) and placement (hea
 
 After adding the real ID and redeploying, check GA4 Realtime/DebugView for one page_view and one contact_click per click, and verify all links still open normally. Register channel and placement as event-scoped custom dimensions to break down contact clicks. View traffic and devices in GA4 Reports. Data before activation cannot be recovered.
 
-Measure mobile performance before/after with the same device/network and several runs. Removing the loader eliminates an intentional minimum wait of about 2.3 seconds; this is not a measured improvement to network latency or a Lighthouse score.
+Measure mobile performance before/after with the same device/network and several runs. The restored opening animation intentionally takes at least about 2.3 seconds. Video deferral and GA4 preparation remain enabled; no measured network-latency or Lighthouse-score improvement is claimed.
