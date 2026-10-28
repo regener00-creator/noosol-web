@@ -28,7 +28,7 @@ export default function ShopCard({ p }) {
         </p>
         <div className="mt-auto pt-3">
           {p.retail != null && (
-            <span className="text-[15px] font-normal text-[#eb7300]">
+            <span className="text-[15px] font-bold text-[#eb7300]">
               ฿{Number(p.retail).toFixed(0)}
               <span className="ml-1 text-[15px] font-normal text-ink">/ ใบ</span>
             </span>
