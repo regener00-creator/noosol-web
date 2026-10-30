@@ -1,0 +1,258 @@
+[
+  {
+    "code": "05402",
+    "category": "รุ่นเรียบ",
+    "width": 12,
+    "height": 14,
+    "gusset": 0,
+    "src": "/size-guides/p-01-05402.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "04255",
+    "category": "รุ่นเรียบ",
+    "width": 14,
+    "height": 14,
+    "gusset": 0,
+    "src": "/size-guides/p-02-04255.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "05898",
+    "category": "รุ่นเรียบ",
+    "width": 16,
+    "height": 14,
+    "gusset": 0,
+    "src": "/size-guides/p-03-05898.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "04508",
+    "category": "รุ่นเรียบ",
+    "width": 14,
+    "height": 16,
+    "gusset": 0,
+    "src": "/size-guides/p-04-04508.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "11740",
+    "category": "รุ่นเรียบ",
+    "width": 16,
+    "height": 18,
+    "gusset": 0,
+    "src": "/size-guides/p-05-11740.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "09106",
+    "category": "รุ่นขยายก้น",
+    "width": 10,
+    "height": 12,
+    "gusset": 3.0,
+    "src": "/size-guides/p-06-09106.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "04257",
+    "category": "รุ่นขยายก้น",
+    "width": 14,
+    "height": 11.5,
+    "gusset": 4.5,
+    "src": "/size-guides/p-07-04257.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "05899",
+    "category": "รุ่นขยายก้น",
+    "width": 14,
+    "height": 12.5,
+    "gusset": 3.0,
+    "src": "/size-guides/p-08-05899.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "10496",
+    "category": "รุ่นขยายก้น",
+    "width": 12,
+    "height": 14,
+    "gusset": 4.0,
+    "src": "/size-guides/p-09-10496.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "05891",
+    "category": "รุ่นขยายก้น",
+    "width": 14,
+    "height": 16,
+    "gusset": 3.0,
+    "src": "/size-guides/p-10-05891.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "07041",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 9,
+    "height": 11,
+    "gusset": 4.0,
+    "src": "/size-guides/p-11-07041.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "06074/1",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 14,
+    "height": 12.5,
+    "gusset": 3.0,
+    "src": "/size-guides/p-12-06074-1.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "04259",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 11.5,
+    "height": 11.5,
+    "gusset": 4.0,
+    "src": "/size-guides/p-13-04259.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "10232",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 13,
+    "height": 14,
+    "gusset": 3.5,
+    "src": "/size-guides/p-14-10232.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "05712",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 12,
+    "height": 16,
+    "gusset": 4.0,
+    "src": "/size-guides/p-15-05712.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "07073",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 16,
+    "height": 16,
+    "gusset": 4.0,
+    "src": "/size-guides/p-16-07073.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#f4df28",
+      "#e32626",
+      "#e878b0"
+    ]
+  },
+  {
+    "code": "11144",
+    "category": "รุ่นขยายข้างและก้น",
+    "width": 18,
+    "height": 14,
+    "gusset": 5.0,
+    "src": "/size-guides/p-17-11144.jpg",
+    "colors": [
+      "#ffffff",
+      "#222222",
+      "#66cce5",
+      "#e878b0"
+    ]
+  }
+]

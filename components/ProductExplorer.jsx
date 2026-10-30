@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 import ShopCard from './ShopCard';
+import ProductSizeGuide from './ProductSizeGuide';
 
 const stockCats = [
   {
@@ -116,6 +117,7 @@ export default function ProductExplorer({ products }) {
           </div>
         )}
       </div>
+      <ProductSizeGuide />
     </div>
   );
 }
