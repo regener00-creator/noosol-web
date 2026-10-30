@@ -6,15 +6,29 @@ import guides from '@/data/size-guides.json';
 
 export default function ProductSizeGuide() {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const moving = useRef(false);
   const touchStart = useRef(null);
   const guide = guides[index];
+  const visibleGuides = [-1, 0, 1].map((offset) => ({
+    guide: guides[(index + offset + guides.length) % guides.length],
+    offset,
+  }));
 
-  function move(direction) {
+  function move(nextDirection) {
+    if (moving.current) return;
+    moving.current = true;
+    setDirection(nextDirection);
+  }
+
+  function finishMove(event) {
+    if (event.target !== event.currentTarget || !direction) return;
     setIndex((current) => (current + direction + guides.length) % guides.length);
+    setDirection(0);
+    moving.current = false;
   }
 
   function handleKeyDown(event) {
-    if (event.target.tagName === 'SELECT') return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       move(event.key === 'ArrowLeft' ? -1 : 1);
@@ -35,18 +49,14 @@ export default function ProductSizeGuide() {
 
   return (
     <section
-      aria-labelledby="size-guide-heading"
+      aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
-      className="mx-auto mt-12 max-w-4xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
+      className="relative mx-auto mt-12 max-w-4xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      <h3 id="size-guide-heading" className="mb-5 text-center text-xl font-bold text-ink sm:text-2xl">
-        เทียบขนาดถุงกับกระดาษ A4
-      </h3>
-
       <div
-        className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm"
+        className="aspect-square overflow-hidden rounded-2xl border border-line bg-white shadow-sm"
         style={{ touchAction: 'pan-y' }}
         onTouchStart={(event) => {
           const touch = event.touches[0];
@@ -55,60 +65,77 @@ export default function ProductSizeGuide() {
         onTouchEnd={handleTouchEnd}
         onTouchCancel={() => { touchStart.current = null; }}
       >
-        <Image
-          key={guide.code}
-          src={guide.src}
-          width={1600}
-          height={1600}
-          sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 944px) calc(100vw - 48px), 896px"
-          alt={`NO.${guide.code} ${guide.category} กว้าง ${guide.width} สูง ${guide.height} นิ้ว${guide.gusset ? ` ขยาย ${guide.gusset} นิ้ว` : ''} เทียบกับกระดาษ A4`}
-          className="aspect-square w-full select-none object-contain"
-          loading="lazy"
-          draggable={false}
-        />
+        <div
+          className="size-guide-track flex h-full"
+          data-direction={direction}
+          onAnimationEnd={finishMove}
+        >
+          {visibleGuides.map(({ guide: item, offset }) => (
+            <div key={item.code} className="h-full w-full shrink-0" aria-hidden={offset !== 0}>
+              <Image
+                src={item.src}
+                width={1600}
+                height={1600}
+                sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 944px) calc(100vw - 48px), 896px"
+                alt={offset === 0 ? `NO.${item.code} ${item.category} กว้าง ${item.width} สูง ${item.height} นิ้ว${item.gusset ? ` ขยาย ${item.gusset} นิ้ว` : ''} เทียบกับกระดาษ A4` : ''}
+                className="aspect-square w-full select-none object-contain"
+                loading="lazy"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="mx-auto mt-4 flex max-w-lg items-center justify-center gap-3 sm:gap-4">
-        <button
-          type="button"
-          onClick={() => move(-1)}
-          aria-label="ดูภาพเทียบขนาดรุ่นก่อนหน้า"
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <label htmlFor="size-guide-model" className="sr-only">เลือกรุ่นเพื่อเทียบขนาด</label>
-        <select
-          id="size-guide-model"
-          value={index}
-          onChange={(event) => setIndex(Number(event.target.value))}
-          className="h-12 min-w-0 flex-1 rounded-xl border border-line bg-white px-3 text-center text-xs text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-neutral-500 sm:text-sm"
-        >
-          {guides.map((item, itemIndex) => (
-            <option key={item.code} value={itemIndex}>NO.{item.code} : {item.category}</option>
-          ))}
-        </select>
-        <button
-          type="button"
-          onClick={() => move(1)}
-          aria-label="ดูภาพเทียบขนาดรุ่นถัดไป"
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => move(-1)}
+        aria-label="ดูภาพเทียบขนาดรุ่นก่อนหน้า"
+        aria-disabled={direction !== 0}
+        className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:-left-6 sm:h-12 sm:w-12"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        onClick={() => move(1)}
+        aria-label="ดูภาพเทียบขนาดรุ่นถัดไป"
+        aria-disabled={direction !== 0}
+        className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:-right-6 sm:h-12 sm:w-12"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         ภาพ {index + 1} จาก {guides.length} รุ่น {guide.code}
       </p>
-      <div className="mt-3 text-center">
-        <a href={guide.src} target="_blank" rel="noopener noreferrer" className="text-xs text-neutral-500 underline underline-offset-4 hover:text-ink">
-          ดูภาพขนาดเต็ม
-        </a>
-      </div>
+      <style jsx>{`
+        .size-guide-track {
+          transform: translateX(-100%);
+        }
+        .size-guide-track[data-direction='1'] {
+          animation: size-guide-next 360ms cubic-bezier(0.22, 0.68, 0, 1) both;
+        }
+        .size-guide-track[data-direction='-1'] {
+          animation: size-guide-previous 360ms cubic-bezier(0.22, 0.68, 0, 1) both;
+        }
+        @keyframes size-guide-next {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(-200%); }
+        }
+        @keyframes size-guide-previous {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .size-guide-track[data-direction] {
+            animation-duration: 1ms;
+          }
+        }
+      `}</style>
     </section>
   );
 }
