@@ -1,18 +1,42 @@
 import Image from 'next/image';
 
-// Only list colors confirmed for each stock model.
+// Stock color sets verified against the product photos.
+const white = { name: 'ขาว', hex: '#ffffff' };
+const black = { name: 'ดำ', hex: '#222222' };
+const blue = { name: 'ฟ้า', hex: '#66cce5' };
+const yellow = { name: 'เหลือง', hex: '#f4df28' };
+const red = { name: 'แดง', hex: '#e32626' };
+const pink = { name: 'ชมพู', hex: '#e878b0' };
+
+const fourColors = [white, black, blue, pink];
+const sixColors = [white, black, blue, yellow, red, pink];
+
 const stockColorsByModel = {
-  '04508': [
-    { name: 'ขาว', hex: '#ffffff' },
-    { name: 'ดำ', hex: '#222222' },
-    { name: 'ฟ้า', hex: '#66cce5' },
-    { name: 'ชมพู', hex: '#e878b0' },
-  ],
+  '05402': sixColors,
+  '04255': sixColors,
+  '04508': fourColors,
+  '05898': fourColors,
+  '11740': sixColors,
+  '09106': sixColors,
+  '10496': fourColors,
+  '04257': sixColors,
+  '05899': fourColors,
+  '05891': sixColors,
+  '07041': sixColors,
+  '04259': sixColors,
+  '05712': fourColors,
+  '10232': fourColors,
+  '06074/1': fourColors,
+  '07073': sixColors,
+  '11144': fourColors,
+  '06267': fourColors,
+  '11741': fourColors,
 };
 
 // การ์ดสินค้า — รหัสรุ่น ขนาด ราคา และสี
 export default function ShopCard({ p }) {
-  const stockColors = stockColorsByModel[p.code] || [];
+  const isOtherCategory = p.category === 'อื่นๆ';
+  const stockColors = isOtherCategory ? [] : stockColorsByModel[p.code] || [];
   const sizeText = p.sizeLabel || (p.size === 'มีหลายขนาด' ? p.size : `${p.size} นิ้ว`);
 
   return (
@@ -47,6 +71,11 @@ export default function ShopCard({ p }) {
             </span>
           )}
         </div>
+        {isOtherCategory && (
+          <p className="mt-7 text-xs leading-5 text-ink">
+            สีของรุ่นนี้ มีตามในรูป
+          </p>
+        )}
         {stockColors.length > 0 && (
           <ul
             className="mt-7 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
