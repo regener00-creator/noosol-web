@@ -56,29 +56,16 @@ export default function ShopCard({ p }) {
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4 pb-9 text-center">
+      <div className="flex flex-1 flex-col p-4 text-center">
         <p className="text-xs font-normal leading-5 text-neutral-400">
           {stockColors.length ? `NO.${p.code}` : p.code}
         </p>
-        <p className="mt-1 min-h-14 text-lg font-bold leading-7 text-ink">
+        <p className="mt-1 min-h-7 text-lg font-bold leading-7 text-ink">
           {stockColors.length ? sizeText.replace(/ x /g, ' × ') : sizeText}
         </p>
-        <div className="pt-3">
-          {p.retail != null && (
-            <span className="text-[15px] font-bold text-[#eb7300]">
-              ฿{Number(p.retail).toFixed(0)}
-              <span className="ml-1 text-[15px] font-normal text-ink">/ ใบ</span>
-            </span>
-          )}
-        </div>
-        {isOtherCategory && (
-          <p className="mt-7 text-xs leading-5 text-[#eb7300]">
-            สีของรุ่นนี้ มีตามในรูป
-          </p>
-        )}
         {stockColors.length > 0 && (
           <ul
-            className="-mx-2 mt-7 flex min-h-[46px] flex-nowrap items-start justify-center gap-1.5 sm:gap-2"
+            className="-mx-2 mt-auto flex shrink-0 flex-nowrap items-center justify-center gap-1.5 pt-2 sm:gap-2"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
@@ -96,6 +83,19 @@ export default function ShopCard({ p }) {
               </li>
             ))}
           </ul>
+        )}
+        <div className="pt-3">
+          {p.retail != null && (
+            <span className="text-[15px] font-bold text-[#eb7300]">
+              ฿{Number(p.retail).toFixed(0)}
+              <span className="ml-1 text-[15px] font-normal text-ink">/ ใบ</span>
+            </span>
+          )}
+        </div>
+        {isOtherCategory && (
+          <p className="mt-3 text-xs leading-5 text-[#eb7300]">
+            สีของรุ่นนี้ มีตามในรูป
+          </p>
         )}
       </div>
     </div>
