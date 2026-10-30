@@ -78,7 +78,7 @@ export default function ShopCard({ p }) {
         )}
         {stockColors.length > 0 && (
           <ul
-            className="-mx-2 mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-4 content-start gap-x-1 gap-y-1.5 text-[10px] leading-5 text-ink sm:mx-0 sm:text-xs"
+            className="-mx-2 mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-[repeat(4,max-content)] content-start justify-center gap-x-1 gap-y-1.5 text-[10px] leading-5 text-ink sm:text-xs"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
