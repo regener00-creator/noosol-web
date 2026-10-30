@@ -186,3 +186,4 @@ $format.Dispose()
 $center.Dispose()
 $jpegParameters.Dispose()
 Write-Output ('Created ' + $manifest.Count + ' size guides in ' + $outputDirectory)
+& (Join-Path $PSScriptRoot 'build-mini-size-guides.ps1') -SourceArchive $SourceArchive -ProjectRoot $ProjectRoot
