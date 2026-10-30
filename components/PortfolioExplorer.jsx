@@ -139,7 +139,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
       </div>
 
       {/* รูปแยกเป็นการ์ด เห็นพร้อมกัน 3 รูปบนจอใหญ่ */}
-      <div className="relative mt-8 min-w-0 px-10 sm:px-14">
+      <div className="relative mt-8 min-w-0 px-12 sm:px-16">
         <div
           key={active}
           ref={scroller}
@@ -154,7 +154,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
               {page.map((n, imageIndex) => (
                 <div
                   key={`${active}-${pageIndex}-${n}-${imageIndex}`}
-                  className="portfolio-card-pop overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
+                  className="portfolio-card-pop overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
                   style={{ '--portfolio-card-delay': `${imageIndex * 60}ms` }}
                 >
                   <Image
@@ -173,20 +173,24 @@ export default function PortfolioExplorer({ showHeading = true }) {
         <button
           type="button"
           onClick={() => scroll(-1)}
-          className="absolute left-1 top-1/2 z-10 flex h-14 w-9 -translate-y-1/2 items-center justify-center text-4xl font-light text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] transition hover:scale-110"
+          className="absolute left-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
           aria-label="เลื่อนผลงานไปทางซ้าย"
           title="เลื่อนไปทางซ้าย"
         >
-          &lt;
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
         <button
           type="button"
           onClick={() => scroll(1)}
-          className="absolute right-1 top-1/2 z-10 flex h-14 w-9 -translate-y-1/2 items-center justify-center text-4xl font-light text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] transition hover:scale-110"
+          className="absolute right-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
           aria-label="เลื่อนผลงานไปทางขวา"
           title="เลื่อนไปทางขวา"
         >
-          &gt;
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
       </div>
     </div>
