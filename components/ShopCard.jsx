@@ -1,7 +1,18 @@
 import Image from 'next/image';
 
-// การ์ดสินค้า — รหัสรุ่น ขนาด และราคา
+// Only list colors confirmed for each stock model.
+const stockColorsByModel = {
+  '04508': [
+    { name: 'ขาว', hex: '#ffffff' },
+    { name: 'ดำ', hex: '#222222' },
+    { name: 'ฟ้า', hex: '#66cce5' },
+    { name: 'ชมพู', hex: '#e878b0' },
+  ],
+};
+
+// การ์ดสินค้า — รหัสรุ่น ขนาด สี และราคา
 export default function ShopCard({ p }) {
+  const stockColors = stockColorsByModel[p.code] || [];
   const sizeText = p.sizeLabel || (p.size === 'มีหลายขนาด' ? p.size : `${p.size} นิ้ว`);
 
   return (
@@ -22,10 +33,30 @@ export default function ShopCard({ p }) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-4 text-center">
-        <p className="text-xs font-normal leading-5 text-neutral-400">{p.code}</p>
-        <p className="mt-1 text-lg font-bold leading-7 text-ink">
-          {sizeText}
+        <p className={stockColors.length ? 'text-sm font-bold leading-5 text-ink' : 'text-xs font-normal leading-5 text-neutral-400'}>
+          {stockColors.length ? `NO.${p.code}` : p.code}
         </p>
+        <p className="mt-1 text-lg font-bold leading-7 text-ink">
+          {stockColors.length ? sizeText.replace(/ x /g, ' × ') : sizeText}
+        </p>
+        {stockColors.length > 0 && (
+          <ul
+            className="mt-2 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
+            aria-label={`สีที่มีในรุ่น ${p.code}`}
+            role="list"
+          >
+            {stockColors.map((color) => (
+              <li key={color.name} className="inline-flex items-center gap-1 whitespace-nowrap">
+                <span
+                  aria-hidden="true"
+                  className="h-3 w-3 shrink-0 rounded-full border border-black/15"
+                  style={{ backgroundColor: color.hex }}
+                />
+                <span>{color.name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="mt-auto pt-3">
           {p.retail != null && (
             <span className="text-[15px] font-bold text-[#eb7300]">
