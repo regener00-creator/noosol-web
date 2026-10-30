@@ -19,7 +19,7 @@ $items = @(
     code = '10740'; category = 'รุ่นมินิขยายข้างและก้น'; color = '#416a79'; page = 19
     crop = @(620, 95, 735, 1860); panel = @(632, 785, 690, 1167)
     colors = @('#ffffff','#222222','#33336a','#527fc5','#72c8e0','#b1e2de','#8bbb54','#2e9a2f','#28612e','#e5df53','#f48b24','#e74b34','#ca2755','#d86eaa','#eeb6ce','#8a62bd','#70605c')
-    depthLabel = 'ขยายข้างและก้น'
+    depthLabel = 'ขยาย'
   }
 )
 $products = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $ProjectRoot 'data/products.json') | ConvertFrom-Json
@@ -42,6 +42,7 @@ $a4Font = [System.Drawing.Font]::new($family, 76, [System.Drawing.FontStyle]::Re
 $dark = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml('#252c30'))
 $gray = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml('#69777e'))
 $measurementBrush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml('#45636a'))
+$depthBrush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml('#c0dfb3'))
 $white = [System.Drawing.Brushes]::White
 $format = [System.Drawing.StringFormat]::GenericTypographic.Clone()
 $format.FormatFlags = $format.FormatFlags -bor [System.Drawing.StringFormatFlags]::MeasureTrailingSpaces
@@ -123,7 +124,7 @@ foreach ($item in $items) {
   $bodyHeight = [single]($dimensions[1] * 50)
   $depthX = [single]($dimensions[2] * 50 * 0.36)
   $depthY = [single]($dimensions[2] * 50 * 0.28)
-  $bodyRight = [single](1820 - $(if ($item.code -eq '10740') { $depthX } else { 0 }))
+  $bodyRight = [single]1820
   $bodyLeft = [single]($bodyRight - $bodyWidth)
   $bodyTop = [single](1720 - $bodyHeight)
   $scaleX = $bodyWidth / $item.panel[2]
@@ -137,29 +138,10 @@ foreach ($item in $items) {
   $source = [System.Drawing.RectangleF]::new($item.crop[0], $item.crop[1], $item.crop[2], $item.crop[3])
   $graphics.DrawImage($photo, $destination, $source, [System.Drawing.GraphicsUnit]::Pixel)
 
-  # Shaded measurement planes illustrate the gussets without changing the
-  # photographed front panel's width/height or the shared inch scale.
-  # Depth is shown in perspective; its printed measurement is authoritative.
-  $gussetFill = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(220, 80, 99, 102))
-  $gussetEdge = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#a1c5bf'), 2)
-  if ($item.code -eq '10740') {
-    $sidePoints = [System.Drawing.PointF[]]@(
-      [System.Drawing.PointF]::new($bodyRight, $bodyTop),
-      [System.Drawing.PointF]::new(($bodyRight + $depthX), ($bodyTop - $depthY)),
-      [System.Drawing.PointF]::new(($bodyRight + $depthX), (1720 - $depthY)),
-      [System.Drawing.PointF]::new($bodyRight, 1720)
-    )
-    $graphics.FillPolygon($gussetFill, $sidePoints)
-    $graphics.DrawPolygon($gussetEdge, $sidePoints)
-    $bottomLeft = $bodyLeft
-    $bottomRight = $bodyRight
-    $basePoints = [System.Drawing.PointF[]]@(
-      [System.Drawing.PointF]::new($bottomLeft, 1720),
-      [System.Drawing.PointF]::new(($bottomLeft + $depthX), (1720 - $depthY)),
-      [System.Drawing.PointF]::new(($bottomRight + $depthX), (1720 - $depthY)),
-      [System.Drawing.PointF]::new($bottomRight, 1720)
-    )
-  } else {
+  # Only 06680 keeps the shaded bottom guide. 10740 uses its original photo.
+  if ($item.code -eq '06680') {
+    $gussetFill = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(220, 80, 99, 102))
+    $gussetEdge = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#a1c5bf'), 2)
     $bottomLeft = $bodyLeft + 25
     $bottomRight = 1805
     $basePoints = [System.Drawing.PointF[]]@(
@@ -168,10 +150,10 @@ foreach ($item in $items) {
       [System.Drawing.PointF]::new(($bottomRight - $depthX), (1710 - $depthY)),
       [System.Drawing.PointF]::new($bottomRight, 1710)
     )
+    $graphics.FillPolygon($gussetFill, $basePoints)
+    $graphics.DrawPolygon($gussetEdge, $basePoints)
+    $gussetFill.Dispose(); $gussetEdge.Dispose()
   }
-  $graphics.FillPolygon($gussetFill, $basePoints)
-  $graphics.DrawPolygon($gussetEdge, $basePoints)
-  $gussetFill.Dispose(); $gussetEdge.Dispose()
   $widthY = [single]($bodyTop - 42)
   $heightX = [single]($bodyLeft - 75)
   $graphics.DrawLine($extensionPen, $bodyLeft, $bodyTop, $bodyLeft, ($widthY - 10))
@@ -183,8 +165,13 @@ foreach ($item in $items) {
   $widthLabelX = if ($dimensions[0] -lt 6) { $bodyLeft - 170 } else { $bodyLeft + $bodyWidth / 2 }
   Draw-MeasureLabel $graphics ('กว้าง ' + $dimensions[0] + ' นิ้ว') $widthLabelX $widthY
   Draw-MeasureLabel $graphics ('สูง ' + $dimensions[1] + ' นิ้ว') $heightX ($bodyTop + $bodyHeight / 2)
-  # Keep the depth text clear of these small bag fronts and the inch ruler.
-  $graphics.DrawString(($item.depthLabel + ' ' + $dimensions[2] + ' นิ้ว'), $measureFont, $measurementBrush, [System.Drawing.RectangleF]::new(1050, 1860, 800, 60), $center)
+  # Place the depth caption inside each bag's bottom, like the other guides.
+  $depthRect = if ($item.code -eq '06680') {
+    [System.Drawing.RectangleF]::new($bottomLeft, (1710 - $depthY), ($bottomRight - $bottomLeft), $depthY)
+  } else {
+    [System.Drawing.RectangleF]::new(($bodyLeft + 8), 1658, ($bodyWidth - 16), 52)
+  }
+  $graphics.DrawString(($item.depthLabel + ' ' + $dimensions[2] + ' นิ้ว'), $measureFont, $depthBrush, $depthRect, $center)
 
   $filename = 'p-' + $item.page + '-' + $item.code + '.jpg'
   $path = Join-Path $ProjectRoot ('public/size-guides/' + $filename)
@@ -204,6 +191,6 @@ foreach ($item in $items) {
 [System.IO.File]::WriteAllText($manifestPath, ((ConvertTo-Json -InputObject $manifest -Depth 5) + [Environment]::NewLine), [System.Text.UTF8Encoding]::new($false))
 $rulers.Dispose(); $rulerStream.Dispose(); $archive.Dispose(); $fonts.Dispose()
 $headingFont.Dispose(); $captionFont.Dispose(); $measureFont.Dispose(); $a4Font.Dispose()
-$dark.Dispose(); $gray.Dispose(); $measurementBrush.Dispose(); $format.Dispose(); $center.Dispose()
+$dark.Dispose(); $gray.Dispose(); $measurementBrush.Dispose(); $depthBrush.Dispose(); $format.Dispose(); $center.Dispose()
 $paperBorder.Dispose(); $foldBrush.Dispose(); $dotOutline.Dispose(); $dimensionPen.Dispose(); $extensionPen.Dispose(); $arrow.Dispose(); $jpegParameters.Dispose()
 Write-Output ('Added models 06680 and 10740; gallery now contains ' + $manifest.Count + ' guides')
