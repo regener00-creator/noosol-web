@@ -57,13 +57,13 @@ export default function ShopCard({ p }) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-4 pb-9 text-center">
-        <p className={stockColors.length ? 'text-sm font-normal leading-5 text-neutral-400' : 'text-xs font-normal leading-5 text-neutral-400'}>
+        <p className="text-xs font-normal leading-5 text-neutral-400">
           {stockColors.length ? `NO.${p.code}` : p.code}
         </p>
-        <p className="mt-1 text-lg font-bold leading-7 text-ink">
+        <p className="mt-1 min-h-14 text-lg font-bold leading-7 text-ink">
           {stockColors.length ? sizeText.replace(/ x /g, ' × ') : sizeText}
         </p>
-        <div className="mt-auto pt-3">
+        <div className="pt-3">
           {p.retail != null && (
             <span className="text-[15px] font-bold text-[#eb7300]">
               ฿{Number(p.retail).toFixed(0)}
@@ -78,15 +78,18 @@ export default function ShopCard({ p }) {
         )}
         {stockColors.length > 0 && (
           <ul
-            className="mt-7 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
+            className="-mx-2 mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-4 content-start gap-x-1 gap-y-1.5 text-[10px] leading-5 text-ink sm:mx-0 sm:text-xs"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
-            {stockColors.map((color) => (
-              <li key={color.name} className="inline-flex items-center gap-1 whitespace-nowrap">
+            {stockColors.map((color, index) => (
+              <li
+                key={color.name}
+                className={`inline-flex items-center justify-center gap-0.5 whitespace-nowrap sm:gap-1 ${index === 4 ? 'col-start-2' : index === 5 ? 'col-start-3' : ''}`}
+              >
                 <span
                   aria-hidden="true"
-                  className="h-3 w-3 shrink-0 rounded-full border border-black/15"
+                  className="h-2 w-2 shrink-0 rounded-full border border-black/15 sm:h-3 sm:w-3"
                   style={{ backgroundColor: color.hex }}
                 />
                 <span>{color.name}</span>
