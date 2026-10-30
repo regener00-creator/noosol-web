@@ -109,7 +109,7 @@ foreach ($item in $measurements.items) {
   $prefix = 'NO.' + $item.model + ' : '
   $prefixWidth = $graphics.MeasureString($prefix, $headingFont, 1800, $format).Width
   Draw-HeavyHeading -Canvas $graphics -Text $prefix -Brush $dark -X 90 -Y 155
-  Draw-HeavyHeading -Canvas $graphics -Text $category -Brush $categoryBrush -X (90 + $prefixWidth) -Y 155
+  $graphics.DrawString($category, $headingFont, $categoryBrush, [System.Drawing.PointF]::new((90 + $prefixWidth), 155), $format)
   $colors = if ($sixColorModels -contains $item.model) { $palette } else { @($palette[0], $palette[1], $palette[2], $palette[5]) }
   $dotOutline = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#b7bfc4'), 1.5)
   for ($colorIndex = 0; $colorIndex -lt $colors.Count; $colorIndex++) {
