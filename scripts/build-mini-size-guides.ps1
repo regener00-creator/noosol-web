@@ -13,7 +13,7 @@ $items = @(
     code = '06680'; category = 'รุ่นมินิขยายเฉพาะก้น'; color = '#478271'; page = 18
     crop = @(350, 300, 1225, 1480); panel = @(360, 885, 1207, 893)
     colors = @('#ffffff','#222222','#008dcc','#71d6ed','#13a7bd','#67e94c','#95eed9','#f4df28','#ffb12b','#f43b33','#d82e68','#f17bb1','#f6b1d1','#e0d1ee','#9559d7','#565656')
-    depthLabel = 'ขยายก้น'
+    depthLabel = 'ขยายเฉพาะก้น'
   },
   @{
     code = '10740'; category = 'รุ่นมินิขยายข้างและก้น'; color = '#416a79'; page = 19
@@ -96,8 +96,10 @@ foreach ($item in $items) {
   $graphics.DrawString($item.category, $headingFont, $categoryBrush, [System.Drawing.PointF]::new((90 + $prefixWidth), 155), $format)
   for ($i = 0; $i -lt $item.colors.Count; $i++) {
     $brush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml($item.colors[$i]))
-    $graphics.FillEllipse($brush, (90 + $i * 80), 297, 55, 55)
-    if ($item.colors[$i] -eq '#ffffff') { $graphics.DrawEllipse($dotOutline, (90 + $i * 80), 297, 55, 55) }
+    $dotX = 90 + ($i % 5) * 80
+    $dotY = 297 + [Math]::Floor($i / 5) * 80
+    $graphics.FillEllipse($brush, $dotX, $dotY, 55, 55)
+    if ($item.colors[$i] -eq '#ffffff') { $graphics.DrawEllipse($dotOutline, $dotX, $dotY, 55, 55) }
     $brush.Dispose()
   }
 
@@ -119,7 +121,10 @@ foreach ($item in $items) {
 
   $bodyWidth = [single]($dimensions[0] * 50)
   $bodyHeight = [single]($dimensions[1] * 50)
-  $bodyLeft = [single](1820 - $bodyWidth)
+  $depthX = [single]($dimensions[2] * 50 * 0.36)
+  $depthY = [single]($dimensions[2] * 50 * 0.28)
+  $bodyRight = [single](1820 - $(if ($item.code -eq '10740') { $depthX } else { 0 }))
+  $bodyLeft = [single]($bodyRight - $bodyWidth)
   $bodyTop = [single](1720 - $bodyHeight)
   $scaleX = $bodyWidth / $item.panel[2]
   $scaleY = $bodyHeight / $item.panel[3]
@@ -131,13 +136,49 @@ foreach ($item in $items) {
   )
   $source = [System.Drawing.RectangleF]::new($item.crop[0], $item.crop[1], $item.crop[2], $item.crop[3])
   $graphics.DrawImage($photo, $destination, $source, [System.Drawing.GraphicsUnit]::Pixel)
+
+  # Shaded measurement planes illustrate the gussets without changing the
+  # photographed front panel's width/height or the shared inch scale.
+  # Depth is shown in perspective; its printed measurement is authoritative.
+  $gussetFill = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(220, 80, 99, 102))
+  $gussetEdge = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#a1c5bf'), 2)
+  if ($item.code -eq '10740') {
+    $sidePoints = [System.Drawing.PointF[]]@(
+      [System.Drawing.PointF]::new($bodyRight, $bodyTop),
+      [System.Drawing.PointF]::new(($bodyRight + $depthX), ($bodyTop - $depthY)),
+      [System.Drawing.PointF]::new(($bodyRight + $depthX), (1720 - $depthY)),
+      [System.Drawing.PointF]::new($bodyRight, 1720)
+    )
+    $graphics.FillPolygon($gussetFill, $sidePoints)
+    $graphics.DrawPolygon($gussetEdge, $sidePoints)
+    $bottomLeft = $bodyLeft
+    $bottomRight = $bodyRight
+    $basePoints = [System.Drawing.PointF[]]@(
+      [System.Drawing.PointF]::new($bottomLeft, 1720),
+      [System.Drawing.PointF]::new(($bottomLeft + $depthX), (1720 - $depthY)),
+      [System.Drawing.PointF]::new(($bottomRight + $depthX), (1720 - $depthY)),
+      [System.Drawing.PointF]::new($bottomRight, 1720)
+    )
+  } else {
+    $bottomLeft = $bodyLeft + 25
+    $bottomRight = 1805
+    $basePoints = [System.Drawing.PointF[]]@(
+      [System.Drawing.PointF]::new($bottomLeft, 1710),
+      [System.Drawing.PointF]::new(($bottomLeft + $depthX), (1710 - $depthY)),
+      [System.Drawing.PointF]::new(($bottomRight - $depthX), (1710 - $depthY)),
+      [System.Drawing.PointF]::new($bottomRight, 1710)
+    )
+  }
+  $graphics.FillPolygon($gussetFill, $basePoints)
+  $graphics.DrawPolygon($gussetEdge, $basePoints)
+  $gussetFill.Dispose(); $gussetEdge.Dispose()
   $widthY = [single]($bodyTop - 42)
   $heightX = [single]($bodyLeft - 75)
   $graphics.DrawLine($extensionPen, $bodyLeft, $bodyTop, $bodyLeft, ($widthY - 10))
-  $graphics.DrawLine($extensionPen, 1820, $bodyTop, 1820, ($widthY - 10))
+  $graphics.DrawLine($extensionPen, $bodyRight, $bodyTop, $bodyRight, ($widthY - 10))
   $graphics.DrawLine($extensionPen, ($heightX - 10), $bodyTop, $bodyLeft, $bodyTop)
   $graphics.DrawLine($extensionPen, ($heightX - 10), 1720, $bodyLeft, 1720)
-  $graphics.DrawLine($dimensionPen, $bodyLeft, $widthY, 1820, $widthY)
+  $graphics.DrawLine($dimensionPen, $bodyLeft, $widthY, $bodyRight, $widthY)
   $graphics.DrawLine($dimensionPen, $heightX, $bodyTop, $heightX, 1720)
   $widthLabelX = if ($dimensions[0] -lt 6) { $bodyLeft - 170 } else { $bodyLeft + $bodyWidth / 2 }
   Draw-MeasureLabel $graphics ('กว้าง ' + $dimensions[0] + ' นิ้ว') $widthLabelX $widthY
