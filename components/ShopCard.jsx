@@ -78,14 +78,14 @@ export default function ShopCard({ p }) {
         )}
         {stockColors.length > 0 && (
           <ul
-            className="mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-[repeat(4,max-content)] content-start justify-center gap-x-2 gap-y-1.5"
+            className="-mx-2 mt-7 flex min-h-[46px] flex-nowrap items-start justify-center gap-1.5 sm:gap-2"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
-            {stockColors.map((color, index) => (
+            {stockColors.map((color) => (
               <li
                 key={color.name}
-                className={`inline-flex items-center justify-center ${index === 4 ? 'col-start-2' : index === 5 ? 'col-start-3' : ''}`}
+                className="inline-flex h-5 shrink-0 items-center justify-center"
               >
                 <span
                   aria-hidden="true"
