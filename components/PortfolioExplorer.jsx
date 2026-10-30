@@ -154,7 +154,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
               {page.map((n, imageIndex) => (
                 <div
                   key={`${active}-${pageIndex}-${n}-${imageIndex}`}
-                  className="portfolio-card-pop overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
+                  className="portfolio-card-pop overflow-hidden rounded-xl border-[3px] border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
                   style={{ '--portfolio-card-delay': `${imageIndex * 60}ms` }}
                 >
                   <Image
