@@ -97,8 +97,8 @@ foreach ($item in $items) {
   $graphics.DrawString($item.category, $headingFont, $categoryBrush, [System.Drawing.PointF]::new((90 + $prefixWidth), 155), $format)
   for ($i = 0; $i -lt $item.colors.Count; $i++) {
     $brush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml($item.colors[$i]))
-    $dotX = 90 + ($i % 5) * 80
-    $dotY = 297 + [Math]::Floor($i / 5) * 80
+    $dotX = 90 + ($i % 6) * 80
+    $dotY = 297 + [Math]::Floor($i / 6) * 80
     $graphics.FillEllipse($brush, $dotX, $dotY, 55, 55)
     if ($item.colors[$i] -eq '#ffffff') { $graphics.DrawEllipse($dotOutline, $dotX, $dotY, 55, 55) }
     $brush.Dispose()
