@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 // ผลงาน — ปุ่มเลือกหมวดแนวนอน และแถบรูปเลื่อนเต็มพื้นที่
 const groups = [
@@ -69,7 +69,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
     setActive(name);
   };
 
-  const scroll = (direction) => {
+  const scroll = useCallback((direction) => {
     const el = scroller.current;
     if (!el) return;
     const firstPage = el.children[0];
@@ -77,7 +77,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
     const pageStep = nextPage && firstPage
       ? nextPage.offsetLeft - firstPage.offsetLeft
       : el.clientWidth + 20;
-    const setWidth = pageStep * pages.length;
+    const setWidth = pageStep * pageCount;
     const target = el.scrollLeft + direction * pageStep;
     let finished = false;
 
@@ -91,7 +91,21 @@ export default function PortfolioExplorer({ showHeading = true }) {
     el.addEventListener('scrollend', finish, { once: true });
     el.scrollTo({ left: target, behavior: 'smooth' });
     window.setTimeout(finish, 900);
-  };
+  }, [pageCount]);
+
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const timer = window.setInterval(() => {
+      const frame = el.parentElement;
+      if (document.hidden || frame.matches(':hover') || frame.contains(document.activeElement)) return;
+      const bounds = el.getBoundingClientRect();
+      if (bounds.bottom > 0 && bounds.top < window.innerHeight) scroll(1);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, [active, scroll]);
 
   return (
     <div>
@@ -154,7 +168,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
               {page.map((n, imageIndex) => (
                 <div
                   key={`${active}-${pageIndex}-${n}-${imageIndex}`}
-                  className="portfolio-card-pop overflow-hidden rounded-xl border-[3px] border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
+                  className="portfolio-card-pop overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
                   style={{ '--portfolio-card-delay': `${imageIndex * 60}ms` }}
                 >
                   <Image

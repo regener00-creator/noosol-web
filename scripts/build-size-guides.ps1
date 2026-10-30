@@ -30,6 +30,20 @@ $format.FormatFlags = $format.FormatFlags -bor [System.Drawing.StringFormatFlags
 $center = [System.Drawing.StringFormat]::GenericTypographic.Clone()
 $center.Alignment = [System.Drawing.StringAlignment]::Center
 $center.LineAlignment = [System.Drawing.StringAlignment]::Center
+# Extra weight at the same font size and baseline, without moving the measurements.
+function Draw-HeavyHeading {
+  param([System.Drawing.Graphics]$Canvas, [string]$Text, [System.Drawing.Brush]$Brush, [single]$X, [single]$Y)
+  $offsets = [System.Drawing.PointF[]]@(
+    [System.Drawing.PointF]::new(-1.5, 0),
+    [System.Drawing.PointF]::new(1.5, 0),
+    [System.Drawing.PointF]::new(0, -1.25),
+    [System.Drawing.PointF]::new(0, 1.25),
+    [System.Drawing.PointF]::new(0, 0)
+  )
+  foreach ($offset in $offsets) {
+    $Canvas.DrawString($Text, $headingFont, $Brush, [System.Drawing.PointF]::new(($X + $offset.X), ($Y + $offset.Y)), $format)
+  }
+}
 $palette = @('#ffffff', '#222222', '#66cce5', '#f4df28', '#e32626', '#e878b0')
 $sixColorModels = @('05402', '04255', '11740', '09106', '04257', '05891', '07041', '04259', '07073')
 $metadataEntry = $archive.GetEntry('NOOSOL_17_Scales_A4/measurements.json')
@@ -94,8 +108,8 @@ foreach ($item in $measurements.items) {
   $categoryBrush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml($categoryColor))
   $prefix = 'NO.' + $item.model + ' : '
   $prefixWidth = $graphics.MeasureString($prefix, $headingFont, 1800, $format).Width
-  $graphics.DrawString($prefix, $headingFont, $dark, [System.Drawing.PointF]::new(90, 155), $format)
-  $graphics.DrawString($category, $headingFont, $categoryBrush, [System.Drawing.PointF]::new((90 + $prefixWidth), 155), $format)
+  Draw-HeavyHeading -Canvas $graphics -Text $prefix -Brush $dark -X 90 -Y 155
+  Draw-HeavyHeading -Canvas $graphics -Text $category -Brush $categoryBrush -X (90 + $prefixWidth) -Y 155
   $colors = if ($sixColorModels -contains $item.model) { $palette } else { @($palette[0], $palette[1], $palette[2], $palette[5]) }
   $dotOutline = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#b7bfc4'), 1.5)
   for ($colorIndex = 0; $colorIndex -lt $colors.Count; $colorIndex++) {
@@ -155,7 +169,7 @@ foreach ($item in $measurements.items) {
     width = $item.width_in
     height = $item.height_in
     gusset = $item.gusset_in
-    src = '/size-guides/' + $filename
+    src = '/size-guides/' + $filename + '?v=' + (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.Substring(0, 12).ToLowerInvariant()
     colors = @($colors)
   }
 }
