@@ -56,8 +56,8 @@ export default function ShopCard({ p }) {
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4 text-center">
-        <p className={stockColors.length ? 'text-sm font-bold leading-5 text-ink' : 'text-xs font-normal leading-5 text-neutral-400'}>
+      <div className="flex flex-1 flex-col p-4 pb-9 text-center">
+        <p className={stockColors.length ? 'text-sm font-normal leading-5 text-neutral-400' : 'text-xs font-normal leading-5 text-neutral-400'}>
           {stockColors.length ? `NO.${p.code}` : p.code}
         </p>
         <p className="mt-1 text-lg font-bold leading-7 text-ink">
@@ -72,7 +72,7 @@ export default function ShopCard({ p }) {
           )}
         </div>
         {isOtherCategory && (
-          <p className="mt-7 text-xs leading-5 text-ink">
+          <p className="mt-7 text-xs leading-5 text-[#eb7300]">
             สีของรุ่นนี้ มีตามในรูป
           </p>
         )}
