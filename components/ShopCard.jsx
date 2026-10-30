@@ -49,7 +49,7 @@ export default function ShopCard({ p }) {
         </div>
         {stockColors.length > 0 && (
           <ul
-            className="mt-2 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
+            className="mt-7 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
