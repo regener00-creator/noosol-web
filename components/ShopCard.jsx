@@ -10,7 +10,7 @@ const stockColorsByModel = {
   ],
 };
 
-// การ์ดสินค้า — รหัสรุ่น ขนาด สี และราคา
+// การ์ดสินค้า — รหัสรุ่น ขนาด ราคา และสี
 export default function ShopCard({ p }) {
   const stockColors = stockColorsByModel[p.code] || [];
   const sizeText = p.sizeLabel || (p.size === 'มีหลายขนาด' ? p.size : `${p.size} นิ้ว`);
@@ -39,6 +39,14 @@ export default function ShopCard({ p }) {
         <p className="mt-1 text-lg font-bold leading-7 text-ink">
           {stockColors.length ? sizeText.replace(/ x /g, ' × ') : sizeText}
         </p>
+        <div className="mt-auto pt-3">
+          {p.retail != null && (
+            <span className="text-[15px] font-bold text-[#eb7300]">
+              ฿{Number(p.retail).toFixed(0)}
+              <span className="ml-1 text-[15px] font-normal text-ink">/ ใบ</span>
+            </span>
+          )}
+        </div>
         {stockColors.length > 0 && (
           <ul
             className="mt-2 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs leading-5 text-ink"
@@ -57,14 +65,6 @@ export default function ShopCard({ p }) {
             ))}
           </ul>
         )}
-        <div className="mt-auto pt-3">
-          {p.retail != null && (
-            <span className="text-[15px] font-bold text-[#eb7300]">
-              ฿{Number(p.retail).toFixed(0)}
-              <span className="ml-1 text-[15px] font-normal text-ink">/ ใบ</span>
-            </span>
-          )}
-        </div>
       </div>
     </div>
   );
