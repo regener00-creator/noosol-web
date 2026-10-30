@@ -78,21 +78,21 @@ export default function ShopCard({ p }) {
         )}
         {stockColors.length > 0 && (
           <ul
-            className="-mx-2 mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-[repeat(4,max-content)] content-start justify-center gap-x-1 gap-y-1.5 text-[10px] leading-5 text-ink sm:text-xs"
+            className="mt-7 grid min-h-[46px] auto-rows-[20px] grid-cols-[repeat(4,max-content)] content-start justify-center gap-x-2 gap-y-1.5"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
             {stockColors.map((color, index) => (
               <li
                 key={color.name}
-                className={`inline-flex items-center justify-center gap-0.5 whitespace-nowrap sm:gap-1 ${index === 4 ? 'col-start-2' : index === 5 ? 'col-start-3' : ''}`}
+                className={`inline-flex items-center justify-center ${index === 4 ? 'col-start-2' : index === 5 ? 'col-start-3' : ''}`}
               >
                 <span
                   aria-hidden="true"
-                  className="h-2 w-2 shrink-0 rounded-full border border-black/15 sm:h-3 sm:w-3"
+                  className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/15"
                   style={{ backgroundColor: color.hex }}
                 />
-                <span>{color.name}</span>
+                <span className="sr-only">{color.name}</span>
               </li>
             ))}
           </ul>
