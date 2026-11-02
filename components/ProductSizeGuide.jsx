@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import guides from '@/data/size-guides.json';
 
 export default function ProductSizeGuide() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const section = useRef(null);
   const moving = useRef(false);
   const touchStart = useRef(null);
   const guide = guides[index];
@@ -14,6 +15,30 @@ export default function ProductSizeGuide() {
     guide: guides[(index + offset + guides.length) % guides.length],
     offset,
   }));
+
+  useEffect(() => {
+    let frame;
+    const scrollToGuide = () => {
+      if (window.location.hash !== '#size-guide') return;
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        section.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+      });
+    };
+    const onHashChange = () => {
+      if (!document.querySelector('.initial-loader')) scrollToGuide();
+    };
+
+    window.addEventListener('noosol:loader-complete', scrollToGuide);
+    window.addEventListener('hashchange', onHashChange);
+    onHashChange();
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('noosol:loader-complete', scrollToGuide);
+      window.removeEventListener('hashchange', onHashChange);
+    };
+  }, []);
 
   function move(nextDirection) {
     if (moving.current) return;
@@ -49,9 +74,11 @@ export default function ProductSizeGuide() {
 
   return (
     <section
+      id="size-guide"
+      ref={section}
       aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
-      className="relative mx-auto mt-12 max-w-5xl px-12 sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
+      className="relative mx-auto mt-12 max-w-5xl scroll-mt-24 px-12 sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
