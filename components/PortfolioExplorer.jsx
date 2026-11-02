@@ -127,7 +127,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
         >
           <span
             ref={tabIndicator}
-            className="portfolio-tab-indicator pointer-events-none absolute bottom-1 left-0 top-1 rounded-full bg-[#3f3f3f] shadow-sm"
+            className="portfolio-tab-indicator pointer-events-none absolute bottom-1 left-0 top-1 rounded-full bg-[#f58220] shadow-sm"
             aria-hidden="true"
           />
           {groups.map((grp, index) => {
