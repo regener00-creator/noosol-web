@@ -74,7 +74,7 @@ export default function Navbar() {
           {/* เม็ดยาเลื่อนได้ */}
           <span
             aria-hidden
-            className="absolute top-1/2 h-9 -translate-y-1/2 rounded-full bg-soft transition-all duration-300 ease-out"
+            className="absolute top-1/2 h-9 -translate-y-1/2 rounded-full bg-[#f58220] transition-all duration-300 ease-out"
             style={{
               left: pill.left,
               width: pill.width,
@@ -87,7 +87,7 @@ export default function Navbar() {
               href={`#${id}`}
               ref={(el) => (linkRefs.current[id] = el)}
               className={`relative z-10 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors duration-300 ${
-                active === id ? 'text-ink' : 'text-neutral-500 hover:text-ink'
+                active === id ? 'text-white' : 'text-neutral-500 hover:text-ink'
               }`}
             >
               {label}
@@ -123,7 +123,7 @@ export default function Navbar() {
               href={`#${id}`}
               onClick={() => setOpen(false)}
               className={`block rounded-xl px-3 py-3 text-base font-semibold ${
-                active === id ? 'bg-soft' : 'hover:bg-soft'
+                active === id ? 'bg-[#f58220] text-white' : 'hover:bg-soft'
               }`}
             >
               {label}
