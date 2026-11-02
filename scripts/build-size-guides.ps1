@@ -104,7 +104,7 @@ foreach ($item in $measurements.items) {
   $graphics.FillRectangle($white, 0, 0, 1700, 380)
   $graphics.FillRectangle($white, 1700, 0, 300, 180)
   $category = if ($index -le 5) { 'รุ่นไม่ขยาย' } elseif ($index -le 10) { 'รุ่นขยายเฉพาะก้น' } else { 'รุ่นขยายข้างและก้น' }
-  $categoryColor = '#f58220'
+  $categoryColor = if ($index -le 5) { '#f58220' } elseif ($index -le 10) { '#b85c38' } else { '#6b4f3a' }
   $categoryBrush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml($categoryColor))
   $prefix = 'NO.' + $item.model + ' : '
   $prefixWidth = $graphics.MeasureString($prefix, $headingFont, 1800, $format).Width

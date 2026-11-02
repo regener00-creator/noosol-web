@@ -10,13 +10,13 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 # Map that panel to the stock dimensions at the same 50 px/inch as the first 17 guides.
 $items = @(
   @{
-    code = '06680'; category = 'รุ่นมินิขยายเฉพาะก้น'; color = '#f58220'; page = 18
+    code = '06680'; category = 'รุ่นมินิขยายเฉพาะก้น'; color = '#b68a24'; page = 18
     crop = @(350, 300, 1225, 1480); panel = @(360, 885, 1207, 893)
     colors = @('#ffffff','#222222','#008dcc','#71d6ed','#13a7bd','#67e94c','#95eed9','#f4df28','#ffb12b','#f43b33','#d82e68','#f17bb1','#f6b1d1','#e0d1ee','#9559d7','#565656')
     depthLabel = 'ขยายเฉพาะก้น'
   },
   @{
-    code = '10740'; category = 'รุ่นถุงใส่แก้ว'; color = '#f58220'; page = 19
+    code = '10740'; category = 'รุ่นถุงใส่แก้ว'; color = '#62686b'; page = 19
     crop = @(620, 95, 735, 1860); panel = @(632, 785, 690, 1167)
     colors = @('#ffffff','#222222','#33336a','#527fc5','#72c8e0','#b1e2de','#8bbb54','#2e9a2f','#28612e','#e5df53','#f48b24','#e74b34','#ca2755','#d86eaa','#eeb6ce','#8a62bd','#70605c')
     depthLabel = 'ขยาย'
