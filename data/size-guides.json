@@ -1,11 +1,11 @@
 [
   {
     "code": "05402",
-    "category": "รุ่นเรียบ",
+    "category": "รุ่นไม่ขยาย",
     "width": 12,
     "height": 14,
     "gusset": 0,
-    "src": "/size-guides/p-01-05402.jpg?v=2cf66ad96a44",
+    "src": "/size-guides/p-01-05402.jpg?v=d92534c3467b",
     "colors": [
       "#ffffff",
       "#222222",
@@ -17,11 +17,11 @@
   },
   {
     "code": "04255",
-    "category": "รุ่นเรียบ",
+    "category": "รุ่นไม่ขยาย",
     "width": 14,
     "height": 14,
     "gusset": 0,
-    "src": "/size-guides/p-02-04255.jpg?v=0f0e8c33fe54",
+    "src": "/size-guides/p-02-04255.jpg?v=68920fc56910",
     "colors": [
       "#ffffff",
       "#222222",
@@ -33,11 +33,11 @@
   },
   {
     "code": "05898",
-    "category": "รุ่นเรียบ",
+    "category": "รุ่นไม่ขยาย",
     "width": 16,
     "height": 14,
     "gusset": 0,
-    "src": "/size-guides/p-03-05898.jpg?v=e6dd969c3e1b",
+    "src": "/size-guides/p-03-05898.jpg?v=6f32c2db87ec",
     "colors": [
       "#ffffff",
       "#222222",
@@ -47,11 +47,11 @@
   },
   {
     "code": "04508",
-    "category": "รุ่นเรียบ",
+    "category": "รุ่นไม่ขยาย",
     "width": 14,
     "height": 16,
     "gusset": 0,
-    "src": "/size-guides/p-04-04508.jpg?v=b0a0d55087bc",
+    "src": "/size-guides/p-04-04508.jpg?v=59b61f1dea0b",
     "colors": [
       "#ffffff",
       "#222222",
@@ -61,11 +61,11 @@
   },
   {
     "code": "11740",
-    "category": "รุ่นเรียบ",
+    "category": "รุ่นไม่ขยาย",
     "width": 16,
     "height": 18,
     "gusset": 0,
-    "src": "/size-guides/p-05-11740.jpg?v=8eedb82d5b9d",
+    "src": "/size-guides/p-05-11740.jpg?v=5640f243bc74",
     "colors": [
       "#ffffff",
       "#222222",

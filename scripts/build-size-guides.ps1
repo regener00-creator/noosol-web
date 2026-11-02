@@ -103,7 +103,7 @@ foreach ($item in $measurements.items) {
   # Replace the old two-line heading, note, and page number.
   $graphics.FillRectangle($white, 0, 0, 1700, 380)
   $graphics.FillRectangle($white, 1700, 0, 300, 180)
-  $category = if ($index -le 5) { 'รุ่นเรียบ' } elseif ($index -le 10) { 'รุ่นขยายก้น' } else { 'รุ่นขยายข้างและก้น' }
+  $category = if ($index -le 5) { 'รุ่นไม่ขยาย' } elseif ($index -le 10) { 'รุ่นขยายก้น' } else { 'รุ่นขยายข้างและก้น' }
   $categoryColor = if ($index -le 5) { '#8673a9' } elseif ($index -le 10) { '#478271' } else { '#416a79' }
   $categoryBrush = [System.Drawing.SolidBrush]::new([System.Drawing.ColorTranslator]::FromHtml($categoryColor))
   $prefix = 'NO.' + $item.model + ' : '
