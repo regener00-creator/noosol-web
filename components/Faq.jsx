@@ -5,29 +5,25 @@ import { useState } from 'react';
 // Q&A สไตล์เม็ดยา — กดแล้วคลี่คำตอบนุ่มๆ ปุ่ม + หมุนเป็น ×
 export default function Faq({ items }) {
   const [openIds, setOpenIds] = useState(() => new Set());
-  const columns = [items.slice(0, 3), items.slice(3, 6)];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 md:items-start">
-      {columns.map((column, columnIndex) => (
-        <div key={columnIndex} className="space-y-4">
-          {column.map((f, itemIndex) => {
-            const i = columnIndex * 3 + itemIndex;
-            const open = openIds.has(i);
-            return (
-              <div
-                key={i}
-                className={`overflow-hidden rounded-[28px] bg-soft transition-all duration-300 ${
-                  open ? 'ring-1 ring-ink' : ''
-                }`}
-              >
-                <button
-                  onClick={() => setOpenIds((current) => {
-                    const next = new Set(current);
-                    if (next.has(i)) next.delete(i);
-                    else next.add(i);
-                    return next;
-                  })}
+    <div className="grid items-start gap-4 md:grid-cols-3">
+      {items.map((f, i) => {
+      const open = openIds.has(i);
+      return (
+        <div
+          key={i}
+          className={`overflow-hidden rounded-[28px] bg-soft transition-all duration-300 ${
+            open ? 'ring-1 ring-ink' : ''
+          }`}
+        >
+          <button
+            onClick={() => setOpenIds((current) => {
+              const next = new Set(current);
+              if (next.has(i)) next.delete(i);
+              else next.add(i);
+              return next;
+            })}
                   className="flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
                 >
                   <span className="text-base font-bold sm:text-lg">{f.q}</span>
@@ -67,9 +63,7 @@ export default function Faq({ items }) {
                 </div>
               </div>
             );
-          })}
-        </div>
-      ))}
+      })}
     </div>
   );
 }

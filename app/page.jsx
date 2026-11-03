@@ -198,7 +198,7 @@ export default async function Home() {
               </h2>
               <div className="h-px flex-1 bg-neutral-300" />
             </div>
-            <div data-reveal data-reveal-delay="90" className="mx-auto mt-10 max-w-3xl">
+            <div data-reveal data-reveal-delay="90" className="mt-10">
               <Faq items={faq} />
             </div>
           </div>
