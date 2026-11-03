@@ -9,8 +9,9 @@ function GuidePrice({ guide, price }) {
   if (price == null) return null;
 
   const amount = Number(price).toLocaleString('th-TH', { maximumFractionDigits: 2 });
-  // Match the image's 2000px drawing coordinates and six swatches per row.
-  const x = 90 + Math.min(guide.colors.length, 6) * 80 + 25;
+  // Place the price below all swatch rows in the image's 2000px coordinates.
+  const swatchRows = Math.ceil(guide.colors.length / 6);
+  const priceY = 432 + (swatchRows - 1) * 80;
 
   return (
     <svg
@@ -20,7 +21,7 @@ function GuidePrice({ guide, price }) {
       aria-label={`฿${amount} / ใบ (ใบเปล่าไม่รวมค่าสกรีน)`}
       focusable="false"
     >
-      <text x={x} y="344" fontFamily="inherit">
+      <text x="90" y={priceY} fontFamily="inherit">
         <tspan fill="#f58220" fontSize="56" fontWeight="700">฿{amount}</tspan>
         <tspan dx="14" fill="#111111" fontSize="44" fontWeight="400">/ ใบ</tspan>
         <tspan dx="16" fill="#b0b0b0" fontSize="36" fontWeight="400">(ใบเปล่าไม่รวมค่าสกรีน)</tspan>
