@@ -117,7 +117,7 @@ export default function ProductExplorer({ products }) {
           </div>
         )}
       </div>
-      <ProductSizeGuide />
+      <ProductSizeGuide products={products} />
     </div>
   );
 }

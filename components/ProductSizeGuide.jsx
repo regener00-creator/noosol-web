@@ -4,7 +4,32 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import guides from '@/data/size-guides.json';
 
-export default function ProductSizeGuide() {
+
+function GuidePrice({ guide, price }) {
+  if (price == null) return null;
+
+  const amount = Number(price).toLocaleString('th-TH', { maximumFractionDigits: 2 });
+  // Match the image's 2000px drawing coordinates and six swatches per row.
+  const x = 90 + Math.min(guide.colors.length, 6) * 80 + 25;
+
+  return (
+    <svg
+      viewBox="0 0 2000 2000"
+      className="pointer-events-none absolute inset-0 h-full w-full select-none"
+      role="img"
+      aria-label={`฿${amount} / ใบ (ใบเปล่าไม่รวมค่าสกรีน)`}
+      focusable="false"
+    >
+      <text x={x} y="344" fontFamily="inherit">
+        <tspan fill="#f58220" fontSize="56" fontWeight="700">฿{amount}</tspan>
+        <tspan dx="14" fill="#111111" fontSize="44" fontWeight="400">/ ใบ</tspan>
+        <tspan dx="16" fill="#b0b0b0" fontSize="36" fontWeight="400">(ใบเปล่าไม่รวมค่าสกรีน)</tspan>
+      </text>
+    </svg>
+  );
+}
+
+export default function ProductSizeGuide({ products }) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const section = useRef(null);
@@ -98,7 +123,7 @@ export default function ProductSizeGuide() {
           onAnimationEnd={finishMove}
         >
           {visibleGuides.map(({ guide: item, offset }) => (
-            <div key={item.code} className="h-full w-full shrink-0" aria-hidden={offset !== 0}>
+            <div key={item.code} className="relative h-full w-full shrink-0" aria-hidden={offset !== 0}>
               <Image
                 src={item.src}
                 width={1600}
@@ -109,6 +134,7 @@ export default function ProductSizeGuide() {
                 loading="lazy"
                 draggable={false}
               />
+              <GuidePrice guide={item} price={products.find((product) => product.code === item.code)?.retail} />
             </div>
           ))}
         </div>
