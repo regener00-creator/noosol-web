@@ -83,7 +83,7 @@ export default function ProductSizeGuide() {
       tabIndex={0}
     >
       <div
-        className="aspect-square overflow-hidden rounded-2xl border-[3px] border-neutral-300 bg-white shadow-sm"
+        className="aspect-square overflow-hidden bg-white"
         style={{ touchAction: 'pan-y' }}
         onTouchStart={(event) => {
           const touch = event.touches[0];
