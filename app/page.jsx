@@ -231,7 +231,7 @@ export default async function Home() {
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <article data-reveal data-reveal-delay="100" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#fff0eb] p-6 text-center text-[#171717]">
                 <h3 className="text-xl font-extrabold">SHOPEE</h3>
-                <Image src="/contact-icons/shopee.svg" alt="Shopee" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
+                <Image src="/contact-icons/shopee-20261105.jpg" alt="Shopee" width={64} height={64} className="mt-4 h-14 w-14 rounded-full object-contain" />
                 <p className="mt-4 text-sm leading-6 text-neutral-600">
                   ช่องทางการสั่งซื้อสินค้าปลีก
                 </p>
@@ -242,7 +242,7 @@ export default async function Home() {
 
               <article data-reveal data-reveal-delay="160" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#eaf2ff] p-6 text-center text-[#171717]">
                 <h3 className="text-xl font-extrabold">FACEBOOK</h3>
-                <Image src="/contact-icons/facebook-2.png" alt="Facebook" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
+                <Image src="/contact-icons/facebook-20261105.png" alt="Facebook" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <p className="mt-4 text-sm leading-6 text-neutral-600">
                   ตัวอย่างผลงาน และ รีวิวจากลูกค้า
                 </p>
@@ -253,7 +253,7 @@ export default async function Home() {
 
               <article data-reveal data-reveal-delay="220" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] p-6 text-center text-[#171717]">
                 <h3 className="text-xl font-extrabold">LINE</h3>
-                <Image src="/contact-icons/line.svg" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
+                <Image src="/contact-icons/line-20261105.png" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <p className="mt-4 text-sm leading-6 text-neutral-600">
                   ส่งโลโก้ และ สอบถามข้อมูลได้ที่นี่
                 </p>
@@ -264,7 +264,7 @@ export default async function Home() {
 
               <article data-reveal data-reveal-delay="280" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#e7e7e7] p-6 text-center text-[#171717]">
                 <h3 className="text-xl font-extrabold">CALL</h3>
-                <Image src="/contact-icons/call.svg" alt="โทรศัพท์" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
+                <Image src="/contact-icons/call-20261105.png" alt="โทรศัพท์" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <p className="mt-4 text-sm leading-6 text-neutral-600">
                   โทรสอบถามข้อมูลได้ที่นี่
                 </p>
