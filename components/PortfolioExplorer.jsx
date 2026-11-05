@@ -23,6 +23,7 @@ const groups = [
 
 export default function PortfolioExplorer({ showHeading = true }) {
   const [active, setActive] = useState(groups[0].name);
+  const [revealKey, setRevealKey] = useState(0);
   const scroller = useRef(null);
   const tabs = useRef(null);
   const tabIndicator = useRef(null);
@@ -44,7 +45,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
     if (firstPage && middlePage) {
       el.scrollLeft = middlePage.offsetLeft - firstPage.offsetLeft;
     }
-  }, [active]);
+  }, [active, revealKey]);
 
   useLayoutEffect(() => {
     const tabsEl = tabs.current;
@@ -67,6 +68,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
 
   const selectGroup = (name) => {
     setActive(name);
+    setRevealKey((key) => key + 1);
   };
 
   const scroll = useCallback((direction) => {
@@ -105,7 +107,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [active, scroll]);
+  }, [active, revealKey, scroll]);
 
   return (
     <div>
@@ -155,27 +157,35 @@ export default function PortfolioExplorer({ showHeading = true }) {
       {/* รูปแยกเป็นการ์ด เห็นพร้อมกัน 3 รูปบนจอใหญ่ */}
       <div className="relative mt-8 min-w-0 px-12 sm:px-16">
         <div
-          key={active}
+          key={`${active}-${revealKey}`}
           ref={scroller}
           className="portfolio-manual-scroll flex gap-5 overflow-x-auto py-4"
         >
           {loopPages.map((page, pageIndex) => (
             <div
               key={`${active}-page-${pageIndex}`}
-              className="grid w-full shrink-0 grid-cols-3 gap-3 sm:gap-5"
+              className="portfolio-unfold-page grid w-full shrink-0 grid-cols-3 gap-3 sm:gap-5"
               aria-hidden={pageIndex < pages.length || pageIndex >= pages.length * 2}
             >
               {page.map((n, imageIndex) => (
                 <div
                   key={`${active}-${pageIndex}-${n}-${imageIndex}`}
-                  className="portfolio-card-pop overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
-                  style={{ '--portfolio-card-delay': `${imageIndex * 60}ms` }}
+                  className="portfolio-card-unfold relative overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
+                  style={{
+                    '--portfolio-from-x': ['calc(100% + var(--portfolio-grid-gap))', '0%', 'calc(-100% - var(--portfolio-grid-gap))'][imageIndex % 3],
+                    '--portfolio-from-y': imageIndex < 3
+                      ? 'calc(50% + var(--portfolio-grid-gap) / 2)'
+                      : 'calc(-50% - var(--portfolio-grid-gap) / 2)',
+                    '--portfolio-card-delay': `${[70, 0, 70, 120, 50, 120][imageIndex]}ms`,
+                    zIndex: imageIndex === 1 ? 6 : 5 - imageIndex,
+                  }}
                 >
                   <Image
                     src={typeof n === 'number' ? `/works/${n}.png` : n}
                     alt={`ผลงาน${active} NOOSOL`}
                     width={500}
                     height={500}
+                    loading={pageIndex === pages.length ? 'eager' : 'lazy'}
                     className="aspect-square w-full object-cover"
                   />
                 </div>
