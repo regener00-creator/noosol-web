@@ -80,18 +80,16 @@ function ServiceCard({ service, index }) {
         aria-hidden={!opened}
         inert={!opened ? '' : undefined}
       >
-        <div className="flex items-center justify-between gap-3 border-b border-orange-100 pb-5">
+        <button
+          ref={back}
+          type="button"
+          tabIndex={opened ? 0 : -1}
+          onClick={() => turnPage(false)}
+          className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-3xl focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#f58220]"
+          aria-label={`พลิกกลับด้านรูปสินค้า ${meta.title}`}
+        />
+        <div className="border-b border-orange-100 pb-5">
           <span className="text-sm font-bold text-[#eb7300]">หน้าที่ 2</span>
-          <button
-            ref={back}
-            type="button"
-            tabIndex={opened ? 0 : -1}
-            onClick={() => turnPage(false)}
-            className="rounded-full px-3 py-2 text-sm font-semibold text-neutral-500 transition-colors hover:bg-orange-50 hover:text-[#eb7300] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f58220]"
-            aria-label={`กลับหน้าแรก ${meta.title}`}
-          >
-            <span aria-hidden="true">↶ </span>กลับหน้าแรก
-          </button>
         </div>
         <h3 className="mt-7 text-[23px] font-extrabold leading-relaxed text-ink">{meta.detailTitle}</h3>
         <ul className="mb-8 mt-6 list-disc space-y-5 pl-5 text-[17px] leading-8 text-neutral-700 marker:text-[#f58220]">
@@ -101,7 +99,7 @@ function ServiceCard({ service, index }) {
           <a
             href={meta.action.href}
             tabIndex={opened ? 0 : -1}
-            className="mt-auto block rounded-xl bg-[#f58220] px-5 py-4 text-center text-lg font-bold text-white transition-colors hover:bg-[#eb7300] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f58220]"
+            className="relative z-20 mt-auto block rounded-xl bg-[#f58220] px-5 py-4 text-center text-lg font-bold text-white transition-colors hover:bg-[#eb7300] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f58220]"
           >
             {meta.action.label}
           </a>
