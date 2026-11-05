@@ -172,7 +172,7 @@ export default async function Home() {
                 <div
                   key={c.no}
                   className="color-drop-card overflow-hidden rounded-2xl bg-white"
-                  style={{ '--color-drop-delay': `${index * 40}ms` }}
+                  style={{ '--color-drop-delay': `${index * 65}ms` }}
                 >
                   <Image
                     src={`/spun-colors/${c.no}.png`}
