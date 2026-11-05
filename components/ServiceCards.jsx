@@ -35,7 +35,7 @@ const cardMeta = [
     icon: '/services/icon-77.png',
     iconScale: 'scale-[1.55]',
     description: ['รับผลิตขั้นต่ำ 300 ใบ', 'ส่งแบบเพื่อประเมิณราคาทางแชท'],
-    detailTitle: '🛍 กระเป๋าผลิตใหม่ 🛍',
+    detailTitle: '🎒 กระเป๋าผลิตใหม่ 🎒',
     details: [
       'รับผลิตใหม่ ขั้นต่ำที่ 300 ใบ',
       'ใช้เวลาผลิตภายใน 30 วัน',
