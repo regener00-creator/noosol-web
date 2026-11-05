@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ShopCard from './ShopCard';
 import ProductSizeGuide from './ProductSizeGuide';
 
@@ -35,12 +35,46 @@ const categories = stockCats;
 
 export default function ProductExplorer({ products }) {
   const [active, setActive] = useState(categories[0].id);
+  const [displayed, setDisplayed] = useState(categories[0].id);
+  const [flipPhase, setFlipPhase] = useState('idle');
+  const requestedCategory = useRef(categories[0].id);
   const tabs = useRef(null);
   const indicator = useRef(null);
   const buttons = useRef([]);
-  const current = categories.find((category) => category.id === active);
-  const items = products.filter((product) => product.category === active);
+  const current = categories.find((category) => category.id === displayed);
+  const items = products.filter((product) => product.category === displayed);
   const showInfo = Boolean(current.text);
+
+
+  function selectCategory(id) {
+    requestedCategory.current = id;
+    setActive(id);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplayed(id);
+      setFlipPhase('idle');
+      return;
+    }
+
+    if (flipPhase === 'idle' && id !== displayed) setFlipPhase('out');
+  }
+
+  useEffect(() => {
+    if (flipPhase === 'idle') return;
+
+    // Replace the product data only when the old cards are edge-on.
+    // A rapid selection during the flip resolves to the latest requested category.
+    const timer = window.setTimeout(() => {
+      if (flipPhase === 'out') {
+        setDisplayed(requestedCategory.current);
+        setFlipPhase('in');
+      } else {
+        setFlipPhase(requestedCategory.current === displayed ? 'idle' : 'out');
+      }
+    }, flipPhase === 'out' ? 220 : 360);
+
+    return () => window.clearTimeout(timer);
+  }, [flipPhase, displayed]);
 
   useLayoutEffect(() => {
     const tabsEl = tabs.current;
@@ -79,7 +113,7 @@ export default function ProductExplorer({ products }) {
               key={category.id}
               ref={(element) => { buttons.current[index] = element; }}
               type="button"
-              onClick={() => setActive(category.id)}
+              onClick={() => selectCategory(category.id)}
               className={`relative z-10 min-h-12 shrink-0 whitespace-nowrap rounded-full px-5 py-3 text-sm font-bold transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 sm:flex-1 sm:px-6 sm:text-base ${
                 isActive ? 'text-white' : 'text-neutral-500 hover:text-ink'
               }`}
@@ -91,7 +125,7 @@ export default function ProductExplorer({ products }) {
         })}
       </div>
 
-      <div key={active} className="fade-up mt-8">
+      <div className="mt-8" data-product-flip={flipPhase} aria-busy={flipPhase !== 'idle'}>
         {showInfo && (
           <div className="rounded-2xl border border-line bg-white p-6 text-center shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-8">
             <h3 className="text-2xl font-extrabold tracking-tight">{current.label}</h3>
@@ -112,7 +146,9 @@ export default function ProductExplorer({ products }) {
         {items.length > 0 && (
           <div className={`${showInfo ? 'mt-6' : ''} grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5`}>
             {items.map((product) => (
-              <ShopCard key={product.code} p={product} />
+              <div key={product.code} className="product-flip-card flex min-w-0 [&>div]:w-full">
+                <ShopCard p={product} />
+              </div>
             ))}
           </div>
         )}

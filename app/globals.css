@@ -232,6 +232,32 @@ html.is-loading body {
   animation: fade-up 0.6s cubic-bezier(0.28, 0.11, 0.32, 1) both;
 }
 
+
+/* Two half-turns keep the old product visible until the card reaches its edge. */
+.product-flip-card {
+  transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+[data-product-flip='out'] .product-flip-card {
+  animation: product-card-flip-out 220ms cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+[data-product-flip='in'] .product-flip-card {
+  animation: product-card-flip-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes product-card-flip-out {
+  from { transform: perspective(1100px) rotateY(0deg); }
+  to { transform: perspective(1100px) rotateY(-90deg); }
+}
+
+@keyframes product-card-flip-in {
+  from { transform: perspective(1100px) rotateY(90deg); }
+  to { transform: perspective(1100px) rotateY(0deg); }
+}
+
 /* เด้งขึ้นเมื่อเปิดหน้า/เลื่อนมาถึง คล้ายจังหวะ spring ของ Framer */
 [data-reveal] {
   opacity: 0;
@@ -384,6 +410,11 @@ html.is-loading body {
   [data-hero-drop] .hero-motion-underline::after {
     animation: none !important;
     transform: scaleX(1);
+  }
+
+  [data-product-flip] .product-flip-card {
+    animation: none;
+    transform: none;
   }
 
   .portfolio-marquee {
