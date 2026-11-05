@@ -136,7 +136,7 @@ function ServiceCard({ service, index }) {
             <span key={line} className={`block ${lineIndex === 0 ? 'font-bold text-neutral-900' : ''}`}>{line}</span>
           ))}
         </p>
-        <span className="mt-3 w-full text-center text-sm font-semibold text-[#eb7300]">คลิกเพื่อเปิดดูรายละเอียด ↑</span>
+        <span className="mt-3 w-full rounded-xl bg-[#f58220] px-4 py-3 text-center text-sm font-bold text-white">คลิกเพื่อเปิดดูรายละเอียด</span>
       </button>
     </article>
   );
