@@ -310,7 +310,7 @@ html.is-loading body {
 }
 
 .color-drop-grid.is-revealed .color-drop-card {
-  animation: color-card-drop 620ms cubic-bezier(0.22, 0.8, 0.24, 1)
+  animation: color-card-drop 400ms cubic-bezier(0.22, 0.8, 0.24, 1)
     var(--color-drop-delay, 0ms) both;
 }
 
