@@ -263,24 +263,74 @@ html.is-loading body {
   }
 }
 
-/* ข้อความหน้าแรกค่อย ๆ ปรากฏทีละบรรทัด หลังหน้าจอโหลดเปิดออก */
+/* Intro typography: staggered rise, soft overshoot, then an orange underline.
+   RevealOnScroll starts the sequence after the loading panels have opened. */
 [data-hero-drop] {
-  opacity: 0;
+  opacity: 1;
   transform: none;
-  will-change: opacity;
 }
 
-[data-hero-drop].is-hero-entered {
-  animation: hero-line-fade 0.85s ease-out var(--hero-drop-delay, 0ms) both;
+.hero-motion-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(75%) scale(0.9) rotate(4deg);
+  transform-origin: center bottom;
+  filter: blur(7px);
 }
 
-@keyframes hero-line-fade {
-  from {
+[data-hero-drop].is-hero-entered .hero-motion-word {
+  animation: hero-word-enter 900ms cubic-bezier(0.22, 0.8, 0.24, 1)
+    calc(var(--hero-drop-delay, 0ms) + var(--hero-word-delay, 0ms)) both;
+}
+
+.hero-motion-underline {
+  position: relative;
+}
+
+.hero-motion-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.18em;
+  height: 3px;
+  border-radius: 999px;
+  background: #f58220;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+[data-hero-drop].is-hero-entered .hero-motion-underline::after {
+  animation: hero-underline-draw 550ms cubic-bezier(0.22, 0.8, 0.24, 1)
+    calc(var(--hero-drop-delay, 0ms) + var(--hero-word-delay, 0ms) + 480ms) both;
+}
+
+@keyframes hero-word-enter {
+  0% {
     opacity: 0;
+    transform: translateY(75%) scale(0.9) rotate(4deg);
+    filter: blur(7px);
   }
-  to {
+  60% {
     opacity: 1;
+    transform: translateY(-8%) scale(1.025) rotate(-0.8deg);
+    filter: blur(0);
   }
+  82% {
+    opacity: 1;
+    transform: translateY(2%) scale(0.997) rotate(0deg);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-underline-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* แถบรูปผลงานตามหมวด */
@@ -323,9 +373,17 @@ html.is-loading body {
     transform: none;
   }
 
-  [data-hero-drop] {
+  [data-hero-drop],
+  [data-hero-drop] .hero-motion-word {
+    animation: none !important;
     opacity: 1;
     transform: none;
+    filter: none;
+  }
+
+  [data-hero-drop] .hero-motion-underline::after {
+    animation: none !important;
+    transform: scaleX(1);
   }
 
   .portfolio-marquee {

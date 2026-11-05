@@ -63,13 +63,13 @@ export default async function Home() {
         <Container>
           <div className="pb-20 pt-28 text-center sm:pt-44">
             <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
-              NOOSOL
+              <span className="hero-motion-word">NOOSOL</span>
             </h1>
             <h2 data-hero-drop data-hero-delay="500" className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
-              โรงงานรับผลิตกระเป๋าและถุงผ้าสปันบอนด์
+              <span className="hero-motion-word">โรงงานรับผลิตกระเป๋า</span><wbr /><span className="hero-motion-word" style={{ '--hero-word-delay': '110ms' }}>และถุงผ้าสปันบอนด์</span>
             </h2>
             <p data-hero-drop data-hero-delay="1000" className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
-              ประสบการณ์มากกว่า 30 ปี
+              <span className="hero-motion-word">ประสบการณ์มากกว่า</span>{' '}<span className="hero-motion-word hero-motion-underline" style={{ '--hero-word-delay': '110ms' }}>30 ปี</span>
             </p>
 
             {/* โลโก้ลูกค้าวิ่ง 3 แถว */}
