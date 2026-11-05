@@ -167,9 +167,13 @@ export default async function Home() {
             <p data-reveal data-reveal-delay="70" className="mt-4 text-center text-neutral-500">
               สีในรูปอาจจะแตกต่างกันตามจอแสดงผล อาจมีความคลาดเคลื่อน 10-15%
             </p>
-            <div data-reveal data-reveal-delay="120" className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
-              {colors.map((c) => (
-                <div key={c.no} className="overflow-hidden rounded-2xl bg-white">
+            <div data-reveal className="color-drop-grid mt-10 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
+              {colors.map((c, index) => (
+                <div
+                  key={c.no}
+                  className="color-drop-card overflow-hidden rounded-2xl bg-white"
+                  style={{ '--color-drop-delay': `${index * 90}ms` }}
+                >
                   <Image
                     src={`/spun-colors/${c.no}.png`}
                     alt={`สี${c.name}`}

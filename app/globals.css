@@ -296,6 +296,46 @@ html.is-loading body {
   }
 }
 
+/* Keep the chart steady while each color drops into its grid position. */
+[data-reveal].color-drop-grid {
+  opacity: 1;
+  transform: none;
+  animation: none;
+  will-change: auto;
+}
+
+.color-drop-card {
+  opacity: 0;
+  transform: translateY(-64px);
+}
+
+.color-drop-grid.is-revealed .color-drop-card {
+  animation: color-card-drop 620ms cubic-bezier(0.22, 0.8, 0.24, 1)
+    var(--color-drop-delay, 0ms) both;
+}
+
+@keyframes color-card-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-64px);
+  }
+  22% {
+    opacity: 1;
+  }
+  68% {
+    opacity: 1;
+    transform: translateY(7px);
+  }
+  84% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Intro typography: staggered rise, soft overshoot, then an orange underline.
    RevealOnScroll starts the sequence after the loading panels have opened. */
 [data-hero-drop] {
@@ -421,6 +461,13 @@ html.is-loading body {
 
   [data-product-flip] .product-flip-card {
     animation: none;
+    transform: none;
+  }
+
+  .color-drop-card,
+  .color-drop-grid.is-revealed .color-drop-card {
+    animation: none;
+    opacity: 1;
     transform: none;
   }
 
