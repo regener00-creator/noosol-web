@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/site';
+import LineContactButton from './LineContactButton';
 
 const nav = [
   ['หน้าแรก', 'home'],
@@ -95,14 +96,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a
-          href={site.lineHref}
-          target="_blank"
-          rel="noreferrer"
-          className="relative z-10 hidden rounded-full bg-[#06C755] px-5 py-2 text-sm font-bold text-white transition hover:bg-[#05b64d] md:block"
-        >
-          LINE
-        </a>
+        <LineContactButton className="relative z-10 hidden rounded-full bg-[#06C755] px-5 py-2 text-sm font-bold text-white transition hover:bg-[#05b64d] md:block" />
 
         <button
           className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-soft md:hidden"
@@ -129,14 +123,7 @@ export default function Navbar() {
               {label}
             </a>
           ))}
-          <a
-            href={site.lineHref}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 block rounded-xl bg-[#06C755] px-3 py-3 text-center text-base font-bold text-white"
-          >
-            LINE
-          </a>
+          <LineContactButton className="mt-2 block w-full rounded-xl bg-[#06C755] px-3 py-3 text-center text-base font-bold text-white" />
         </nav>
       )}
     </header>

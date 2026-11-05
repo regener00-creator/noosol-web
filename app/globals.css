@@ -420,7 +420,64 @@ html.is-loading body {
   to { transform: translateX(calc(-50% - 0.5rem)); }
 }
 
+
+/* Native modal uses the top layer, above the sticky navigation and its blur. */
+.line-contact-dialog {
+  width: min(440px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.line-contact-dialog::backdrop {
+  background: rgb(0 0 0 / 35%);
+}
+
+.line-contact-panel {
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  transform-origin: center;
+}
+
+.line-contact-dialog[open] .line-contact-panel {
+  animation: line-contact-expand 520ms cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+
+.line-contact-dialog[open]::backdrop {
+  animation: line-contact-backdrop 220ms ease-out both;
+}
+
+@keyframes line-contact-expand {
+  0% {
+    transform: translate(var(--line-origin-x, 0px), var(--line-origin-y, -100px))
+      scale(var(--line-origin-scale, 0.2));
+    border-radius: 60px;
+  }
+  72% {
+    transform: translate(0, 0) scale(1.025);
+    border-radius: 24px;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 24px;
+  }
+}
+
+@keyframes line-contact-backdrop {
+  from { background: rgb(0 0 0 / 0%); }
+  to { background: rgb(0 0 0 / 35%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .line-contact-dialog[open] .line-contact-panel,
+  .line-contact-dialog[open]::backdrop {
+    animation: none;
+  }
+
   html {
     scroll-behavior: auto;
   }
