@@ -127,7 +127,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <nav className="mx-auto mt-2 max-w-4xl rounded-3xl border border-white/60 bg-white/85 p-3 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl md:hidden">
+        <nav className="absolute inset-x-4 top-full mx-auto max-h-[calc(100dvh-6rem)] max-w-4xl overflow-y-auto rounded-3xl border border-white/60 bg-white/95 p-3 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl md:hidden">
           {nav.map(([label, id]) => (
             <a
               key={id}

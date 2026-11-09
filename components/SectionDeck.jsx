@@ -8,7 +8,7 @@ export default function SectionDeck({ children }) {
   useEffect(() => {
     const deck = root.current;
     const panels = Array.from(deck.children);
-    const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+    const compact = window.matchMedia('(max-width: 767px), (pointer: coarse)');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current;
     let animations = [];
@@ -55,7 +55,7 @@ export default function SectionDeck({ children }) {
       }
 
       const direction = panels.indexOf(panel) > panels.indexOf(previous) ? 1 : -1;
-      const options = { duration: 350, easing: 'cubic-bezier(.4,0,.2,1)' };
+      const options = { duration: compact.matches ? 240 : 350, easing: 'cubic-bezier(.4,0,.2,1)' };
       const exit = previous.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${-direction * 100}%)` }], options);
       const enter = panel.animate([{ transform: `translateX(${direction * 100}%)` }, { transform: 'translateX(0)' }], options);
       animations = [exit, enter];
@@ -65,11 +65,11 @@ export default function SectionDeck({ children }) {
     }
 
     function followLocation() {
-      if (desktop.matches) show(resolve(location.hash) || resolve('#home'), true);
+      show(resolve(location.hash) || resolve('#home'), true);
     }
 
     function followLink(event) {
-      if (!desktop.matches || event.defaultPrevented || event.button !== 0 ||
+      if (event.defaultPrevented || event.button !== 0 ||
           event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       const link = event.target.closest?.('a[href^="#"]');
       if (!link || link.target === '_blank') return;
@@ -91,27 +91,14 @@ export default function SectionDeck({ children }) {
       current = null;
     }
 
-    function configure() {
-      if (desktop.matches) {
-        for (const panel of panels) panel.tabIndex = -1;
-        followLocation();
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      } else if (current) {
-        const target = resolve(location.hash)?.target || current;
-        disable();
-        target.scrollIntoView({ behavior: 'instant' });
-        window.dispatchEvent(new Event('noosol:section-change'));
-      }
-    }
-
-    configure();
-    desktop.addEventListener('change', configure);
+    for (const panel of panels) panel.tabIndex = -1;
+    followLocation();
+    window.scrollTo({ top: 0, behavior: 'instant' });
     document.addEventListener('click', followLink, true);
     window.addEventListener('hashchange', followLocation);
     window.addEventListener('popstate', followLocation);
     window.addEventListener('noosol:loader-complete', followLocation);
     return () => {
-      desktop.removeEventListener('change', configure);
       document.removeEventListener('click', followLink, true);
       window.removeEventListener('hashchange', followLocation);
       window.removeEventListener('popstate', followLocation);
