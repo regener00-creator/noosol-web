@@ -156,6 +156,15 @@ export default async function Home() {
         </Container>
       </section>
 
+      <section id="scale" className="scroll-mt-16 md:hidden">
+        <Container>
+          <div className="py-8">
+            <h2 className="mb-5 text-center text-2xl font-extrabold">สเกล</h2>
+            <div id="mobile-guide-slot" />
+          </div>
+        </Container>
+      </section>
+
       {/* ชาร์ตสี — พื้นเทา */}
       <section id="colors" className="scroll-mt-16 bg-soft">
         <Container>

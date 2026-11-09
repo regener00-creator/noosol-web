@@ -13,15 +13,16 @@ const nav = [
   ['คำถามที่พบบ่อย', 'qa'],
 ];
 
-const mobileNav = [...nav, ['ติดต่อ', 'contact']];
+const mobileNav = [...nav.slice(0, 3), ['สเกล', 'size-guide'], ...nav.slice(3), ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
   const [pill, setPill] = useState({ left: 0, width: 0, ready: false });
   const linkRefs = useRef({});
   const mobileIndex = mobileNav.findIndex(([, id]) => id === active);
-  const column = mobileIndex % 3;
-  const row = Math.floor(mobileIndex / 3);
+  const columns = mobileIndex < 4 ? 4 : 3;
+  const row = mobileIndex < 4 ? 0 : 1;
+  const column = row ? mobileIndex - 4 : mobileIndex;
 
   // scroll spy — ดูว่า section ไหนอยู่บนจอ แล้วเลื่อนเม็ดยาไปที่เมนูนั้น
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function Navbar() {
     const onScroll = () => {
       const panel = document.querySelector('.section-deck')?.dataset.active;
       if (panel) {
-        setActive(panel === 'colors' ? 'services' : panel);
+        setActive(panel === 'colors' ? 'services' : panel === 'scale' ? 'size-guide' : panel);
         return;
       }
       const mid = window.scrollY + window.innerHeight / 3;
@@ -120,20 +121,23 @@ export default function Navbar() {
 
       <nav
         aria-label="เมนูหลัก"
-        className="relative grid auto-rows-fr grid-cols-3 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
+        className="relative grid auto-rows-fr grid-cols-12 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
       >
-        <span aria-hidden="true" className="pointer-events-none absolute inset-1 grid grid-cols-3 grid-rows-2 gap-1">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-1">
           <span
-            className="rounded-xl bg-[#f58220] motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out"
-            style={{ transform: `translate(calc(${column * 100}% + ${column * 0.25}rem), calc(${row * 100}% + ${row * 0.25}rem))` }}
+            className="absolute left-0 top-0 h-[calc(50%-0.125rem)] rounded-xl bg-[#f58220] motion-safe:transition-[width,transform] motion-safe:duration-300 motion-safe:ease-out"
+            style={{
+              width: `calc((100% - ${(columns - 1) * 0.25}rem) / ${columns})`,
+              transform: `translate(calc(${column * 100}% + ${column * 0.25}rem), calc(${row * 100}% + ${row * 0.25}rem))`,
+            }}
           />
         </span>
-        {mobileNav.map(([label, id]) => (
+        {mobileNav.map(([label, id], index) => (
           <a
             key={id}
             href={`#${id}`}
             aria-current={active === id ? 'location' : undefined}
-            className={`relative flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
+            className={`${index < 4 ? 'col-span-3' : 'col-span-4'} relative flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
               active === id ? 'text-white' :
               id === 'contact' ? 'bg-[#06C755] text-white' : 'text-neutral-600 hover:bg-soft'
             }`}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import guides from '@/data/size-guides.json';
 import ShopCard from './ShopCard';
 import ProductSizeGuide from './ProductSizeGuide';
 
@@ -32,8 +33,10 @@ const stockCats = [
 ];
 
 const categories = stockCats;
+const guideIndexByCode = new Map(guides.map((guide, index) => [guide.code, index]));
 
 export default function ProductExplorer({ products }) {
+  const [guideIndex, setGuideIndex] = useState(0);
   const [active, setActive] = useState(categories[0].id);
   const [displayed, setDisplayed] = useState(categories[0].id);
   const [flipPhase, setFlipPhase] = useState('idle');
@@ -47,6 +50,10 @@ export default function ProductExplorer({ products }) {
 
 
   function selectCategory(id) {
+    if (id !== active && window.matchMedia('(max-width: 767px)').matches) {
+      const first = products.find((p) => p.category === id && guideIndexByCode.has(p.code));
+      if (first) setGuideIndex(guideIndexByCode.get(first.code));
+    }
     requestedCategory.current = id;
     setActive(id);
 
@@ -146,14 +153,22 @@ export default function ProductExplorer({ products }) {
         {items.length > 0 && (
           <div className={`${showInfo ? 'mt-6' : ''} grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5`}>
             {items.map((product) => (
-              <div key={product.code} className="product-flip-card flex min-w-0 [&>div]:w-full">
+              <div key={product.code} className="product-flip-card relative flex min-w-0 [&>div]:w-full">
                 <ShopCard p={product} />
+                {guideIndexByCode.has(product.code) && (
+                  <a
+                    href="#size-guide"
+                    onClick={() => setGuideIndex(guideIndexByCode.get(product.code))}
+                    aria-label={`ดูสเกลรุ่น ${product.code}`}
+                    className="absolute inset-0 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500 md:hidden"
+                  />
+                )}
               </div>
             ))}
           </div>
         )}
       </div>
-      <ProductSizeGuide products={products} />
+      <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} />
     </div>
   );
 }

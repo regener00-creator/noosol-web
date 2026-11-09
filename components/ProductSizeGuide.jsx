@@ -1,5 +1,6 @@
 'use client';
 
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import guides from '@/data/size-guides.json';
@@ -30,8 +31,8 @@ function GuidePrice({ guide, price }) {
   );
 }
 
-export default function ProductSizeGuide({ products }) {
-  const [index, setIndex] = useState(0);
+export default function ProductSizeGuide({ products, index, setIndex }) {
+  const [mobileSlot, setMobileSlot] = useState(null);
   const [direction, setDirection] = useState(0);
   const section = useRef(null);
   const moving = useRef(false);
@@ -41,6 +42,20 @@ export default function ProductSizeGuide({ products }) {
     guide: guides[(index + offset + guides.length) % guides.length],
     offset,
   }));
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 767px)');
+    const place = () => setMobileSlot(query.matches ? document.getElementById('mobile-guide-slot') : null);
+    place();
+    query.addEventListener('change', place);
+    return () => query.removeEventListener('change', place);
+  }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(new Event('noosol:guide-placed'));
+    moving.current = false;
+    setDirection(0);
+  }, [mobileSlot]);
 
   useEffect(() => {
     let frame;
@@ -80,6 +95,7 @@ export default function ProductSizeGuide({ products }) {
   }
 
   function handleKeyDown(event) {
+    if (event.target.tagName === 'SELECT') return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       move(event.key === 'ArrowLeft' ? -1 : 1);
@@ -98,16 +114,31 @@ export default function ProductSizeGuide({ products }) {
     }
   }
 
-  return (
+  const content = (
     <section
       id="size-guide"
       ref={section}
       aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
-      className="relative mx-auto mt-12 grid max-w-5xl scroll-mt-24 grid-cols-2 gap-3 sm:block sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
+      className="relative mx-auto grid max-w-5xl md:mt-12 scroll-mt-24 grid-cols-2 gap-3 sm:block sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
+      {mobileSlot && (
+        <label className="col-span-2 grid gap-1 text-sm font-semibold">
+          เลือกรุ่นสินค้า
+          <select
+            value={index}
+            onChange={(event) => setIndex(Number(event.target.value))}
+            disabled={direction !== 0}
+            className="min-h-11 w-full rounded-xl border border-line bg-white px-3 text-base text-ink"
+          >
+            {guides.map((item, i) => (
+              <option key={item.code} value={i}>NO.{item.code} · {item.width} × {item.height} นิ้ว</option>
+            ))}
+          </select>
+        </label>
+      )}
       <div
         className="col-span-2 aspect-square overflow-hidden bg-white"
         style={{ touchAction: 'pan-y pinch-zoom' }}
@@ -192,4 +223,6 @@ export default function ProductSizeGuide({ products }) {
       `}</style>
     </section>
   );
+
+  return mobileSlot ? createPortal(content, mobileSlot) : content;
 }
