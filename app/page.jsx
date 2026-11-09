@@ -1,3 +1,4 @@
+import SectionDeck from '@/components/SectionDeck';
 import Image from 'next/image';
 import { getProducts, getColors, getFaq } from '@/lib/data';
 import ProductExplorer from '@/components/ProductExplorer';
@@ -57,11 +58,11 @@ export default async function Home() {
   const [products, colors, faq] = await Promise.all([getProducts(), getColors(), getFaq()]);
 
   return (
-    <div>
+    <SectionDeck>
       {/* หน้าแรก — พื้นเทาแบบ Apple */}
       <section id="home" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
-          <div className="pb-16 pt-16 text-center sm:pb-20 sm:pt-44">
+          <div className="home-intro pt-16 text-center sm:pt-44">
             <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-[clamp(3rem,15vw,4.5rem)] font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
               <span className="hero-motion-word">NOOSOL</span>
             </h1>
@@ -73,13 +74,19 @@ export default async function Home() {
             </p>
 
             {/* โลโก้ลูกค้าวิ่ง 3 แถว */}
-            <div data-reveal data-reveal-delay="180" className="mt-24 space-y-3 sm:mt-32">
+            <div data-reveal data-reveal-delay="180" className="home-logos mt-24 space-y-3 sm:mt-32">
               <LogoMarquee direction="left" images={customerLogos.slice(0, 17)} />
               <LogoMarquee direction="right" images={customerLogos.slice(17, 33)} />
               <LogoMarquee direction="left" images={customerLogos.slice(33)} />
             </div>
 
-            <div id="services" className="scroll-mt-16 pt-20">
+          </div>
+        </Container>
+      </section>
+
+      <section id="services" className="grain-surface scroll-mt-16 bg-soft">
+        <Container>
+          <div className="pb-16 pt-20 text-center sm:pb-20">
               <div data-reveal className="flex items-center gap-4 sm:gap-6">
                 <div className="h-px flex-1 bg-neutral-300" />
                 <span className="inline-flex rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight shadow-sm sm:text-3xl">
@@ -90,7 +97,6 @@ export default async function Home() {
               <div data-reveal data-reveal-delay="90" className="mt-16 text-left">
                 <ServiceCards services={services} />
               </div>
-            </div>
           </div>
         </Container>
       </section>
@@ -300,6 +306,6 @@ export default async function Home() {
           </div>
         </Container>
       </section>
-    </div>
+    </SectionDeck>
   );
 }

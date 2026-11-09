@@ -571,3 +571,53 @@ html.is-loading body {
     transition: none;
   }
 }
+
+/* Desktop panels share the space between the existing header and footer. */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  body:has(.section-deck[data-active]) {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  body:has(.section-deck[data-active]) > main {
+    flex: 1;
+    min-height: 0;
+  }
+  body:has(.section-deck[data-active]) > footer {
+    padding-block: 0.45rem;
+  }
+  .section-deck[data-active] {
+    position: relative;
+    height: 100%;
+    overflow: clip;
+  }
+  .section-deck[data-active] > section {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .section-deck[data-active] > section:not(.bg-soft) {
+    background-color: white;
+  }
+  .section-deck[data-active] > #home > div {
+    min-height: 100%;
+    display: grid;
+    align-items: center;
+  }
+  .section-deck[data-active] .home-intro {
+    min-width: 0;
+    padding-block: clamp(1rem, 4dvh, 3rem);
+  }
+  .section-deck[data-active] .home-intro h1 {
+    font-size: clamp(4rem, 12dvh, 8rem);
+  }
+  .section-deck[data-active] .home-logos {
+    margin-top: clamp(1.5rem, 7dvh, 6rem);
+  }
+  .section-deck[data-active] .home-logos .marquee-track-left > div,
+  .section-deck[data-active] .home-logos .marquee-track-right > div {
+    height: clamp(2rem, 7.5dvh, 6.5rem);
+  }
+}

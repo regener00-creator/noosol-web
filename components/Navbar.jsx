@@ -28,6 +28,11 @@ export default function Navbar() {
       .filter(Boolean);
 
     const onScroll = () => {
+      const panel = document.querySelector('.section-deck')?.dataset.active;
+      if (panel) {
+        setActive(panel === 'colors' ? 'services' : panel);
+        return;
+      }
       const mid = window.scrollY + window.innerHeight / 3;
       let current = 'home';
       for (const sec of sections) {
@@ -38,7 +43,11 @@ export default function Navbar() {
 
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('noosol:section-change', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('noosol:section-change', onScroll);
+    };
   }, []);
 
   // ขยับเม็ดยาไปตำแหน่งเมนูที่ active

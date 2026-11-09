@@ -45,7 +45,7 @@ export default function ProductSizeGuide({ products }) {
   useEffect(() => {
     let frame;
     const scrollToGuide = () => {
-      if (window.location.hash !== '#size-guide') return;
+      if (window.location.hash !== '#size-guide' || section.current?.closest('.section-deck[data-active]')) return;
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
         section.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
