@@ -563,6 +563,9 @@ body:has(.section-deck[data-active]) > main {
 }
 
 @media (max-width: 767px) {
+  .section-deck[data-active] .home-intro {
+    padding-block: clamp(0.75rem, 2dvh, 2rem);
+  }
   .section-deck[data-active] .home-intro h1 {
     font-size: clamp(3rem, 15vw, 4.5rem);
   }

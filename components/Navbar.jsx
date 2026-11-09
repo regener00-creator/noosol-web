@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <header className="grain-surface sticky top-0 z-50 bg-soft/65 px-4 py-4 backdrop-blur-md">
-      <div className="relative mx-auto flex h-16 max-w-4xl items-center justify-between gap-2 rounded-full sm:gap-6 border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
+      <div className="relative mx-auto flex h-16 max-w-4xl items-center justify-between gap-2 rounded-full sm:gap-6 max-[359px]:gap-1 max-[359px]:px-2 border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
         <Link href="#home" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white" aria-hidden>
             <Image
@@ -107,7 +107,7 @@ export default function Navbar() {
           href="#contact"
           onClick={() => setOpen(false)}
           aria-current={active === 'contact' ? 'location' : undefined}
-          className={`relative z-10 ml-auto inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-white transition md:ml-0 md:min-h-0 ${
+          className={`relative z-10 ml-auto inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-white transition max-[359px]:px-3 md:ml-0 md:min-h-0 ${
             active === 'contact' ? 'bg-[#f58220]' : 'bg-[#06C755] hover:bg-[#05b64d]'
           }`}
         >
