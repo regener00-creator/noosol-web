@@ -1,6 +1,5 @@
 import './globals.css';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import InitialLoader from '@/components/InitialLoader';
@@ -62,7 +61,6 @@ export default function RootLayout({ children }) {
         <RevealOnScroll />
         <Navbar />
         <main className="min-h-screen">{children}</main>
-        <Footer />
       </body>
     </html>
   );

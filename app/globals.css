@@ -572,7 +572,7 @@ html.is-loading body {
   }
 }
 
-/* Desktop panels share the space between the existing header and footer. */
+/* Desktop panels share the space below the navigation. */
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   body:has(.section-deck[data-active]) {
     display: flex;
@@ -583,9 +583,6 @@ html.is-loading body {
   body:has(.section-deck[data-active]) > main {
     flex: 1;
     min-height: 0;
-  }
-  body:has(.section-deck[data-active]) > footer {
-    padding-block: 0.45rem;
   }
   .section-deck[data-active] {
     position: relative;
