@@ -282,23 +282,23 @@ export default async function Home() {
               </article>
               </div>
 
-              <div data-reveal className="mt-12 overflow-hidden rounded-lg border border-line bg-white">
-                <Image
-                  src="/contact/storefront-2.jpg"
-                  alt="หน้าร้านและพื้นที่แสดงสินค้าตัวอย่าง NOOSOL"
-                  width={1920}
-                  height={1280}
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-
-              <div data-reveal className="mt-6 overflow-hidden rounded-lg border border-line">
-                <iframe
-                  src={site.mapEmbed}
+            <div data-reveal className="mt-12 overflow-hidden rounded-lg border border-line">
+              <iframe
+                src={site.mapEmbed}
                 title="แผนที่ร้าน NOOSOL"
                 className="h-[420px] w-full sm:h-[520px]"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <div data-reveal className="mt-6 overflow-hidden rounded-lg border border-line bg-white">
+              <Image
+                src="/contact/storefront-2.jpg"
+                alt="หน้าร้านและพื้นที่แสดงสินค้าตัวอย่าง NOOSOL"
+                width={1920}
+                height={1280}
+                className="h-auto w-full object-cover"
               />
             </div>
           </div>
