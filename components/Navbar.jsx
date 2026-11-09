@@ -10,7 +10,7 @@ const nav = [
   ['การผลิต', 'services'],
   ['ผลงาน', 'portfolio'],
   ['รุ่นในสต็อก', 'products'],
-  ['คำถามที่พบบ่อย', 'qa'],
+  ['FAQ', 'qa'],
 ];
 
 const mobileNav = [...nav.slice(0, 3), nav[4], nav[3], ['สเกล', 'size-guide'], ['ติดต่อ', 'contact']];
