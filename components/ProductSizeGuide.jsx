@@ -104,13 +104,13 @@ export default function ProductSizeGuide({ products }) {
       ref={section}
       aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
-      className="relative mx-auto mt-12 max-w-5xl scroll-mt-24 px-12 sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
+      className="relative mx-auto mt-12 grid max-w-5xl scroll-mt-24 grid-cols-2 gap-3 sm:block sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
       <div
-        className="aspect-square overflow-hidden bg-white"
-        style={{ touchAction: 'pan-y' }}
+        className="col-span-2 aspect-square overflow-hidden bg-white"
+        style={{ touchAction: 'pan-y pinch-zoom' }}
         onTouchStart={(event) => {
           const touch = event.touches[0];
           touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -129,7 +129,7 @@ export default function ProductSizeGuide({ products }) {
                 src={item.src}
                 width={1600}
                 height={1600}
-                sizes="(max-width: 639px) calc(100vw - 128px), (max-width: 1072px) calc(100vw - 176px), 896px"
+                sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1072px) calc(100vw - 176px), 896px"
                 alt={offset === 0 ? `NO.${item.code} ${item.category} กว้าง ${item.width} สูง ${item.height} นิ้ว${item.gusset ? ` ขยาย ${item.gusset} นิ้ว` : ''} เทียบกับกระดาษ A4` : ''}
                 className="aspect-square w-full select-none object-contain"
                 loading="lazy"
@@ -146,7 +146,7 @@ export default function ProductSizeGuide({ products }) {
         onClick={() => move(-1)}
         aria-label="ดูภาพเทียบขนาดรุ่นก่อนหน้า"
         aria-disabled={direction !== 0}
-        className="absolute left-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
+        className="justify-self-end z-10 flex h-11 w-11 sm:absolute sm:left-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
       >
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
           <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -157,7 +157,7 @@ export default function ProductSizeGuide({ products }) {
         onClick={() => move(1)}
         aria-label="ดูภาพเทียบขนาดรุ่นถัดไป"
         aria-disabled={direction !== 0}
-        className="absolute right-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
+        className="justify-self-start z-10 flex h-11 w-11 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
       >
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
           <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

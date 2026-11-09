@@ -200,7 +200,7 @@ html.is-loading body {
 
 @keyframes portfolio-card-unfold {
   0%, 14% {
-    transform: translate(var(--portfolio-from-x), var(--portfolio-from-y)) scale(0.38);
+    transform: translate(var(--mobile-from-x, var(--portfolio-from-x)), var(--mobile-from-y, var(--portfolio-from-y))) scale(0.38);
   }
   76% {
     transform: translate(0, 0) scale(1.025);
@@ -591,3 +591,12 @@ html.is-loading body {
   }
 }
 
+
+/* Six portfolio photos form two columns and three rows on phones. */
+@media (max-width: 639px) {
+  .portfolio-card-unfold { --mobile-from-y: 0%; }
+  .portfolio-card-unfold:nth-child(odd)  { --mobile-from-x: calc(50% + var(--portfolio-grid-gap) / 2); }
+  .portfolio-card-unfold:nth-child(even) { --mobile-from-x: calc(-50% - var(--portfolio-grid-gap) / 2); }
+  .portfolio-card-unfold:nth-child(-n+2) { --mobile-from-y: calc(100% + var(--portfolio-grid-gap)); }
+  .portfolio-card-unfold:nth-child(n+5)  { --mobile-from-y: calc(-100% - var(--portfolio-grid-gap)); }
+}

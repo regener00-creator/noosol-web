@@ -7,10 +7,8 @@ import InitialLoader from '@/components/InitialLoader';
 import { site } from '@/lib/site';
 
 export const viewport = {
-  width: 1440,
-  initialScale: 0.273,
-  maximumScale: 5,
-  userScalable: true,
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export const metadata = {

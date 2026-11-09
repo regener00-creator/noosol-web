@@ -56,7 +56,7 @@ export default function Navbar() {
 
   return (
     <header className="grain-surface sticky top-0 z-50 bg-soft/65 px-4 py-4 backdrop-blur-md">
-      <div className="relative mx-auto flex h-16 max-w-4xl items-center justify-between gap-6 rounded-full border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
+      <div className="relative mx-auto flex h-16 max-w-4xl items-center justify-between gap-2 rounded-full sm:gap-6 border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
         <Link href="#home" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white" aria-hidden>
             <Image
@@ -96,12 +96,13 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <LineContactButton className="relative z-10 hidden rounded-full bg-[#06C755] px-5 py-2 text-sm font-bold text-white transition hover:bg-[#05b64d] md:block" />
+        <LineContactButton className="relative z-10 ml-auto min-h-11 rounded-full bg-[#06C755] px-5 py-2 text-sm font-bold text-white transition hover:bg-[#05b64d] md:ml-0 md:min-h-0" />
 
         <button
-          className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-soft md:hidden"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-soft md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="เมนู"
+          aria-expanded={open}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
@@ -123,7 +124,6 @@ export default function Navbar() {
               {label}
             </a>
           ))}
-          <LineContactButton className="mt-2 block w-full rounded-xl bg-[#06C755] px-3 py-3 text-center text-base font-bold text-white" />
         </nav>
       )}
     </header>

@@ -61,8 +61,8 @@ export default async function Home() {
       {/* หน้าแรก — พื้นเทาแบบ Apple */}
       <section id="home" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
-          <div className="pb-20 pt-28 text-center sm:pt-44">
-            <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-7xl font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
+          <div className="pb-16 pt-16 text-center sm:pb-20 sm:pt-44">
+            <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-[clamp(3rem,15vw,4.5rem)] font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
               <span className="hero-motion-word">NOOSOL</span>
             </h1>
             <h2 data-hero-drop data-hero-delay="500" className="mx-auto mt-5 max-w-4xl text-[1.75rem] font-extrabold leading-tight tracking-normal sm:text-[2.65rem]">
@@ -101,7 +101,7 @@ export default async function Home() {
           <div className="py-20">
             <div data-reveal className="flex items-center gap-3 sm:gap-5">
               <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
-              <h2 className="rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
                 ตัวอย่างงาน
               </h2>
               <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
@@ -137,7 +137,7 @@ export default async function Home() {
           <div className="py-20">
             <div data-reveal className="flex items-center gap-4 sm:gap-6">
               <div className="h-px flex-1 bg-neutral-300" />
-              <h2 className="rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
                 รุ่นสินค้าในสต็อก
               </h2>
               <div className="h-px flex-1 bg-neutral-300" />
@@ -158,7 +158,7 @@ export default async function Home() {
           <div className="py-20">
             <div data-reveal className="flex items-center gap-4 sm:gap-6">
               <div className="h-px flex-1 bg-neutral-300" />
-              <h2 className="rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
                 ชาร์ตสีถุงผ้าสปันบอนด์{' '}
                 <span className="text-[#eb7300]">เฉพาะผลิตใหม่</span>
               </h2>
@@ -197,7 +197,7 @@ export default async function Home() {
           <div className="py-20">
             <div data-reveal className="flex items-center gap-4 sm:gap-6">
               <div className="h-px flex-1 bg-neutral-300" />
-              <h2 className="rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
                 ข้อมูลเบื้องต้น
               </h2>
               <div className="h-px flex-1 bg-neutral-300" />
@@ -214,7 +214,7 @@ export default async function Home() {
         <Container>
           <div className="py-20 sm:py-24">
             <div data-reveal className="text-center">
-              <h2 className="text-5xl font-extrabold tracking-tight sm:text-7xl">
+              <h2 className="text-4xl font-extrabold tracking-tight sm:text-7xl">
                 ช่องทางการติดต่อ
               </h2>
               <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-[#f58220]" />
@@ -227,7 +227,7 @@ export default async function Home() {
               <p className="text-lg font-bold leading-8 text-ink">
                 เวลาทำการ : 10:00 - 18:00
               </p>
-              <p className="whitespace-nowrap text-[11px] font-normal leading-8 text-neutral-600 sm:text-lg">
+              <p className="max-w-prose text-base font-normal leading-7 text-neutral-600 sm:text-lg">
                 มีหน้าร้านพร้อมให้บริการ ติดต่อนัดหมาย เพื่อเข้าชมสินค้าตัวอย่างได้เลยครับ
               </p>
             </div>
