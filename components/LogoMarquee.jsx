@@ -16,7 +16,7 @@ export default function LogoMarquee({ images, direction = 'left', duration = '18
                   alt={copy === 0 ? 'โลโก้ลูกค้า NOOSOL' : ''}
                   width={160}
                   height={160}
-                  sizes="(max-width: 639px) 110px, 120px"
+                  sizes="(min-width: 1024px) and (hover: hover) and (pointer: fine) 144px, (max-width: 639px) 110px, 120px"
                   loading="eager"
                   className="h-full w-full object-contain"
                 />
