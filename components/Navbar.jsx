@@ -13,10 +13,15 @@ const nav = [
   ['คำถามที่พบบ่อย', 'qa'],
 ];
 
+const mobileNav = [...nav, ['ติดต่อ', 'contact']];
+
 export default function Navbar() {
   const [active, setActive] = useState('home');
   const [pill, setPill] = useState({ left: 0, width: 0, ready: false });
   const linkRefs = useRef({});
+  const mobileIndex = mobileNav.findIndex(([, id]) => id === active);
+  const column = mobileIndex % 3;
+  const row = Math.floor(mobileIndex / 3);
 
   // scroll spy — ดูว่า section ไหนอยู่บนจอ แล้วเลื่อนเม็ดยาไปที่เมนูนั้น
   useEffect(() => {
@@ -115,15 +120,21 @@ export default function Navbar() {
 
       <nav
         aria-label="เมนูหลัก"
-        className="grid grid-cols-3 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
+        className="relative grid auto-rows-fr grid-cols-3 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
       >
-        {[...nav, ['ติดต่อ', 'contact']].map(([label, id]) => (
+        <span aria-hidden="true" className="pointer-events-none absolute inset-1 grid grid-cols-3 grid-rows-2 gap-1">
+          <span
+            className="rounded-xl bg-[#f58220] motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out"
+            style={{ transform: `translate(calc(${column * 100}% + ${column * 0.25}rem), calc(${row * 100}% + ${row * 0.25}rem))` }}
+          />
+        </span>
+        {mobileNav.map(([label, id]) => (
           <a
             key={id}
             href={`#${id}`}
             aria-current={active === id ? 'location' : undefined}
-            className={`flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
-              active === id ? 'bg-[#f58220] text-white' :
+            className={`relative flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
+              active === id ? 'text-white' :
               id === 'contact' ? 'bg-[#06C755] text-white' : 'text-neutral-600 hover:bg-soft'
             }`}
           >

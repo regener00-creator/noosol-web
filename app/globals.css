@@ -147,11 +147,6 @@ html.is-loading body {
   animation: marquee-right 70s linear infinite;
 }
 
-.marquee:hover .marquee-track-left,
-.marquee:hover .marquee-track-right {
-  animation-play-state: paused;
-}
-
 /* โลโก้ลูกค้าค่อยๆ จางเมื่อเข้าและออกจากขอบ */
 .logo-marquee-fade {
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
@@ -557,8 +552,7 @@ body:has(.section-deck[data-active]) > main {
 .section-deck[data-active] .home-logos {
   margin-top: clamp(1.5rem, 7dvh, 6rem);
 }
-.section-deck[data-active] .home-logos .marquee-track-left > div,
-.section-deck[data-active] .home-logos .marquee-track-right > div {
+.section-deck[data-active] .home-logos .logo-marquee-cell {
   height: clamp(2rem, 7.5dvh, 6.5rem);
 }
 
@@ -567,7 +561,14 @@ body:has(.section-deck[data-active]) > main {
     padding-block: clamp(0.75rem, 2dvh, 2rem);
   }
   .section-deck[data-active] .home-intro h1 {
-    font-size: clamp(3rem, 15vw, 4.5rem);
+    font-size: clamp(2.25rem, 10vw, 3.25rem);
+  }
+  .home-intro h2 {
+    white-space: nowrap;
+    font-size: clamp(0.875rem, 4.3vw, 1.625rem);
+  }
+  .home-intro h2 wbr {
+    display: none;
   }
   .section-deck[data-active] .home-logos {
     margin-top: clamp(1rem, 4dvh, 2rem);
