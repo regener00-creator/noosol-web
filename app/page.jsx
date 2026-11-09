@@ -113,6 +113,10 @@ export default async function Home() {
               <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
             </div>
 
+            <div data-reveal>
+              <PortfolioExplorer showHeading={false} />
+            </div>
+
             <div className="mt-10 grid w-full grid-cols-2 gap-4 lg:grid-cols-4">
               {showcaseVideos.map((file, index) => (
                 <div
@@ -129,9 +133,6 @@ export default async function Home() {
                   />
                 </div>
               ))}
-            </div>
-            <div data-reveal>
-              <PortfolioExplorer showHeading={false} />
             </div>
           </div>
         </Container>
