@@ -13,7 +13,7 @@ const nav = [
   ['คำถามที่พบบ่อย', 'qa'],
 ];
 
-const mobileNav = [...nav.slice(0, 3), ['สเกล', 'size-guide'], ...nav.slice(3), ['ติดต่อ', 'contact']];
+const mobileNav = [...nav.slice(0, 3), nav[4], nav[3], ['สเกล', 'size-guide'], ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
@@ -123,6 +123,11 @@ export default function Navbar() {
         aria-label="เมนูหลัก"
         className="relative grid auto-rows-fr grid-cols-12 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
       >
+        <span aria-hidden="true" className="pointer-events-none absolute inset-1 grid grid-cols-12 grid-rows-2 gap-1">
+          <span className="relative col-span-8 col-start-1 row-start-2 rounded-xl border border-[#f58220]/50">
+            <span className="absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 bg-[#f58220]" />
+          </span>
+        </span>
         <span aria-hidden="true" className="pointer-events-none absolute inset-1">
           <span
             className="absolute left-0 top-0 h-[calc(50%-0.125rem)] rounded-xl bg-[#f58220] motion-safe:transition-[width,transform] motion-safe:duration-300 motion-safe:ease-out"
