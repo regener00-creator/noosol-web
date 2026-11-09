@@ -50,8 +50,7 @@ function PortfolioRail({ group }) {
     };
     const measure = () => {
       const progress = span ? offset / span : 0;
-      span = row.children[0].getBoundingClientRect().left
-        - row.children[images.length].getBoundingClientRect().left;
+      span = row.children[0].offsetLeft - row.children[images.length].offsetLeft;
       offset = progress * span;
       move(0);
     };
