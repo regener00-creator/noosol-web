@@ -40,8 +40,12 @@ export default function SectionDeck({ children }) {
         window.dispatchEvent(new Event('noosol:section-change'));
       }
 
-      panel.scrollTop = target === panel ? 0
-        : panel.scrollTop + target.getBoundingClientRect().top - panel.getBoundingClientRect().top - 16;
+      // Measure the anchor in layout coordinates while its reveal animation runs.
+      let top = 0;
+      for (let node = target; node && node !== panel; node = node.offsetParent) {
+        top += node.offsetTop;
+      }
+      panel.scrollTop = Math.max(0, top - 16);
 
       if (!change || !previous) return;
       if (moveFocus) panel.focus({ preventScroll: true });
