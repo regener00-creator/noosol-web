@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 // ผลงาน — ปุ่มเลือกหมวดแนวนอน และแถบรูปเลื่อนเต็มพื้นที่
 const groups = [
@@ -21,31 +21,160 @@ const groups = [
   },
 ];
 
+const pixelsPerSecond = 24;
+
+function PortfolioRail({ group }) {
+  const images = group.files || Array.from(
+    { length: group.to - group.from + 1 },
+    (_, index) => `/works/${group.from + index}.png`
+  );
+  const track = useRef(null);
+  const shift = useRef(null);
+  const drag = useRef(null);
+
+  useLayoutEffect(() => {
+    const row = track.current;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let span = 0;
+    let offset = 0;
+    let frame = 0;
+    let previousTime = null;
+    let visible = false;
+
+    // In a reversed row, translating right reveals the next photo from the left.
+    // The identical neighboring copies cover either direction at the loop seam.
+    const move = (distance) => {
+      if (!span) return;
+      offset = ((offset + distance) % span + span) % span;
+      row.style.transform = `translate3d(${span + offset}px, 0, 0)`;
+    };
+    const measure = () => {
+      const progress = span ? offset / span : 0;
+      span = row.children[0].getBoundingClientRect().left
+        - row.children[images.length].getBoundingClientRect().left;
+      offset = progress * span;
+      move(0);
+    };
+    measure();
+    shift.current = move;
+    const resize = new ResizeObserver(measure);
+    resize.observe(row);
+
+    const tick = (now) => {
+      if (previousTime !== null && !drag.current) {
+        move(pixelsPerSecond * Math.min(now - previousTime, 64) / 1000);
+      }
+      previousTime = now;
+      frame = requestAnimationFrame(tick);
+    };
+    const updatePlayback = () => {
+      cancelAnimationFrame(frame);
+      previousTime = null;
+      if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      updatePlayback();
+    });
+    observer.observe(row.parentElement);
+    document.addEventListener('visibilitychange', updatePlayback);
+    motion.addEventListener('change', updatePlayback);
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      observer.disconnect();
+      motion.removeEventListener('change', updatePlayback);
+      document.removeEventListener('visibilitychange', updatePlayback);
+      shift.current = null;
+    };
+  }, [images.length]);
+
+  function startDrag(event) {
+    if (!event.isPrimary || event.button !== 0) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drag.current = { id: event.pointerId, x: event.clientX };
+  }
+
+  function moveDrag(event) {
+    if (drag.current?.id !== event.pointerId) return;
+    shift.current?.((event.clientX - drag.current.x) * 1.5);
+    drag.current.x = event.clientX;
+  }
+
+  function endDrag(event) {
+    if (drag.current?.id === event.pointerId) drag.current = null;
+  }
+
+  function step(direction) {
+    const [first, next] = track.current.children;
+    shift.current?.(direction * (first.offsetLeft - next.offsetLeft));
+  }
+
+  return (
+    <div className="relative mt-8 grid min-w-0 grid-cols-2 gap-x-3 sm:block sm:px-16">
+      <div
+        className="portfolio-rail col-span-2 min-w-0 overflow-hidden py-4"
+        onPointerDown={startDrag}
+        onPointerMove={moveDrag}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onLostPointerCapture={endDrag}
+        role="region"
+        aria-label={`ตัวอย่างงาน ${group.name}`}
+      >
+        <div ref={track} className="flex w-full flex-row-reverse gap-3 sm:gap-5">
+          {[0, 1, 2].map((copy) => images.map((src, index) => (
+            <div
+              key={`${copy}-${src}`}
+              className="portfolio-rail-card overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl"
+              aria-hidden={copy !== 1}
+            >
+              <Image
+                src={src}
+                alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${index + 1}` : ''}
+                width={500}
+                height={500}
+                draggable={false}
+                sizes="(max-width: 639px) 72vw, (max-width: 1023px) 45vw, 380px"
+                className="pointer-events-none aspect-square w-full object-cover"
+              />
+            </div>
+          )))}
+        </div>
+      </div>
+        <button
+          type="button"
+          onClick={() => step(1)}
+          className="justify-self-end z-10 flex h-11 w-11 sm:absolute sm:left-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
+          aria-label="เลื่อนผลงานไปทางซ้าย"
+          title="เลื่อนไปทางซ้าย"
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={() => step(-1)}
+          className="justify-self-start z-10 flex h-11 w-11 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
+          aria-label="เลื่อนผลงานไปทางขวา"
+          title="เลื่อนไปทางขวา"
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+    </div>
+  );
+}
+
 export default function PortfolioExplorer({ showHeading = true }) {
   const [active, setActive] = useState(groups[0].name);
-  const [revealKey, setRevealKey] = useState(0);
-  const scroller = useRef(null);
   const tabs = useRef(null);
   const tabIndicator = useRef(null);
   const tabButtons = useRef([]);
-  const g = groups.find((x) => x.name === active);
-  const images = g.files || Array.from({ length: g.to - g.from + 1 }, (_, i) => g.from + i);
-  const pageCount = Math.ceil(images.length / 6);
-  const pages = Array.from({ length: pageCount }, (_, pageIndex) =>
-    Array.from({ length: 6 }, (_, imageIndex) => images[(pageIndex * 6 + imageIndex) % images.length])
-  );
-  const loopPages = [...pages, ...pages, ...pages];
-
-  useLayoutEffect(() => {
-    const el = scroller.current;
-    if (!el) return;
-
-    const firstPage = el.children[0];
-    const middlePage = el.children[pages.length];
-    if (firstPage && middlePage) {
-      el.scrollLeft = middlePage.offsetLeft - firstPage.offsetLeft;
-    }
-  }, [active, revealKey]);
+  const group = groups.find((item) => item.name === active);
 
   useLayoutEffect(() => {
     const tabsEl = tabs.current;
@@ -65,49 +194,6 @@ export default function PortfolioExplorer({ showHeading = true }) {
 
     return () => resizeObserver.disconnect();
   }, [active]);
-
-  const selectGroup = (name) => {
-    setActive(name);
-    setRevealKey((key) => key + 1);
-  };
-
-  const scroll = useCallback((direction) => {
-    const el = scroller.current;
-    if (!el) return;
-    const firstPage = el.children[0];
-    const nextPage = el.children[1];
-    const pageStep = nextPage && firstPage
-      ? nextPage.offsetLeft - firstPage.offsetLeft
-      : el.clientWidth + 20;
-    const setWidth = pageStep * pageCount;
-    const target = el.scrollLeft + direction * pageStep;
-    let finished = false;
-
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      if (el.scrollLeft >= setWidth * 2) el.scrollLeft -= setWidth;
-      if (el.scrollLeft <= 1) el.scrollLeft += setWidth;
-    };
-
-    el.addEventListener('scrollend', finish, { once: true });
-    el.scrollTo({ left: target, behavior: 'smooth' });
-    window.setTimeout(finish, 900);
-  }, [pageCount]);
-
-  useEffect(() => {
-    const el = scroller.current;
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const timer = window.setInterval(() => {
-      const frame = el.parentElement;
-      if (document.hidden || frame.matches(':hover') || frame.contains(document.activeElement)) return;
-      const bounds = el.getBoundingClientRect();
-      if (bounds.bottom > 0 && bounds.top < window.innerHeight) scroll(1);
-    }, 5000);
-
-    return () => window.clearInterval(timer);
-  }, [active, revealKey, scroll]);
 
   return (
     <div>
@@ -139,7 +225,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
                   key={grp.name}
                   ref={(element) => { tabButtons.current[index] = element; }}
                   type="button"
-                  onClick={() => selectGroup(grp.name)}
+                  onClick={() => setActive(grp.name)}
                   className={`relative z-10 min-h-11 flex-1 shrink-0 whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-colors duration-300 sm:text-base ${
                     isActive
                       ? 'text-white'
@@ -154,69 +240,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
         </div>
       </div>
 
-      {/* รูปแยกเป็นการ์ด เห็นพร้อมกัน 3 รูปบนจอใหญ่ */}
-      <div className="relative mt-8 grid min-w-0 grid-cols-2 gap-x-3 sm:block sm:px-16">
-        <div
-          key={`${active}-${revealKey}`}
-          ref={scroller}
-          className="portfolio-manual-scroll col-span-2 flex min-w-0 gap-5 overflow-x-auto py-4"
-        >
-          {loopPages.map((page, pageIndex) => (
-            <div
-              key={`${active}-page-${pageIndex}`}
-              className="portfolio-unfold-page grid w-full shrink-0 grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5"
-              aria-hidden={pageIndex < pages.length || pageIndex >= pages.length * 2}
-            >
-              {page.map((n, imageIndex) => (
-                <div
-                  key={`${active}-${pageIndex}-${n}-${imageIndex}`}
-                  className="portfolio-card-unfold relative overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.07)] sm:rounded-2xl"
-                  style={{
-                    '--portfolio-from-x': ['calc(100% + var(--portfolio-grid-gap))', '0%', 'calc(-100% - var(--portfolio-grid-gap))'][imageIndex % 3],
-                    '--portfolio-from-y': imageIndex < 3
-                      ? 'calc(50% + var(--portfolio-grid-gap) / 2)'
-                      : 'calc(-50% - var(--portfolio-grid-gap) / 2)',
-                    '--portfolio-card-delay': `${[70, 0, 70, 120, 50, 120][imageIndex]}ms`,
-                    zIndex: imageIndex === 1 ? 6 : 5 - imageIndex,
-                  }}
-                >
-                  <Image
-                    src={typeof n === 'number' ? `/works/${n}.png` : n}
-                    alt={`ผลงาน${active} NOOSOL`}
-                    width={500}
-                    height={500}
-                    loading={pageIndex === pages.length ? 'eager' : 'lazy'}
-                    className="aspect-square w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          onClick={() => scroll(-1)}
-          className="justify-self-end z-10 flex h-11 w-11 sm:absolute sm:left-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
-          aria-label="เลื่อนผลงานไปทางซ้าย"
-          title="เลื่อนไปทางซ้าย"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={() => scroll(1)}
-          className="justify-self-start z-10 flex h-11 w-11 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
-          aria-label="เลื่อนผลงานไปทางขวา"
-          title="เลื่อนไปทางขวา"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
+      <PortfolioRail key={active} group={group} />
     </div>
   );
 }
