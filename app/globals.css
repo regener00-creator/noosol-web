@@ -574,3 +574,21 @@ body:has(.section-deck[data-active]) > main {
     margin-top: clamp(1rem, 4dvh, 2rem);
   }
 }
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
+    position: relative;
+    top: clamp(-3rem, calc(3rem - 10dvh), 0px);
+  }
+  .section-deck[data-active] .home-intro h1 {
+    font-size: clamp(3.25rem, 9dvh, 6rem);
+  }
+  .section-deck[data-active] .home-intro h2 {
+    max-width: 100%;
+    font-size: clamp(2.875rem, 3.8vw, 3.75rem);
+  }
+  .section-deck[data-active] .home-intro > p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+}
