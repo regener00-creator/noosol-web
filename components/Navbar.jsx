@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/site';
-import LineContactButton from './LineContactButton';
 
 const nav = [
   ['หน้าแรก', 'home'],
@@ -12,7 +11,6 @@ const nav = [
   ['ผลงาน', 'portfolio'],
   ['รุ่นในสต็อก', 'products'],
   ['คำถามที่พบบ่อย', 'qa'],
-  ['ติดต่อ', 'contact'],
 ];
 
 export default function Navbar() {
@@ -23,8 +21,8 @@ export default function Navbar() {
 
   // scroll spy — ดูว่า section ไหนอยู่บนจอ แล้วเลื่อนเม็ดยาไปที่เมนูนั้น
   useEffect(() => {
-    const sections = nav
-      .map(([, id]) => document.getElementById(id))
+    const sections = [...nav.map(([, id]) => id), 'contact']
+      .map((id) => document.getElementById(id))
       .filter(Boolean);
 
     const onScroll = () => {
@@ -88,7 +86,7 @@ export default function Navbar() {
             style={{
               left: pill.left,
               width: pill.width,
-              opacity: pill.ready ? 1 : 0,
+              opacity: pill.ready && active !== 'contact' ? 1 : 0,
             }}
           />
           {nav.map(([label, id]) => (
@@ -105,7 +103,16 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <LineContactButton className="relative z-10 ml-auto min-h-11 rounded-full bg-[#06C755] px-5 py-2 text-sm font-bold text-white transition hover:bg-[#05b64d] md:ml-0 md:min-h-0" />
+        <a
+          href="#contact"
+          onClick={() => setOpen(false)}
+          aria-current={active === 'contact' ? 'location' : undefined}
+          className={`relative z-10 ml-auto inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-white transition md:ml-0 md:min-h-0 ${
+            active === 'contact' ? 'bg-[#f58220]' : 'bg-[#06C755] hover:bg-[#05b64d]'
+          }`}
+        >
+          ติดต่อ
+        </a>
 
         <button
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-soft md:hidden"

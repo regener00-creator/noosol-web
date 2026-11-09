@@ -149,9 +149,6 @@ export default async function Home() {
               </h2>
               <div className="h-px flex-1 bg-neutral-300" />
             </div>
-            <p data-reveal data-reveal-delay="70" className="mt-4 text-center text-neutral-500">
-              ตามที่แจ้งด้านล่างนี้ เป็นราคาถุงเปล่า ยังไม่รวมค่าสกรีน
-            </p>
             <div data-reveal data-reveal-delay="120" className="mt-10">
               <ProductExplorer products={products} />
             </div>
