@@ -104,66 +104,46 @@ function PortfolioRail({ group }) {
     if (drag.current?.id === event.pointerId) drag.current = null;
   }
 
-  function step(direction) {
+  function handleArrowKey(event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
     const [first, next] = track.current.children;
+    const direction = event.key === 'ArrowLeft' ? 1 : -1;
     shift.current?.(direction * (first.offsetLeft - next.offsetLeft));
   }
 
   return (
-    <div className="relative mt-8 grid min-w-0 grid-cols-2 gap-x-3 sm:block sm:px-16">
-      <div
-        className="portfolio-rail col-span-2 min-w-0 overflow-hidden py-4"
-        onPointerDown={startDrag}
-        onPointerMove={moveDrag}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        onLostPointerCapture={endDrag}
-        role="region"
-        aria-label={`ตัวอย่างงาน ${group.name}`}
-      >
-        <div ref={track} className="flex w-full flex-row-reverse gap-3 sm:gap-5">
-          {[0, 1, 2].map((copy) => images.map((src, index) => (
-            <div
-              key={`${copy}-${src}`}
-              className="portfolio-rail-card overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl"
-              aria-hidden={copy !== 1}
-            >
-              <Image
-                src={src}
-                alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${index + 1}` : ''}
-                width={500}
-                height={500}
-                draggable={false}
-                sizes="(max-width: 639px) 72vw, (max-width: 1023px) 45vw, 380px"
-                className="pointer-events-none aspect-square w-full object-cover"
-              />
-            </div>
-          )))}
-        </div>
+    <div
+      className="portfolio-rail mt-8 min-w-0 overflow-hidden py-4"
+      onPointerDown={startDrag}
+      onPointerMove={moveDrag}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      onLostPointerCapture={endDrag}
+      onKeyDown={handleArrowKey}
+      tabIndex={0}
+      role="region"
+      aria-label={`ตัวอย่างงาน ${group.name}`}
+    >
+      <div ref={track} className="flex w-full flex-row-reverse gap-3 sm:gap-5">
+        {[0, 1, 2].map((copy) => images.map((src, index) => (
+          <div
+            key={`${copy}-${src}`}
+            className="portfolio-rail-card overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl"
+            aria-hidden={copy !== 1}
+          >
+            <Image
+              src={src}
+              alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${index + 1}` : ''}
+              width={500}
+              height={500}
+              draggable={false}
+              sizes="(max-width: 639px) 72vw, (max-width: 1023px) 48vw, 400px"
+              className="pointer-events-none aspect-square w-full object-cover"
+            />
+          </div>
+        )))}
       </div>
-        <button
-          type="button"
-          onClick={() => step(1)}
-          className="justify-self-end z-10 flex h-11 w-11 sm:absolute sm:left-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
-          aria-label="เลื่อนผลงานไปทางซ้าย"
-          title="เลื่อนไปทางซ้าย"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m14 6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={() => step(-1)}
-          className="justify-self-start z-10 flex h-11 w-11 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink shadow-md transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 sm:h-12 sm:w-12"
-          aria-label="เลื่อนผลงานไปทางขวา"
-          title="เลื่อนไปทางขวา"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="m10 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-
     </div>
   );
 }
