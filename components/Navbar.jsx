@@ -14,7 +14,6 @@ const nav = [
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
   const [pill, setPill] = useState({ left: 0, width: 0, ready: false });
   const linkRefs = useRef({});
@@ -62,9 +61,9 @@ export default function Navbar() {
   }, [active]);
 
   return (
-    <header className="grain-surface sticky top-0 z-50 bg-soft/65 px-4 py-4 backdrop-blur-md">
-      <div className="relative mx-auto flex h-16 max-w-4xl items-center justify-between gap-2 rounded-full sm:gap-6 max-[359px]:gap-1 max-[359px]:px-2 border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
-        <Link href="#home" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+    <header className="grain-surface sticky top-0 z-50 bg-soft/65 px-2 py-2 backdrop-blur-md md:px-4 md:py-4">
+      <div className="relative mx-auto hidden h-16 md:flex max-w-4xl items-center justify-between gap-2 rounded-full sm:gap-6 max-[359px]:gap-1 max-[359px]:px-2 border border-white/60 bg-white/70 px-5 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl sm:px-7">
+        <Link href="#home" className="flex items-center gap-2.5">
           <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white" aria-hidden>
             <Image
               src="/header-logo.png"
@@ -105,7 +104,6 @@ export default function Navbar() {
 
         <a
           href="#contact"
-          onClick={() => setOpen(false)}
           aria-current={active === 'contact' ? 'location' : undefined}
           className={`relative z-10 ml-auto inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-white transition max-[359px]:px-3 md:ml-0 md:min-h-0 ${
             active === 'contact' ? 'bg-[#f58220]' : 'bg-[#06C755] hover:bg-[#05b64d]'
@@ -113,35 +111,26 @@ export default function Navbar() {
         >
           ติดต่อ
         </a>
-
-        <button
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-soft md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="เมนู"
-          aria-expanded={open}
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
       </div>
 
-      {open && (
-        <nav className="absolute inset-x-4 top-full mx-auto max-h-[calc(100dvh-6rem)] max-w-4xl overflow-y-auto rounded-3xl border border-white/60 bg-white/95 p-3 shadow-[0_12px_35px_rgba(0,0,0,0.10)] backdrop-blur-xl md:hidden">
-          {nav.map(([label, id]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              onClick={() => setOpen(false)}
-              className={`block rounded-xl px-3 py-3 text-base font-semibold ${
-                active === id ? 'bg-[#f58220] text-white' : 'hover:bg-soft'
-              }`}
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
-      )}
+      <nav
+        aria-label="เมนูหลัก"
+        className="grid grid-cols-3 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
+      >
+        {[...nav, ['ติดต่อ', 'contact']].map(([label, id]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            aria-current={active === id ? 'location' : undefined}
+            className={`flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
+              active === id ? 'bg-[#f58220] text-white' :
+              id === 'contact' ? 'bg-[#06C755] text-white' : 'text-neutral-600 hover:bg-soft'
+            }`}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
     </header>
   );
 }
