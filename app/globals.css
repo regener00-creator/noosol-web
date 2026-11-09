@@ -560,12 +560,20 @@ body:has(.section-deck[data-active]) > main {
   .section-deck[data-active] .home-intro {
     padding-block: clamp(0.75rem, 2dvh, 2rem);
   }
+  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
+    position: relative;
+    top: clamp(-2.25rem, calc(2.5rem - 9dvh), 0px);
+  }
   .section-deck[data-active] .home-intro h1 {
-    font-size: clamp(2.25rem, 10vw, 3.25rem);
+    font-size: clamp(1.875rem, 8.5vw, 2.75rem);
+  }
+  .section-deck[data-active] .home-intro > p {
+    font-size: 1rem;
+    line-height: 1.5;
   }
   .home-intro h2 {
     white-space: nowrap;
-    font-size: clamp(0.875rem, 4.3vw, 1.625rem);
+    font-size: clamp(1rem, 5vw, 1.875rem);
   }
   .home-intro h2 wbr {
     display: none;
@@ -588,7 +596,7 @@ body:has(.section-deck[data-active]) > main {
     font-size: clamp(2.875rem, 3.8vw, 3.75rem);
   }
   .section-deck[data-active] .home-intro > p {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     line-height: 1.5;
   }
 }
