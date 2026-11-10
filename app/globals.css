@@ -542,6 +542,30 @@ html.is-loading body {
   height: 13px;
   border-left: 1px solid #f58220;
 }
+.service-choices[data-selected] {
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.service-choices[data-selected] .service-family,
+.service-choices[data-selected] .service-choice-pair {
+  display: flex;
+  align-items: center;
+  width: auto;
+  gap: clamp(6px, 1.2vw, 18px);
+  white-space: nowrap;
+}
+.service-choices[data-selected] .service-family {
+  background: linear-gradient(#f58220, #f58220) center / 100% 1px no-repeat;
+}
+.service-choices[data-selected] .service-choice-pair::before,
+.service-choices[data-selected] .service-choice-pair::after {
+  content: none;
+}
+@media (max-width: 480px) {
+  .service-choices[data-selected] { column-gap: 12px; }
+  .service-choices[data-selected] :is(.service-family-label, .service-choice) { padding-inline: .45rem; }
+}
 .service-choice {
   position: relative;
   min-height: 44px;

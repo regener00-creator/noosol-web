@@ -179,7 +179,7 @@ export default function ServiceCards({ children, stock }) {
     <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro'}`}>
       {expanded ? (
         <>
-          <div ref={choices} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
+          <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
             <div className="service-family" role="group" aria-labelledby="spunbond-family">
               <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
               <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
