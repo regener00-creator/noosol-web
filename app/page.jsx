@@ -24,31 +24,6 @@ const customerLogos = [
 
 const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
 
-// 3 ก้อนบริการ — การสกรีน & ผลิต
-const services = [
-  {
-    title: 'สกรีนถุงสปันบอนด์ในสต็อก',
-    description: 'รับสกรีนขั้นต่ำ 100 ใบ เฉพาะสีและขนาดในสต็อก',
-    image: '/services/service-1.png',
-    href: '#products',
-    color: '#2563eb',
-  },
-  {
-    title: 'ผลิตถุงสปันบอนด์ใหม่',
-    description: 'รับผลิตใหม่เริ่มต้น 3,000 ใบ พร้อมสีให้เลือกถึง 30 สี',
-    image: '/services/service-2.png',
-    href: '#colors',
-    color: '#059669',
-  },
-  {
-    title: 'ผลิตกระเป๋าตามแบบ',
-    description: 'รับผลิตขั้นต่ำ 300 ใบ ส่งแบบเพื่อประเมิณราคาทางแชท',
-    image: '/services/service-3-311.png',
-    href: '#contact',
-    color: '#ea580c',
-  },
-];
-
 // กล่องครอบเนื้อหาแต่ละส่วน
 const Container = ({ children }) => (
   <div className="mx-auto max-w-7xl px-4 sm:px-6">{children}</div>
@@ -104,20 +79,7 @@ export default async function Home() {
       </section>
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
-        <Container>
-          <div className="pb-16 pt-20 text-center sm:pb-20">
-              <div data-reveal className="flex items-center gap-4 sm:gap-6">
-                <div className="h-px flex-1 bg-neutral-300" />
-                <span className="inline-flex rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-tight shadow-sm sm:text-3xl">
-                  แบบที่รับผลิต
-                </span>
-                <div className="h-px flex-1 bg-neutral-300" />
-              </div>
-              <div data-reveal data-reveal-delay="90" className="mt-16 text-left">
-                <ServiceCards services={services} />
-              </div>
-          </div>
-        </Container>
+        <ServiceCards />
       </section>
 
       {/* ผลงาน — พื้นเทาแบบ Apple */}

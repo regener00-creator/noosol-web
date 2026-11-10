@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
-const cardMeta = [
+const formats = [
   {
+    label: 'ถุงสปันบอนด์สต๊อก',
     title: 'สปันบอนด์สต็อก',
+    image: '/services/service-1.png',
     icon: '/services/icon-76.png',
     iconScale: 'scale-[1.15]',
     description: ['รับสกรีนขั้นต่ำ 100 ใบ', 'เฉพาะสีและขนาดในสต็อก'],
@@ -18,7 +20,9 @@ const cardMeta = [
     action: { label: 'ขนาดสต๊อก', href: '#products' },
   },
   {
+    label: 'ผลิตใหม่',
     title: 'สปันบอนด์ผลิตใหม่',
+    image: '/services/service-2.png',
     icon: '/services/icon-78.png',
     iconScale: 'scale-[1.30]',
     description: ['รับผลิตขั้นต่ำ 3,000 ใบ', 'พร้อมสีให้เลือกถึง 30 สี'],
@@ -31,10 +35,12 @@ const cardMeta = [
     action: { label: 'สีผลิตใหม่', href: '#colors' },
   },
   {
+    label: 'กระเป๋า',
     title: 'กระเป๋าผลิตใหม่',
+    image: '/services/service-3-311.png',
     icon: '/services/icon-77.png',
     iconScale: 'scale-[1.55]',
-    description: ['รับผลิตขั้นต่ำ 300 ใบ', 'ส่งแบบเพื่อประเมิณราคาทางแชท'],
+    description: ['รับผลิตขั้นต่ำ 300 ใบ', 'ส่งแบบเพื่อประเมินราคาทางแชท'],
     detailTitle: '🎒 กระเป๋าผลิตใหม่ 🎒',
     details: [
       'รับผลิตใหม่ ขั้นต่ำที่ 300 ใบ',
@@ -44,106 +50,97 @@ const cardMeta = [
   },
 ];
 
-function ServiceCard({ service, index }) {
-  const meta = cardMeta[index];
-  const [opened, setOpened] = useState(false);
-  const id = useId();
-  const front = useRef(null);
-  const back = useRef(null);
-  const interacted = useRef(false);
+export default function ServiceCards() {
+  const [expanded, setExpanded] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const origin = useRef(null);
+  const choices = useRef(null);
+  const format = formats[selected];
 
-  useEffect(() => {
-    if (interacted.current) {
-      (opened ? back : front).current?.focus({ preventScroll: true });
-    }
-  }, [opened]);
+  function expand(event) {
+    origin.current = event.currentTarget.getBoundingClientRect();
+    setExpanded(true);
+  }
 
-  const turnPage = (next) => {
-    interacted.current = true;
-    setOpened(next);
-  };
+  useLayoutEffect(() => {
+    if (!expanded) return;
+    const buttons = Array.from(choices.current.querySelectorAll('button'));
+    buttons[0].focus({ preventScroll: true });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  return (
-    <article
-      className="service-calendar"
-      data-open={opened}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && opened) {
-          event.preventDefault();
-          turnPage(false);
-        }
-      }}
-    >
-      <div
-        id={id}
-        className="service-calendar-details flex flex-col rounded-3xl border border-line bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.06)] sm:p-8"
-        aria-hidden={!opened}
-        inert={!opened ? '' : undefined}
-      >
-        <button
-          ref={back}
-          type="button"
-          tabIndex={opened ? 0 : -1}
-          onClick={() => turnPage(false)}
-          className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-3xl focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#f58220]"
-          aria-label={`พลิกกลับด้านรูปสินค้า ${meta.title}`}
-        />
-        <div className="border-b border-orange-100 pb-5">
-          <span className="text-sm font-bold text-[#eb7300]">หน้าที่ 2</span>
-        </div>
-        <h3 className="mt-7 text-[23px] font-extrabold leading-relaxed text-ink">{meta.detailTitle}</h3>
-        <ul className="mb-8 mt-6 list-disc space-y-5 pl-5 text-[17px] leading-8 text-neutral-700 marker:text-[#f58220]">
-          {meta.details.map((detail) => <li key={detail}>{detail}</li>)}
-        </ul>
-        {meta.action && (
-          <a
-            href={meta.action.href}
-            tabIndex={opened ? 0 : -1}
-            className="relative z-20 mt-auto block rounded-xl bg-[#f58220] px-5 py-4 text-center text-lg font-bold text-white transition-colors hover:bg-[#eb7300] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f58220]"
-          >
-            {meta.action.label}
-          </a>
-        )}
-      </div>
+    const start = origin.current;
+    const animations = buttons.map((button, index) => {
+      const end = button.getBoundingClientRect();
+      const dx = start.left + start.width / 2 - end.left - end.width / 2;
+      const dy = start.top + start.height / 2 - end.top - end.height / 2;
+      return button.animate([
+        { transform: `translate(${dx}px, ${dy}px) scale(.85)`, opacity: 0 },
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+      ], { duration: 560, delay: index * 45, fill: 'backwards', easing: 'cubic-bezier(.2,.75,.25,1)' });
+    });
+    return () => animations.forEach((animation) => animation.cancel());
+  }, [expanded]);
 
+  function choice(index) {
+    return (
       <button
-        ref={front}
         type="button"
-        className="service-calendar-front group flex w-full flex-col rounded-3xl border border-line bg-white p-6 text-left shadow-[0_10px_30px_rgba(0,0,0,0.06)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f58220] sm:p-8"
-        onClick={() => turnPage(true)}
-        aria-label={`ดูรายละเอียด ${meta.title}`}
-        aria-expanded={opened}
-        aria-controls={id}
-        aria-hidden={opened}
-        inert={opened ? '' : undefined}
-        tabIndex={opened ? -1 : 0}
+        className="service-choice"
+        aria-pressed={selected === index}
+        onClick={() => setSelected(index)}
       >
-        <div className="flex min-h-14 w-full items-center gap-3">
-          <div className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-[#eb7300]">
-            <Image src={meta.icon} alt="" fill sizes="56px" className={`${meta.iconScale} object-contain brightness-0 invert`} />
-          </div>
-          <h3 className="min-w-0 flex-1 text-[20px] font-extrabold leading-7 tracking-normal">{meta.title}</h3>
-          <span className="font-sans text-[35px] font-bold leading-none text-[#f5d5b7]">{String(index + 1).padStart(2, '0')}</span>
-        </div>
-        <div className="relative mt-8 min-h-[300px] w-full flex-1 overflow-hidden bg-white">
-          <Image src={service.image} alt={meta.title} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-contain p-5 transition duration-300 group-hover:scale-[1.03]" />
-        </div>
-        <div className="mt-7 h-px w-full bg-neutral-200" />
-        <p className="min-h-[76px] w-full pt-6 text-center text-[17px] font-medium leading-7 text-neutral-600">
-          {meta.description.map((line, lineIndex) => (
-            <span key={line} className={`block ${lineIndex === 0 ? 'font-bold text-neutral-900' : ''}`}>{line}</span>
-          ))}
-        </p>
-        <span className="mt-3 w-full rounded-xl bg-[#f58220] px-4 py-3 text-center text-sm font-bold text-white">คลิกเพื่อเปิดดูรายละเอียด</span>
+        {formats[index].label}
       </button>
-    </article>
-  );
-}
+    );
+  }
 
-export default function ServiceCards({ services }) {
   return (
-    <div className="grid gap-5 lg:grid-cols-3">
-      {services.map((service, index) => <ServiceCard key={service.title} service={service} index={index} />)}
+    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${expanded ? '' : 'service-layout-intro'}`}>
+      {expanded ? (
+        <>
+          <div ref={choices} role="group" aria-label="แบบที่รับผลิต" className="service-choices">
+            <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
+            {choice(2)}
+          </div>
+
+          {format && (
+            <div key={format.label} className="service-result grid gap-4 md:grid-cols-3 md:gap-6">
+              <article className="flex min-w-0 flex-col rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-7">
+                <div className="flex items-center gap-3">
+                  <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-[#eb7300]">
+                    <Image src={format.icon} alt="" fill sizes="48px" className={`${format.iconScale} object-contain brightness-0 invert`} />
+                  </div>
+                  <h2 className="flex-1 text-lg font-extrabold text-ink">{format.title}</h2>
+                  <span className="text-3xl font-bold text-[#d88a46]">{String(selected + 1).padStart(2, '0')}</span>
+                </div>
+                <div className="relative my-3 h-36 sm:h-52 lg:h-64">
+                  <Image src={format.image} alt={format.title} fill sizes="(min-width: 768px) 33vw, 94vw" className="object-contain" />
+                </div>
+                <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
+                  <strong className="block text-ink">{format.description[0]}</strong>
+                  {format.description[1]}
+                </p>
+              </article>
+
+              <article className="flex min-w-0 flex-col justify-center rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
+                <h3 className="text-xl font-extrabold leading-relaxed text-ink sm:text-2xl">{format.detailTitle}</h3>
+                <ul className="mt-5 list-disc space-y-3 pl-5 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
+                  {format.details.map((detail) => <li key={detail}>{detail}</li>)}
+                </ul>
+                {format.action && (
+                  <a href={format.action.href} className="mt-7 self-start rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]">
+                    {format.action.label}
+                  </a>
+                )}
+              </article>
+            </div>
+          )}
+        </>
+      ) : (
+        <button type="button" onClick={expand} aria-expanded={false} className="service-start">
+          ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
+        </button>
+      )}
     </div>
   );
 }
