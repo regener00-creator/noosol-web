@@ -522,7 +522,13 @@ html.is-loading body {
   color: #514942;
   font-size: clamp(.85rem, 1.8vw, 1.1rem);
 }
-.service-choice:hover { border-color: #f58220; }
+@media (hover: hover) {
+  .service-choice:hover {
+    background-color: #f58220;
+    border-color: #f58220;
+    color: white;
+  }
+}
 .service-choice[aria-pressed='true'] { color: white; }
 .service-choice-pill {
   position: absolute;
