@@ -503,6 +503,18 @@ html.is-loading body {
   row-gap: 26px;
   width: clamp(160px, 43vw, 300px);
 }
+.service-bag-choice {
+  display: grid;
+  justify-items: center;
+  row-gap: 26px;
+}
+.service-choice-photo {
+  width: clamp(88px, 32vw, 210px);
+  height: clamp(88px, 32vw, 210px);
+  max-height: 28dvh;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
 .service-family-label {
   position: relative;
   display: grid;

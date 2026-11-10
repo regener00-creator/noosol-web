@@ -195,10 +195,18 @@ export default function ServiceCards({ children, stock }) {
       {expanded ? (
         <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
           <div className="service-family" role="group" aria-labelledby="spunbond-family">
+            {!hasSelection && (
+              <Image src="/services/category-spunbond.webp" alt="ถุงสปันบอนด์สีดำสกรีนโลโก้เนื้อแท้" width={480} height={480} sizes="(max-width: 600px) 32vw, 210px" className="service-choice-photo" />
+            )}
             <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
             <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
           </div>
-          {choice(2)}
+          <div className="service-bag-choice">
+            {!hasSelection && (
+              <Image src="/services/category-shoulder.webp" alt="กระเป๋าสะพายสีดำพร้อมหูหิ้ว" width={480} height={480} sizes="(max-width: 600px) 32vw, 210px" className="service-choice-photo" />
+            )}
+            {choice(2)}
+          </div>
         </div>
       ) : (
         <div className="service-opening w-full text-center">
