@@ -8,7 +8,7 @@ const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp
 
 const formats = [
   {
-    label: 'ถุงสปันบอนด์สต๊อก',
+    label: 'สต๊อก',
     title: 'สปันบอนด์สต็อก',
     image: '/services/service-1.png',
     icon: '/services/icon-76.png',
@@ -102,16 +102,16 @@ export default function ServiceCards({ children, stock }) {
 
   useLayoutEffect(() => {
     if (!expanded || !origin.current) return;
-    const buttons = Array.from(choices.current.querySelectorAll('button'));
-    buttons[0].focus({ preventScroll: true });
+    const items = Array.from(choices.current.querySelectorAll('.service-family-label, button'));
+    choices.current.querySelector('button').focus({ preventScroll: true });
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const start = origin.current;
-    const animations = buttons.map((button, index) => {
-      const end = button.getBoundingClientRect();
+    const animations = items.map((item, index) => {
+      const end = item.getBoundingClientRect();
       const dx = start.left + start.width / 2 - end.left - end.width / 2;
       const dy = start.top + start.height / 2 - end.top - end.height / 2;
-      return button.animate([
+      return item.animate([
         { transform: `translate(${dx}px, ${dy}px) scale(.85)`, opacity: 0 },
         { transform: 'translate(0, 0) scale(1)', opacity: 1 },
       ], { duration: 560, delay: index * 45, fill: 'backwards', easing: 'cubic-bezier(.2,.75,.25,1)' });
@@ -180,7 +180,10 @@ export default function ServiceCards({ children, stock }) {
       {expanded ? (
         <>
           <div ref={choices} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
-            <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
+            <div className="service-family" role="group" aria-labelledby="spunbond-family">
+              <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
+              <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
+            </div>
             {choice(2)}
           </div>
 

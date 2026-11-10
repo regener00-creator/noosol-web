@@ -490,28 +490,57 @@ html.is-loading body {
   box-shadow: 0 8px 24px rgb(164 79 0 / 14%);
 }
 .service-start:hover { background: #eb7300; }
-.service-choices, .service-choice-pair {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .service-choices {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   isolation: isolate;
-  flex-wrap: wrap;
-  gap: 12px clamp(20px, 5vw, 64px);
+  gap: clamp(12px, 4vw, 56px);
+}
+.service-family {
+  display: grid;
+  justify-items: center;
+  row-gap: 26px;
+  width: clamp(160px, 43vw, 300px);
+}
+.service-family-label {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: .6rem clamp(.6rem, 2.2vw, 2rem);
+  border: 1px solid #e4e1dc;
+  border-radius: 999px;
+  background: white;
+  color: #514942;
+  font-size: clamp(.85rem, 1.8vw, 1.1rem);
+  font-weight: 700;
 }
 .service-choice-pair {
   position: relative;
-  gap: clamp(8px, 1.5vw, 20px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-items: center;
+  width: 100%;
 }
-.service-choice-pair::before {
+.service-choice-pair::before, .service-choice-pair::after {
   content: '';
   position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  height: 1px;
-  z-index: -1;
-  background: #f58220;
+  pointer-events: none;
+}
+.service-choice-pair::before {
+  bottom: 100%;
+  inset-inline: 25%;
+  height: 13px;
+  border: 1px solid #f58220;
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+.service-choice-pair::after {
+  left: 50%;
+  bottom: calc(100% + 13px);
+  height: 13px;
+  border-left: 1px solid #f58220;
 }
 .service-choice {
   position: relative;
@@ -541,7 +570,7 @@ html.is-loading body {
 }
 .service-result { margin-top: clamp(1.25rem, 4dvh, 3rem); }
 @media (prefers-reduced-motion: no-preference) {
-  .service-choice-pair::before { animation: service-connect 260ms 430ms backwards; }
+  .service-choice-pair::before, .service-choice-pair::after { animation: service-connect 260ms 430ms backwards; }
   .service-choice { transition: color 240ms ease, border-color 240ms ease; }
   .service-result { animation: service-appear 340ms cubic-bezier(.2,.75,.25,1); }
 }
