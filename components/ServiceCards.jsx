@@ -56,6 +56,8 @@ export default function ServiceCards({ children }) {
   const origin = useRef(null);
   const choices = useRef(null);
   const chart = useRef(null);
+  const activePill = useRef(null);
+  const previousPillBounds = useRef(null);
   const format = formats[selected];
   const showColors = format?.action?.href === '#colors';
 
@@ -102,6 +104,24 @@ export default function ServiceCards({ children }) {
     return () => animations.forEach((animation) => animation.cancel());
   }, [expanded]);
 
+  useLayoutEffect(() => {
+    const pill = activePill.current;
+    const from = previousPillBounds.current;
+    previousPillBounds.current = null;
+    if (!pill || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const to = pill.getBoundingClientRect();
+    if (!to.width || !to.height) return;
+    const start = from
+      ? `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`
+      : 'scale(.94)';
+    const animation = pill.animate([
+      { transform: start, opacity: from ? 1 : 0 },
+      { transform: 'none', opacity: 1 },
+    ], { duration: 340, easing: 'cubic-bezier(.2,.75,.25,1)' });
+    return () => animation.cancel();
+  }, [selected]);
+
   function choice(index) {
     return (
       <button
@@ -112,10 +132,14 @@ export default function ServiceCards({ children }) {
           if (index !== 1 && window.location.hash === '#colors') {
             window.history.replaceState(window.history.state, '', '#services');
           }
-          setSelected(index);
+          if (selected !== index) {
+            previousPillBounds.current = activePill.current?.getBoundingClientRect();
+            setSelected(index);
+          }
         }}
       >
-        {formats[index].label}
+        {selected === index && <span ref={activePill} aria-hidden="true" className="service-choice-pill" />}
+        <span className="relative z-[2]">{formats[index].label}</span>
       </button>
     );
   }
