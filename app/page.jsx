@@ -157,22 +157,10 @@ export default async function Home() {
         <Container>
           <div className="py-20 sm:py-24">
             <div data-reveal className="text-center">
-              <h2 className="text-4xl font-extrabold tracking-tight sm:text-7xl">
-                ช่องทางการติดต่อ
+              <h2 className="text-xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                วันทำการ: จันทร์ - ศุกร์  | <span className="whitespace-nowrap">10:00 - 18:00</span>
               </h2>
               <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-[#f58220]" />
-            </div>
-
-            <div data-reveal data-reveal-delay="70" className="mx-auto mt-10 flex max-w-5xl flex-col items-center gap-1 text-center">
-              <p className="text-lg font-bold leading-8 text-ink">
-                วันเปิดทำการ : จันทร์ - ศุกร์
-              </p>
-              <p className="text-lg font-bold leading-8 text-ink">
-                เวลาทำการ : 10:00 - 18:00
-              </p>
-              <p className="max-w-prose text-base font-normal leading-7 text-neutral-600 sm:text-lg">
-                มีหน้าร้านพร้อมให้บริการ ติดต่อนัดหมาย เพื่อเข้าชมสินค้าตัวอย่างได้เลยครับ
-              </p>
             </div>
 
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
