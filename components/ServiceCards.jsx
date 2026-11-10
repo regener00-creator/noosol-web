@@ -35,7 +35,7 @@ const formats = [
     action: { label: 'สีผลิตใหม่', href: '#colors' },
   },
   {
-    label: 'กระเป๋า',
+    label: 'ผลิตกระเป๋า',
     title: 'กระเป๋าผลิตใหม่',
     image: '/services/service-3-311.png',
     icon: '/services/icon-77.png',
@@ -148,13 +148,13 @@ export default function ServiceCards({ children }) {
                 </p>
               </article>
 
-              <article className="flex min-w-0 flex-col justify-center rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
+              <article className="flex min-w-0 flex-col items-center justify-center rounded-3xl text-center border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
                 <h3 className="text-xl font-extrabold leading-relaxed text-ink sm:text-2xl">{format.detailTitle}</h3>
-                <ul className="mt-5 list-disc space-y-3 pl-5 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
+                <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
                   {format.details.map((detail) => <li key={detail}>{detail}</li>)}
                 </ul>
                 {format.action && (
-                  <a href={format.action.href} className="mt-7 self-start rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]">
+                  <a href={format.action.href} className="mt-7 rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]">
                     {format.action.label}
                   </a>
                 )}

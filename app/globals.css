@@ -478,7 +478,10 @@ html.is-loading body {
   align-items: center;
   justify-content: center;
 }
-.service-choices { gap: clamp(6px, 2vw, 20px); }
+.service-choices {
+  flex-wrap: wrap;
+  gap: 12px clamp(20px, 5vw, 64px);
+}
 .service-choice-pair {
   position: relative;
   isolation: isolate;
