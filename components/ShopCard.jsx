@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 // Stock color sets verified against the product photos.
-const white = { name: 'ขาว', hex: '#ffffff' };
-const black = { name: 'ดำ', hex: '#222222' };
-const blue = { name: 'ฟ้า', hex: '#66cce5' };
-const yellow = { name: 'เหลือง', hex: '#f4df28' };
-const red = { name: 'แดง', hex: '#e32626' };
-const pink = { name: 'ชมพู', hex: '#e878b0' };
+const white = 'ขาว';
+const black = 'ดำ';
+const blue = 'ฟ้า';
+const yellow = 'เหลือง';
+const red = 'แดง';
+const pink = 'ชมพู';
 
 const fourColors = [white, black, blue, pink];
 const sixColors = [white, black, blue, yellow, red, pink];
@@ -65,22 +65,12 @@ export default function ShopCard({ p }) {
         </p>
         {stockColors.length > 0 && (
           <ul
-            className="-mx-2 mt-auto flex shrink-0 flex-nowrap items-center justify-center gap-1.5 pt-2 sm:gap-2"
+            className="sr-only"
             aria-label={`สีที่มีในรุ่น ${p.code}`}
             role="list"
           >
             {stockColors.map((color) => (
-              <li
-                key={color.name}
-                className="inline-flex h-5 shrink-0 items-center justify-center"
-              >
-                <span
-                  aria-hidden="true"
-                  className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/15"
-                  style={{ backgroundColor: color.hex }}
-                />
-                <span className="sr-only">{color.name}</span>
-              </li>
+              <li key={color}>{color}</li>
             ))}
           </ul>
         )}
