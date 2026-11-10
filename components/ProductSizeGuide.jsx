@@ -136,7 +136,7 @@ export default function ProductSizeGuide({ products, index, setIndex, inline = f
         </label>
       )}
       <div
-        className="col-span-2 aspect-square overflow-hidden bg-white"
+        className="col-span-2 aspect-[1600/1464] overflow-hidden bg-white"
         style={{ touchAction: 'pan-y pinch-zoom' }}
         onTouchStart={(event) => {
           const touch = event.touches[0];
@@ -146,7 +146,7 @@ export default function ProductSizeGuide({ products, index, setIndex, inline = f
         onTouchCancel={() => { touchStart.current = null; }}
       >
         <div
-          className="size-guide-track flex h-full"
+          className="size-guide-track flex aspect-square w-full"
           data-direction={direction}
           onAnimationEnd={finishMove}
         >
