@@ -28,6 +28,7 @@ function PortfolioRail({ group }) {
     { length: group.to - group.from + 1 },
     (_, index) => `/works/${group.from + index}.png`
   );
+  const columns = Array.from({ length: Math.ceil(images.length / 2) }, (_, i) => images.slice(i * 2, i * 2 + 2));
   const track = useRef(null);
   const shift = useRef(null);
   const drag = useRef(null);
@@ -50,7 +51,7 @@ function PortfolioRail({ group }) {
     };
     const measure = () => {
       const progress = span ? offset / span : 0;
-      span = row.children[0].offsetLeft - row.children[images.length].offsetLeft;
+      span = row.children[0].offsetLeft - row.children[columns.length].offsetLeft;
       offset = progress * span;
       move(0);
     };
@@ -86,7 +87,7 @@ function PortfolioRail({ group }) {
       document.removeEventListener('visibilitychange', updatePlayback);
       shift.current = null;
     };
-  }, [images.length]);
+  }, [columns.length]);
 
   function startDrag(event) {
     if (!event.isPrimary || event.button !== 0) return;
@@ -126,21 +127,25 @@ function PortfolioRail({ group }) {
       aria-label={`ตัวอย่างงาน ${group.name}`}
     >
       <div ref={track} className="flex w-full flex-row-reverse gap-3 sm:gap-5">
-        {[0, 1, 2].map((copy) => images.map((src, index) => (
+        {[0, 1, 2].map((copy) => columns.map((column, col) => (
           <div
-            key={`${copy}-${src}`}
-            className="portfolio-rail-card overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl"
+            key={`${copy}-${column[0]}`}
+            className="portfolio-rail-column grid min-w-0 content-start gap-3 sm:gap-5"
             aria-hidden={copy !== 1}
           >
-            <Image
-              src={src}
-              alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${index + 1}` : ''}
-              width={500}
-              height={500}
-              draggable={false}
-              sizes="(max-width: 639px) 72vw, (max-width: 1023px) 48vw, 400px"
-              className="pointer-events-none aspect-square w-full object-cover"
-            />
+            {column.map((src, row) => (
+              <div key={src} className="overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl">
+                <Image
+                  src={src}
+                  alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${col * 2 + row + 1}` : ''}
+                  width={500}
+                  height={500}
+                  draggable={false}
+                  sizes="(max-width: 639px) 46vw, (max-width: 1023px) 33vw, 300px"
+                  className="pointer-events-none aspect-square w-full object-cover"
+                />
+              </div>
+            ))}
           </div>
         )))}
       </div>

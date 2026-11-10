@@ -183,16 +183,16 @@ html.is-loading body {
   cursor: grabbing;
 }
 
-.portfolio-rail-card {
-  flex: 0 0 72%;
+.portfolio-rail-column {
+  flex: 0 0 46%;
 }
 
 @media (min-width: 640px) {
-  .portfolio-rail-card { flex-basis: calc((100% - 1.25rem) / 2); }
+  .portfolio-rail-column { flex-basis: calc((100% - 2.5rem) / 3); }
 }
 
 @media (min-width: 1024px) {
-  .portfolio-rail-card { flex-basis: calc((100% - 2.5rem) / 3); }
+  .portfolio-rail-column { flex-basis: calc((100% - 3.75rem) / 4); }
 }
 
 @media (max-width: 640px) {
@@ -537,7 +537,7 @@ body:has(.section-deck[data-active]) > main {
 .section-deck[data-active] > section:not(.bg-soft) {
   background-color: white;
 }
-.section-deck[data-active] > #home > div {
+.section-deck[data-active] > #home > div:first-child {
   min-height: 100%;
   display: grid;
   align-items: center;

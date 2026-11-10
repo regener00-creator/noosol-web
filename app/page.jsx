@@ -82,6 +82,25 @@ export default async function Home() {
 
           </div>
         </Container>
+        <Container>
+          <div className="grid w-full grid-cols-2 gap-4 pb-8 sm:pb-12 lg:grid-cols-4">
+            {showcaseVideos.map((file, index) => (
+              <div
+                key={file}
+                data-reveal
+                data-reveal-delay={index * 70}
+                className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
+              >
+                <LazyVideo
+                  src={`/videos/${file}`}
+                  poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
+                  aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
+                  className="aspect-[9/16] min-w-0 max-w-full bg-black object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </Container>
       </section>
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
@@ -115,24 +134,6 @@ export default async function Home() {
 
             <div data-reveal>
               <PortfolioExplorer showHeading={false} />
-            </div>
-
-            <div className="mt-10 grid w-full grid-cols-2 gap-4 lg:grid-cols-4">
-              {showcaseVideos.map((file, index) => (
-                <div
-                  key={file}
-                  data-reveal
-                  data-reveal-delay={index * 70}
-                  className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
-                >
-                  <LazyVideo
-                    src={`/videos/${file}`}
-                    poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
-                    aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
-                    className="aspect-[9/16] min-w-0 max-w-full bg-black object-cover"
-                  />
-                </div>
-              ))}
             </div>
           </div>
         </Container>
