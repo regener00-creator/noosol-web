@@ -152,7 +152,7 @@ function PortfolioRail({ group }) {
                   width={500}
                   height={500}
                   draggable={false}
-                  sizes="(max-width: 639px) 46vw, (max-width: 1023px) 33vw, 300px"
+                  sizes="(max-width: 767px) 78vw, (max-width: 1023px) 33vw, 300px"
                   className="pointer-events-none aspect-square w-full object-cover"
                 />
               </div>

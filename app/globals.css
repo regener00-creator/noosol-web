@@ -184,10 +184,10 @@ html.is-loading body {
 }
 
 .portfolio-rail-column {
-  flex: 0 0 46%;
+  flex: 0 0 78%;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .portfolio-rail-column { flex-basis: calc((100% - 2.5rem) / 3); }
 }
 

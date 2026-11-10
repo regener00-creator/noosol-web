@@ -32,10 +32,21 @@ const stockCats = [
   },
 ];
 
-const categories = stockCats;
+const mobileCategories = ['ไม่ขยาย', 'เชือกรูด', 'อื่นๆ', 'ขยายเฉพาะก้น', 'ขยายข้างและก้น']
+  .map((id) => stockCats.find((category) => category.id === id));
 const guideIndexByCode = new Map(guides.map((guide, index) => [guide.code, index]));
 
 export default function ProductExplorer({ products, inlineGuide = false }) {
+  const [mobile, setMobile] = useState(false);
+  const categories = mobile ? mobileCategories : stockCats;
+  useLayoutEffect(() => {
+    const screen = window.matchMedia('(max-width: 767px)');
+    const update = () => setMobile(screen.matches);
+    update();
+    screen.addEventListener('change', update);
+    return () => screen.removeEventListener('change', update);
+  }, []);
+
   const [guideIndex, setGuideIndex] = useState(0);
   const [active, setActive] = useState(categories[0].id);
   const [displayed, setDisplayed] = useState(categories[0].id);
@@ -101,7 +112,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
     resizeObserver.observe(tabsEl);
 
     return () => resizeObserver.disconnect();
-  }, [active]);
+  }, [active, categories]);
 
   const sizeGuide = <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} inline={inlineGuide} />;
   const ModelControl = inlineGuide ? 'button' : 'a';
@@ -130,7 +141,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
               }`}
               aria-pressed={isActive}
             >
-              {category.label}
+              {mobile && category.id !== 'อื่นๆ' ? category.id : category.label}
             </button>
           );
         })}
