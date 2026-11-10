@@ -163,38 +163,38 @@ export default async function Home() {
               <div className="mx-auto mt-5 h-1 w-40 rounded-full bg-[#f58220]" />
             </div>
 
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <article data-reveal data-reveal-delay="100" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#fff0eb] p-6 text-center text-[#171717]">
+            <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              <article data-reveal data-reveal-delay="100" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#fff0eb] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">SHOPEE</h3>
                 <Image src="/contact-icons/shopee-20261105.jpg" alt="Shopee" width={64} height={64} className="mt-4 h-14 w-14 rounded-full object-contain" />
-                <a href={site.shopee} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#ee4d2d] px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-[#d94124]">
+                <a href={site.shopee} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#ee4d2d] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#d94124]">
                   คลิกที่นี่
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="160" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#eaf2ff] p-6 text-center text-[#171717]">
+              <article data-reveal data-reveal-delay="160" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#eaf2ff] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">FACEBOOK</h3>
                 <Image src="/contact-icons/facebook-20261105.png" alt="Facebook" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
-                <a href={site.facebook} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#1877f2] px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-[#1267d6]">
+                <a href={site.facebook} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#1877f2] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#1267d6]">
                   คลิกที่นี่
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="220" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] p-6 text-center text-[#171717]">
+              <article data-reveal data-reveal-delay="220" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">LINE</h3>
                 <Image src="/contact-icons/line-20261105.png" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <p className="mt-4 text-sm font-bold leading-6 text-neutral-600">
                   🌟ช่องทางติดต่อที่แนะนำ🌟
                 </p>
-                <a href={site.lineHref} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#06c755] px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-[#05ae4a]">
+                <a href={site.lineHref} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#06c755] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#05ae4a]">
                   LINE: @NOOSOL
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="280" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#e7e7e7] p-6 text-center text-[#171717]">
+              <article data-reveal data-reveal-delay="280" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e7e7e7] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">CALL</h3>
                 <Image src="/contact-icons/call-20261105.png" alt="โทรศัพท์" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
-                <a href={site.phoneHref} className="mt-auto w-full rounded-md bg-black px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-neutral-800">
+                <a href={site.phoneHref} className="mt-auto w-full rounded-md bg-black px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-neutral-800">
                   {site.phone}
                 </a>
               </article>
