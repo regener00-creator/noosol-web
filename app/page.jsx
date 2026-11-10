@@ -92,7 +92,7 @@ export default async function Home() {
       {/* ผลงาน — พื้นเทาแบบ Apple */}
       <section id="portfolio" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
-          <div className="py-20">
+          <div className="pb-20 pt-5 md:pt-20">
             <div data-reveal className="hidden items-center gap-3 md:flex sm:gap-5">
               <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
               <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
@@ -183,7 +183,7 @@ export default async function Home() {
               <article data-reveal data-reveal-delay="220" className="order-1 md:order-none flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">LINE</h3>
                 <Image src="/contact-icons/line-20261105.png" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
-                <p className="mt-4 text-sm font-bold leading-6 text-neutral-600">
+                <p className="mt-4 text-xs font-bold leading-5 text-neutral-600 md:text-sm md:leading-6">
                   🌟ช่องทางติดต่อที่แนะนำ🌟
                 </p>
                 <a href={site.lineHref} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#06c755] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#05ae4a]">

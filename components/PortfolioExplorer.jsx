@@ -28,7 +28,18 @@ function PortfolioRail({ group }) {
     { length: group.to - group.from + 1 },
     (_, index) => `/works/${group.from + index}.png`
   );
-  const columns = Array.from({ length: Math.ceil(images.length / 2) }, (_, i) => images.slice(i * 2, i * 2 + 2));
+  const [rows, setRows] = useState(2);
+  useLayoutEffect(() => {
+    const mobile = window.matchMedia('(max-width: 767px)');
+    const updateRows = () => setRows(mobile.matches ? 1 : 2);
+    updateRows();
+    mobile.addEventListener('change', updateRows);
+    return () => mobile.removeEventListener('change', updateRows);
+  }, []);
+
+  const columns = Array.from({ length: Math.ceil(images.length / rows) }, (_, i) =>
+    images.slice(i * rows, (i + 1) * rows)
+  );
   const track = useRef(null);
   const shift = useRef(null);
   const drag = useRef(null);
@@ -137,7 +148,7 @@ function PortfolioRail({ group }) {
               <div key={src} className="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
                 <Image
                   src={src}
-                  alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${col * 2 + row + 1}` : ''}
+                  alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${col * rows + row + 1}` : ''}
                   width={500}
                   height={500}
                   draggable={false}

@@ -479,17 +479,22 @@ html.is-loading body {
 
   :is(.product-category-tabs, .portfolio-category-tabs) {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 4px;
     border-radius: 24px;
     overflow: visible;
   }
   :is(.product-category-tabs, .portfolio-category-tabs) button {
-    padding-inline: 8px;
+    grid-column: span 2;
+    min-width: 0;
+    padding-inline: 4px;
+    line-height: 1.25;
     white-space: normal;
+    overflow-wrap: anywhere;
   }
-  :is(.product-category-tabs, .portfolio-category-tabs) button:last-child:nth-of-type(odd) {
-    grid-column: 1 / -1;
+  .product-category-tabs button:nth-last-child(-n + 2),
+  .portfolio-category-tabs button:nth-last-child(-n + 4) {
+    grid-column: span 3;
   }
   :is(.product-category-tabs, .portfolio-category-tabs) button[aria-pressed='true'] {
     background-color: #f58220;
