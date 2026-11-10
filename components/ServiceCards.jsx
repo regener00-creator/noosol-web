@@ -53,11 +53,13 @@ export default function ServiceCards({ children, stock }) {
   const [selected, setSelected] = useState(null);
   const origin = useRef(null);
   const choices = useRef(null);
+  const centeredTop = useRef(null);
   const chart = useRef(null);
   const activePill = useRef(null);
   const previousPillBounds = useRef(null);
   const format = formats[selected];
   const showColors = selected === 1;
+  const hasSelection = selected !== null;
 
   // Keep shared #colors links and browser history pointed at the inline chart.
   useLayoutEffect(() => {
@@ -120,6 +122,21 @@ export default function ServiceCards({ children, stock }) {
     return () => animation.cancel();
   }, [selected]);
 
+  useLayoutEffect(() => {
+    const start = centeredTop.current;
+    centeredTop.current = null;
+    if (start === null || !hasSelection || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const row = choices.current;
+    const distance = start - row.getBoundingClientRect().top;
+    const lift = row.animate([
+      { transform: `translateY(${distance}px)`, easing: 'cubic-bezier(.22,.72,.24,1)' },
+      { transform: 'translateY(-5px)', offset: .8, easing: 'ease-out' },
+      { transform: 'translateY(0)' },
+    ], { duration: 480 });
+    return () => lift.cancel();
+  }, [hasSelection]);
+
   function choice(index) {
     return (
       <button
@@ -131,6 +148,7 @@ export default function ServiceCards({ children, stock }) {
             window.history.replaceState(window.history.state, '', '#services');
           }
           if (selected !== index) {
+            if (!hasSelection) centeredTop.current = choices.current.getBoundingClientRect().top;
             previousPillBounds.current = activePill.current?.getBoundingClientRect();
             setSelected(index);
           }
@@ -143,10 +161,10 @@ export default function ServiceCards({ children, stock }) {
   }
 
   return (
-    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${expanded ? '' : 'service-layout-intro'}`}>
+    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro'}`}>
       {expanded ? (
         <>
-          <div ref={choices} role="group" aria-label="แบบที่รับผลิต" className="service-choices">
+          <div ref={choices} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
             <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
             {choice(2)}
           </div>
