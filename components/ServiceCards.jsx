@@ -17,7 +17,6 @@ const formats = [
       'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
       'เฉพาะ ขนาด & สี ในสต๊อกของทางร้าน',
     ],
-    action: { label: 'ขนาดสต๊อก', href: '#products' },
   },
   {
     label: 'ผลิตใหม่',
@@ -32,7 +31,6 @@ const formats = [
       'ใช้เวลา 15-20 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
       'ราคาประเมินตามแบบ และ สีโลโก้',
     ],
-    action: { label: 'สีผลิตใหม่', href: '#colors' },
   },
   {
     label: 'ผลิตกระเป๋า',
@@ -56,11 +54,10 @@ export default function ServiceCards({ children, stock }) {
   const origin = useRef(null);
   const choices = useRef(null);
   const chart = useRef(null);
-  const stockSection = useRef(null);
   const activePill = useRef(null);
   const previousPillBounds = useRef(null);
   const format = formats[selected];
-  const showColors = format?.action?.href === '#colors';
+  const showColors = selected === 1;
 
   // Keep shared #colors links and browser history pointed at the inline chart.
   useLayoutEffect(() => {
@@ -178,22 +175,6 @@ export default function ServiceCards({ children, stock }) {
                 <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
                   {format.details.map((detail) => <li key={detail}>{detail}</li>)}
                 </ul>
-                {selected === 0 ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      stockSection.current?.focus({ preventScroll: true });
-                      stockSection.current?.scrollIntoView({ block: 'start' });
-                    }}
-                    className="mt-7 rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]"
-                  >
-                    {format.action.label}
-                  </button>
-                ) : format.action && (
-                  <a href={format.action.href} className="mt-7 rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]">
-                    {format.action.label}
-                  </a>
-                )}
               </article>
             </div>
           )}
@@ -204,7 +185,7 @@ export default function ServiceCards({ children, stock }) {
         </button>
       )}
       {selected === 0 && (
-        <section ref={stockSection} aria-labelledby="stock-screen-heading" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+        <section aria-labelledby="stock-screen-heading" className="mt-12 scroll-mt-4 sm:mt-16">
           <div className="mb-7 flex items-center gap-4 sm:gap-6">
             <div className="h-px flex-1 bg-neutral-300" />
             <h2 id="stock-screen-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
