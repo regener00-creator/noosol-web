@@ -22,6 +22,7 @@ const customerLogos = [
   '50.jpg',
 ].map((f) => `/customers/${f}`);
 
+const logoSplit = Math.ceil(customerLogos.length / 2);
 const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
 
 // 3 ก้อนบริการ — การสกรีน & ผลิต
@@ -61,8 +62,8 @@ export default async function Home() {
     <SectionDeck>
       {/* หน้าแรก — พื้นเทาแบบ Apple */}
       <section id="home" className="grain-surface scroll-mt-16 bg-soft">
-        <Container>
-          <div className="home-intro pt-16 text-center sm:pt-44">
+        <div className="home-layout mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="home-intro text-center">
             <h1 data-hero-drop data-hero-delay="0" className="font-poppins text-[clamp(2.25rem,10vw,3.25rem)] font-extrabold leading-none tracking-normal text-[#eb7300] sm:text-[8rem]">
               <span className="hero-motion-word">NOOSOL</span>
             </h1>
@@ -72,35 +73,34 @@ export default async function Home() {
             <p data-hero-drop data-hero-delay="1000" className="mx-auto mt-5 max-w-2xl text-xl font-bold text-ink sm:text-2xl">
               <span className="hero-motion-word">ประสบการณ์มากกว่า</span>{' '}<span className="hero-motion-word hero-motion-underline" style={{ '--hero-word-delay': '110ms' }}>30 ปี</span>
             </p>
+          </div>
 
-            {/* โลโก้ลูกค้าวิ่ง 3 แถว */}
-            <div className="home-logos mt-24 space-y-3 sm:mt-32">
-              <LogoMarquee direction="left" images={customerLogos.slice(0, 17)} />
-              <LogoMarquee direction="right" images={customerLogos.slice(17, 33)} />
-              <LogoMarquee direction="left" images={customerLogos.slice(33)} />
+          {/* โลโก้ลูกค้าเลื่อนสวนทางกัน */}
+          <div className="home-logos">
+            <LogoMarquee direction="left" images={customerLogos.slice(0, logoSplit)} />
+            <LogoMarquee direction="right" images={customerLogos.slice(logoSplit)} />
+          </div>
+
+          <div className="home-video-area">
+            <div className="home-videos">
+              {showcaseVideos.map((file, index) => (
+                <div
+                  key={file}
+                  data-reveal
+                  data-reveal-delay={index * 70}
+                  className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
+                >
+                  <LazyVideo
+                    src={`/videos/${file}`}
+                    poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
+                    aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
+                    className="block aspect-[9/16] w-full bg-black object-contain"
+                  />
+                </div>
+              ))}
             </div>
-
           </div>
-        </Container>
-        <Container>
-          <div className="grid w-full grid-cols-2 gap-4 pb-8 sm:pb-12 lg:grid-cols-4">
-            {showcaseVideos.map((file, index) => (
-              <div
-                key={file}
-                data-reveal
-                data-reveal-delay={index * 70}
-                className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
-              >
-                <LazyVideo
-                  src={`/videos/${file}`}
-                  poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
-                  aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
-                  className="aspect-[9/16] min-w-0 max-w-full bg-black object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </Container>
+        </div>
       </section>
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
