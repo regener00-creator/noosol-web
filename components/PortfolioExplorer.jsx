@@ -28,15 +28,7 @@ function PortfolioRail({ group }) {
     { length: group.to - group.from + 1 },
     (_, index) => `/works/${group.from + index}.png`
   );
-  const [rows, setRows] = useState(2);
-  useLayoutEffect(() => {
-    const mobile = window.matchMedia('(max-width: 767px)');
-    const updateRows = () => setRows(mobile.matches ? 1 : 2);
-    updateRows();
-    mobile.addEventListener('change', updateRows);
-    return () => mobile.removeEventListener('change', updateRows);
-  }, []);
-
+  const rows = 2;
   const columns = Array.from({ length: Math.ceil(images.length / rows) }, (_, i) =>
     images.slice(i * rows, (i + 1) * rows)
   );
@@ -152,7 +144,7 @@ function PortfolioRail({ group }) {
                   width={500}
                   height={500}
                   draggable={false}
-                  sizes="(max-width: 767px) 78vw, (max-width: 1023px) 33vw, 300px"
+                  sizes="(max-width: 639px) 46vw, (max-width: 1023px) 33vw, 300px"
                   className="pointer-events-none aspect-square w-full object-cover"
                 />
               </div>
