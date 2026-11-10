@@ -43,8 +43,9 @@ export default function SectionDeck({ children }) {
           item.inert = item !== panel;
         }
         deck.dataset.active = panel.id;
-        window.dispatchEvent(new Event('noosol:section-change'));
       }
+      // The stock list and guide are distinct menu destinations in the same desktop panel.
+      window.dispatchEvent(new Event('noosol:section-change'));
 
       // Measure the anchor in layout coordinates while its reveal animation runs.
       let top = 0;

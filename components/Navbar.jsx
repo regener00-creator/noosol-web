@@ -5,15 +5,18 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/site';
 
-const nav = [
+const mainLinks = [
   ['หน้าแรก', 'home'],
   ['การผลิต', 'services'],
   ['ผลงาน', 'portfolio'],
-  ['รุ่นในสต็อก', 'products'],
-  ['FAQ', 'qa'],
 ];
-
-const mobileNav = [...nav.slice(0, 3), nav[4], nav[3], ['สเกล', 'size-guide'], ['ติดต่อ', 'contact']];
+const stockLinks = [
+  ['รุ่นในสต็อก', 'products'],
+  ['สเกล', 'size-guide'],
+];
+const faqLink = ['FAQ', 'qa'];
+const nav = [...mainLinks, ...stockLinks, faqLink];
+const mobileNav = [...mainLinks, faqLink, ...stockLinks, ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
@@ -33,7 +36,9 @@ export default function Navbar() {
     const onScroll = () => {
       const panel = document.querySelector('.section-deck')?.dataset.active;
       if (panel) {
-        setActive(panel === 'colors' ? 'services' : panel === 'scale' ? 'size-guide' : panel);
+        const showingGuide = panel === 'scale' ||
+          (panel === 'products' && ['#size-guide', '#scale'].includes(window.location.hash));
+        setActive(showingGuide ? 'size-guide' : panel === 'colors' ? 'services' : panel);
         return;
       }
       const mid = window.scrollY + window.innerHeight / 3;
@@ -99,10 +104,19 @@ export default function Navbar() {
               key={id}
               href={`#${id}`}
               ref={(el) => (linkRefs.current[id] = el)}
+              aria-current={active === id ? 'location' : undefined}
               className={`relative z-10 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors duration-300 ${
                 active === id ? 'text-white' : 'text-neutral-500 hover:text-ink'
               }`}
             >
+              {id === 'products' && (
+                <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-l-full border-y border-l border-[#f58220]/50">
+                  <span className="absolute -right-2 top-1/2 h-px w-4 bg-[#f58220]" />
+                </span>
+              )}
+              {id === 'size-guide' && (
+                <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-r-full border-y border-r border-[#f58220]/50" />
+              )}
               {label}
             </a>
           ))}
