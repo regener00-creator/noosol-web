@@ -572,7 +572,7 @@ body:has(.section-deck[data-active]) > main {
 }
 .home-videos {
   --gap: clamp(6px, 1.2vw, 18px);
-  --clip-width: min(calc((100cqw - 3 * var(--gap)) / 4), 56.25cqh);
+  --clip-width: min(calc((100cqw - 3 * var(--gap)) / 4), 100cqh);
   display: grid;
   grid-template-columns: repeat(4, var(--clip-width));
   justify-content: center;
@@ -591,7 +591,7 @@ body:has(.section-deck[data-active]) > main {
 }
 @media (max-width: 767px) and (orientation: portrait) {
   .home-videos {
-    --clip-width: min(calc((100cqw - var(--gap)) / 2), calc((100cqh - var(--gap)) * .28125));
+    --clip-width: min(calc((100cqw - var(--gap)) / 2), calc((100cqh - var(--gap)) / 2));
     grid-template-columns: repeat(2, var(--clip-width));
   }
 }

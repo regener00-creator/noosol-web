@@ -94,7 +94,7 @@ export default async function Home() {
                     src={`/videos/${file}`}
                     poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
                     aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
-                    className="block aspect-[9/16] w-full bg-black object-contain"
+                    className="block aspect-square w-full bg-black object-cover object-center"
                   />
                 </div>
               ))}
