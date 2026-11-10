@@ -537,61 +537,70 @@ body:has(.section-deck[data-active]) > main {
 .section-deck[data-active] > section:not(.bg-soft) {
   background-color: white;
 }
-/* Reserve the space under the menu for the intro, two logo strips and four clips. */
-.home-layout {
+.section-deck[data-active] > #home > div:first-child {
+  min-height: 100%;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  height: 100%;
-  gap: clamp(6px, 1.6dvh, 20px);
-  padding-block: clamp(6px, 2dvh, 28px);
+  align-items: center;
 }
-.home-layout > * { min-width: 0; }
-.home-intro h1 { font-size: clamp(2.5rem, 7.6dvh, 6rem); }
-.home-intro h2 {
-  max-width: none;
-  margin-top: clamp(2px, .8dvh, 10px);
-  font-size: clamp(1.75rem, min(3.7vw, 5.5dvh), 3.75rem);
+.section-deck[data-active] .home-intro {
+  min-width: 0;
+  padding-block: clamp(1rem, 4dvh, 3rem);
 }
-.home-intro p {
-  margin-top: clamp(2px, .6dvh, 8px);
-  font-size: clamp(1.125rem, 2.8dvh, 1.5rem);
+.section-deck[data-active] .home-intro h1 {
+  font-size: clamp(4rem, 12dvh, 8rem);
 }
-.home-logos { display: grid; gap: clamp(3px, .6dvh, 8px); }
-.home-logos .logo-marquee-fade { padding-block: clamp(2px, .5dvh, 6px); }
-.home-logos .logo-marquee-cell {
-  height: clamp(27px, 7dvh, 78px);
-  padding: 2px;
+.section-deck[data-active] .home-logos {
+  margin-top: clamp(1.5rem, 7dvh, 6rem);
 }
-@media (min-width: 1024px) {
-  .home-logos .logo-marquee-cell { width: 144px; }
+.section-deck[data-active] .home-logos .logo-marquee-cell {
+  height: clamp(2rem, 7.5dvh, 6.5rem);
 }
 
-.home-video-area {
-  min-height: 0;
-  container-type: size;
-}
-.home-videos {
-  --gap: clamp(6px, 1.2vw, 18px);
-  --clip-width: min(calc((100cqw - 3 * var(--gap)) / 4), 100cqh);
-  display: grid;
-  grid-template-columns: repeat(4, var(--clip-width));
-  justify-content: center;
-  align-content: center;
-  gap: var(--gap);
-  height: 100%;
-}
 @media (max-width: 767px) {
-  .home-intro h1 { font-size: clamp(1.875rem, min(8.5vw, 7dvh), 2.75rem); }
+  .section-deck[data-active] .home-intro {
+    padding-block: clamp(0.75rem, 2dvh, 2rem);
+  }
+  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
+    position: relative;
+    top: clamp(-2.25rem, calc(2.5rem - 9dvh), 0px);
+  }
+  .section-deck[data-active] .home-intro h1 {
+    font-size: clamp(1.875rem, 8.5vw, 2.75rem);
+  }
+  .section-deck[data-active] .home-intro > p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
   .home-intro h2 {
     white-space: nowrap;
-    font-size: clamp(.95rem, 4.9vw, 1.875rem);
+    font-size: clamp(1rem, 5vw, 1.875rem);
   }
-  .home-intro h2 wbr { display: none; }
-  .home-intro p { font-size: 1rem; }
+  .home-intro h2 wbr {
+    display: none;
+  }
+  .section-deck[data-active] .home-logos {
+    margin-top: clamp(1rem, 4dvh, 2rem);
+  }
 }
-@media (max-width: 767px) and (orientation: portrait) {
-  .home-videos {
-    --clip-width: min(calc((100cqw - var(--gap)) / 2), calc((100cqh - var(--gap)) / 2));
-    grid-template-columns: repeat(2, var(--clip-width));
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .home-logos .logo-marquee-cell {
+    width: 144px;
+    padding: 2px;
+  }
+  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
+    position: relative;
+    top: clamp(-3rem, calc(3rem - 10dvh), 0px);
+  }
+  .section-deck[data-active] .home-intro h1 {
+    font-size: clamp(3.25rem, 9dvh, 6rem);
+  }
+  .section-deck[data-active] .home-intro h2 {
+    max-width: 100%;
+    font-size: clamp(2.875rem, 3.8vw, 3.75rem);
+  }
+  .section-deck[data-active] .home-intro > p {
+    font-size: 1.5rem;
+    line-height: 1.5;
   }
 }
