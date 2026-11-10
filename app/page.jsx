@@ -58,19 +58,20 @@ export default async function Home() {
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
         <ServiceCards stock={<ProductExplorer products={products} inlineGuide />}>
-          <div data-reveal className="flex items-center gap-4 sm:gap-6">
+          <div data-reveal className="flex items-center gap-2 md:gap-6">
             <div className="h-px flex-1 bg-neutral-300" />
-            <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
-              ชาร์ตสีถุงผ้าสปันบอนด์{' '}
+            <h2 className="rounded-full border border-line bg-white px-3 py-2 text-center text-lg font-extrabold tracking-tight md:px-8 md:py-3 md:text-3xl">
+              <span className="md:hidden">สีผ้าสปันบอนด์</span>
+              <span className="hidden md:inline">ชาร์ตสีถุงผ้าสปันบอนด์</span>{' '}
               <span className="text-[#eb7300]">เฉพาะผลิตใหม่</span>
             </h2>
             <div className="h-px flex-1 bg-neutral-300" />
           </div>
-          <div data-reveal className="color-drop-grid mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
+          <div data-reveal className="color-drop-grid mt-4 grid grid-cols-5 gap-1.5 md:gap-3 lg:grid-cols-10">
             {colors.map((c, index) => (
               <div
                 key={c.no}
-                className="color-drop-card overflow-hidden rounded-2xl bg-white"
+                className="color-drop-card min-w-0 overflow-hidden rounded-lg md:rounded-2xl bg-white"
                 style={{ '--color-drop-delay': `${index * 35}ms` }}
               >
                 <Image
@@ -78,9 +79,10 @@ export default async function Home() {
                   alt={`สี${c.name}`}
                   width={300}
                   height={300}
+                  sizes="(max-width: 1023px) 20vw, 125px"
                   className="aspect-square w-full object-cover"
                 />
-                <div className="px-1 py-2 text-center text-xs font-semibold">
+                <div className="px-0.5 py-1 text-center text-[11px] font-semibold leading-tight [overflow-wrap:anywhere] md:px-1 md:py-2 md:text-xs">
                   {c.name}
                 </div>
               </div>
