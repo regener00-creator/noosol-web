@@ -13,8 +13,8 @@ export default function Faq({ items }) {
         return (
           <div
             key={i}
-            className={`overflow-hidden rounded-[28px] bg-soft transition-all duration-300 ${
-              open ? 'ring-1 ring-ink' : ''
+            className={`overflow-hidden rounded-[28px] bg-white transition-all duration-300 ${
+              open ? 'ring-1 ring-ink' : 'ring-1 ring-line'
             }`}
           >
             <button
@@ -53,12 +53,12 @@ export default function Faq({ items }) {
               }}
             >
               <div className="overflow-hidden">
-                <div className="mx-7 border-t border-neutral-300/70" />
-                <div className="space-y-1 px-7 py-5 text-sm leading-7 text-neutral-600">
+                <div className="mx-7 border-t border-[#f58220]" />
+                <ul className="list-inside list-disc space-y-1 px-7 py-5 text-sm leading-7 text-neutral-600 marker:text-[#f58220]">
                   {f.a.split('\n').filter(Boolean).map((line, lineIndex) => (
-                    <p key={lineIndex}>• {line.replace(/^•\s*/, '')}</p>
+                    <li key={lineIndex}>{line.replace(/^•\s*/, '')}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             </div>
           </div>
