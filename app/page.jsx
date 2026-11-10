@@ -82,7 +82,7 @@ export default async function Home() {
                   sizes="(max-width: 1023px) 20vw, 125px"
                   className="aspect-square w-full object-cover"
                 />
-                <div className="px-0.5 py-1 text-center text-[11px] font-semibold leading-tight [overflow-wrap:anywhere] md:px-1 md:py-2 md:text-xs">
+                <div className="px-0.5 py-1 text-center text-[10px] font-semibold leading-tight [overflow-wrap:anywhere] md:px-1 md:py-2 md:text-xs">
                   {c.name}
                 </div>
               </div>
