@@ -461,6 +461,23 @@ html.is-loading body {
   display: grid;
   place-items: center;
 }
+.service-opening-videos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(100%, 100dvh, 960px);
+  margin-inline: auto;
+  gap: clamp(8px, 1.5vw, 18px);
+}
+@media (max-width: 767px) and (orientation: portrait) {
+  .service-opening-videos {
+    width: min(100%, 32dvh);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.service-opening .service-start:disabled { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .service-opening .service-start { transition: opacity 200ms ease; }
+}
 .service-start, .service-choice {
   border-radius: 999px;
   font-weight: 700;

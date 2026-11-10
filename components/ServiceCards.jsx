@@ -1,7 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import LazyVideo from './LazyVideo';
 import { useLayoutEffect, useRef, useState } from 'react';
+
+const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
 
 const formats = [
   {
@@ -49,7 +52,9 @@ const formats = [
 ];
 
 export default function ServiceCards({ children, stock }) {
-  const [expanded, setExpanded] = useState(false);
+  const [stage, setStage] = useState('intro');
+  const expanded = stage === 'choices';
+  const clips = useRef(null);
   const [selected, setSelected] = useState(null);
   const origin = useRef(null);
   const choices = useRef(null);
@@ -65,7 +70,7 @@ export default function ServiceCards({ children, stock }) {
   useLayoutEffect(() => {
     function openLinkedChart() {
       if (window.location.hash === '#colors') {
-        setExpanded(true);
+        setStage('choices');
         setSelected(1);
       }
     }
@@ -82,8 +87,18 @@ export default function ServiceCards({ children, stock }) {
 
   function expand(event) {
     origin.current = event.currentTarget.getBoundingClientRect();
-    setExpanded(true);
+    setStage(window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'choices' : 'leaving');
   }
+
+  useLayoutEffect(() => {
+    if (stage !== 'leaving') return;
+    const exit = clips.current.animate([
+      { transform: 'translateY(0)', opacity: 1 },
+      { transform: 'translateY(55%)', opacity: 0 },
+    ], { duration: 420, easing: 'cubic-bezier(.45,0,.75,.4)', fill: 'forwards' });
+    exit.onfinish = () => setStage('choices');
+    return () => exit.cancel();
+  }, [stage]);
 
   useLayoutEffect(() => {
     if (!expanded || !origin.current) return;
@@ -198,9 +213,24 @@ export default function ServiceCards({ children, stock }) {
           )}
         </>
       ) : (
-        <button type="button" onClick={expand} aria-expanded={false} className="service-start">
-          ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
-        </button>
+        <div className="service-opening w-full text-center">
+          <button type="button" onClick={expand} disabled={stage === 'leaving'} aria-expanded={false} className="service-start">
+            ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
+          </button>
+          <div className="mt-5 overflow-clip sm:mt-8">
+            <div ref={clips} className="service-opening-videos">
+              {showcaseVideos.map((file, index) => (
+                <LazyVideo
+                  key={file}
+                  src={`/videos/${file}`}
+                  poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
+                  aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
+                  className="block aspect-[9/16] w-full rounded-2xl bg-black object-cover"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       )}
       {selected === 0 && (
         <section aria-labelledby="stock-screen-heading" className="mt-12 scroll-mt-4 sm:mt-16">

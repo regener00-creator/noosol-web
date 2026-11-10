@@ -5,7 +5,6 @@ import ProductExplorer from '@/components/ProductExplorer';
 import ServiceCards from '@/components/ServiceCards';
 import PortfolioExplorer from '@/components/PortfolioExplorer';
 import LogoMarquee from '@/components/LogoMarquee';
-import LazyVideo from '@/components/LazyVideo';
 import Faq from '@/components/Faq';
 import { site } from '@/lib/site';
 
@@ -21,8 +20,6 @@ const customerLogos = [
   '42.png', '43.jpg', '44.jpg', '45.jpg', '46.jpg', '47.jpg', '48.jpg', '49.jpg',
   '50.jpg',
 ].map((f) => `/customers/${f}`);
-
-const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
 
 // กล่องครอบเนื้อหาแต่ละส่วน
 const Container = ({ children }) => (
@@ -55,25 +52,6 @@ export default async function Home() {
               <LogoMarquee direction="left" images={customerLogos.slice(33)} />
             </div>
 
-          </div>
-        </Container>
-        <Container>
-          <div className="grid w-full grid-cols-2 gap-4 pb-8 sm:pb-12 lg:grid-cols-4">
-            {showcaseVideos.map((file, index) => (
-              <div
-                key={file}
-                data-reveal
-                data-reveal-delay={index * 70}
-                className="min-w-0 overflow-hidden rounded-2xl bg-black shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
-              >
-                <LazyVideo
-                  src={`/videos/${file}`}
-                  poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
-                  aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
-                  className="aspect-[9/16] min-w-0 max-w-full bg-black object-cover"
-                />
-              </div>
-            ))}
           </div>
         </Container>
       </section>
