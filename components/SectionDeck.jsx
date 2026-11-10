@@ -8,7 +8,6 @@ export default function SectionDeck({ children }) {
   useEffect(() => {
     const deck = root.current;
     const panels = Array.from(deck.children);
-    const mobile = window.matchMedia('(max-width: 767px)');
     const compact = window.matchMedia('(max-width: 767px), (pointer: coarse)');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current;
@@ -21,9 +20,8 @@ export default function SectionDeck({ children }) {
 
     function resolve(hash) {
       if (hash === '#size-guide' || hash === '#scale') {
-        const panel = document.getElementById(mobile.matches ? 'scale' : 'products');
-        const guide = document.getElementById('size-guide');
-        return { panel, target: !mobile.matches && panel.contains(guide) ? guide : panel };
+        const panel = document.getElementById('scale');
+        return { panel, target: panel };
       }
       const target = document.getElementById(hash.slice(1) || 'home');
       const panel = panels.find((item) => item.contains(target));
@@ -44,7 +42,6 @@ export default function SectionDeck({ children }) {
         }
         deck.dataset.active = panel.id;
       }
-      // The stock list and guide are distinct menu destinations in the same desktop panel.
       window.dispatchEvent(new Event('noosol:section-change'));
 
       // Measure the anchor in layout coordinates while its reveal animation runs.
@@ -75,10 +72,6 @@ export default function SectionDeck({ children }) {
       show(resolve(location.hash) || resolve('#home'), true);
     }
 
-    function syncGuideLocation() {
-      if (['#size-guide', '#scale'].includes(location.hash)) followLocation();
-    }
-
     function followLink(event) {
       if (event.defaultPrevented || event.button !== 0 ||
           event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -105,13 +98,11 @@ export default function SectionDeck({ children }) {
     for (const panel of panels) panel.tabIndex = -1;
     followLocation();
     window.scrollTo({ top: 0, behavior: 'instant' });
-    window.addEventListener('noosol:guide-placed', syncGuideLocation);
     document.addEventListener('click', followLink, true);
     window.addEventListener('hashchange', followLocation);
     window.addEventListener('popstate', followLocation);
     window.addEventListener('noosol:loader-complete', followLocation);
     return () => {
-      window.removeEventListener('noosol:guide-placed', syncGuideLocation);
       document.removeEventListener('click', followLink, true);
       window.removeEventListener('hashchange', followLocation);
       window.removeEventListener('popstate', followLocation);

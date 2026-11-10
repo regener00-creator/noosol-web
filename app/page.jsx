@@ -156,10 +156,10 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section id="scale" className="scroll-mt-16 md:hidden">
+      <section id="scale" className="scroll-mt-16">
         <Container>
           <div className="py-8">
-            <div id="mobile-guide-slot" />
+            <div id="size-guide-slot" />
           </div>
         </Container>
       </section>

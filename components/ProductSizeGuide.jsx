@@ -32,7 +32,7 @@ function GuidePrice({ guide, price }) {
 }
 
 export default function ProductSizeGuide({ products, index, setIndex }) {
-  const [mobileSlot, setMobileSlot] = useState(null);
+  const [guideSlot, setGuideSlot] = useState(null);
   const [direction, setDirection] = useState(0);
   const section = useRef(null);
   const moving = useRef(false);
@@ -44,18 +44,8 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
   }));
 
   useEffect(() => {
-    const query = window.matchMedia('(max-width: 767px)');
-    const place = () => setMobileSlot(query.matches ? document.getElementById('mobile-guide-slot') : null);
-    place();
-    query.addEventListener('change', place);
-    return () => query.removeEventListener('change', place);
+    setGuideSlot(document.getElementById('size-guide-slot'));
   }, []);
-
-  useEffect(() => {
-    window.dispatchEvent(new Event('noosol:guide-placed'));
-    moving.current = false;
-    setDirection(0);
-  }, [mobileSlot]);
 
   useEffect(() => {
     let frame;
@@ -120,12 +110,12 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
       ref={section}
       aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
-      className="relative mx-auto grid max-w-5xl md:mt-12 scroll-mt-24 grid-cols-2 gap-3 sm:block sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
+      className="relative mx-auto grid max-w-5xl scroll-mt-24 grid-cols-2 gap-3 sm:block sm:px-16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-400"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      {mobileSlot && (
-        <label className="col-span-2 grid gap-1 text-center text-sm font-semibold">
+      {guideSlot && (
+        <label className="col-span-2 grid gap-1 text-center text-sm font-semibold md:hidden">
           รุ่นสินค้า
           <span className="relative block">
             <select
@@ -229,5 +219,5 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
     </section>
   );
 
-  return mobileSlot ? createPortal(content, mobileSlot) : content;
+  return guideSlot ? createPortal(content, guideSlot) : content;
 }
