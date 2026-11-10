@@ -41,7 +41,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
   const [displayed, setDisplayed] = useState(categories[0].id);
   const [flipPhase, setFlipPhase] = useState('idle');
   const requestedCategory = useRef(categories[0].id);
-  const guideHeading = useRef(null);
+  const guideSection = useRef(null);
   const tabs = useRef(null);
   const indicator = useRef(null);
   const buttons = useRef([]);
@@ -103,6 +103,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
     return () => resizeObserver.disconnect();
   }, [active]);
 
+  const sizeGuide = <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} inline={inlineGuide} />;
   const ModelControl = inlineGuide ? 'button' : 'a';
 
   return (
@@ -164,8 +165,8 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
                     onClick={() => {
                       setGuideIndex(guideIndexByCode.get(product.code));
                       if (inlineGuide) {
-                        guideHeading.current?.focus({ preventScroll: true });
-                        guideHeading.current?.scrollIntoView({ block: 'start' });
+                        guideSection.current?.focus({ preventScroll: true });
+                        guideSection.current?.scrollIntoView({ block: 'start' });
                       }
                     }}
                     aria-label={`ดูสเกลรุ่น ${product.code}`}
@@ -177,10 +178,11 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
           </div>
         )}
       </div>
-      {inlineGuide && (
-        <h2 ref={guideHeading} tabIndex={-1} className="mb-7 mt-12 scroll-mt-4 text-center text-2xl font-extrabold sm:mt-16 sm:text-3xl">สเกล</h2>
-      )}
-      <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} inline={inlineGuide} />
+      {inlineGuide ? (
+        <div ref={guideSection} role="group" aria-label="สเกล" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+          {sizeGuide}
+        </div>
+      ) : sizeGuide}
     </div>
   );
 }

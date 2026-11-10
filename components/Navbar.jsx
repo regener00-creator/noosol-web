@@ -5,27 +5,19 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/site';
 
-const mainLinks = [
+const nav = [
   ['หน้าแรก', 'home'],
   ['การผลิต', 'services'],
   ['ผลงาน', 'portfolio'],
+  ['FAQ', 'qa'],
 ];
-const stockLinks = [
-  ['รุ่นในสต็อก', 'products'],
-  ['สเกล', 'size-guide'],
-];
-const faqLink = ['FAQ', 'qa'];
-const nav = [...mainLinks, ...stockLinks, faqLink];
-const mobileNav = [...mainLinks, faqLink, ...stockLinks, ['ติดต่อ', 'contact']];
+const mobileNav = [...nav, ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
   const [pill, setPill] = useState({ left: 0, width: 0, ready: false });
   const linkRefs = useRef({});
   const mobileIndex = mobileNav.findIndex(([, id]) => id === active);
-  const columns = mobileIndex < 4 ? 4 : 3;
-  const row = mobileIndex < 4 ? 0 : 1;
-  const column = row ? mobileIndex - 4 : mobileIndex;
 
   // scroll spy — ดูว่า section ไหนอยู่บนจอ แล้วเลื่อนเม็ดยาไปที่เมนูนั้น
   useEffect(() => {
@@ -36,9 +28,7 @@ export default function Navbar() {
     const onScroll = () => {
       const panel = document.querySelector('.section-deck')?.dataset.active;
       if (panel) {
-        const showingGuide = panel === 'scale' ||
-          (panel === 'products' && ['#size-guide', '#scale'].includes(window.location.hash));
-        setActive(showingGuide ? 'size-guide' : panel === 'colors' ? 'services' : panel);
+        setActive(['products', 'scale', 'colors'].includes(panel) ? 'services' : panel);
         return;
       }
       const mid = window.scrollY + window.innerHeight / 3;
@@ -109,14 +99,6 @@ export default function Navbar() {
                 active === id ? 'text-white' : 'text-neutral-500 hover:text-ink'
               }`}
             >
-              {id === 'products' && (
-                <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-l-full border-y border-l border-[#f58220]/50">
-                  <span className="absolute -right-2 top-1/2 h-px w-4 bg-[#f58220]" />
-                </span>
-              )}
-              {id === 'size-guide' && (
-                <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-r-full border-y border-r border-[#f58220]/50" />
-              )}
               {label}
             </a>
           ))}
@@ -135,28 +117,23 @@ export default function Navbar() {
 
       <nav
         aria-label="เมนูหลัก"
-        className="relative grid auto-rows-fr grid-cols-12 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
+        className="relative grid grid-cols-5 gap-1 rounded-2xl border border-white/60 bg-white/90 p-1 shadow-sm md:hidden"
       >
-        <span aria-hidden="true" className="pointer-events-none absolute inset-1 grid grid-cols-12 grid-rows-2 gap-1">
-          <span className="relative col-span-8 col-start-1 row-start-2 rounded-xl border border-[#f58220]/50">
-            <span className="absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 bg-[#f58220]" />
-          </span>
-        </span>
         <span aria-hidden="true" className="pointer-events-none absolute inset-1">
           <span
-            className="absolute left-0 top-0 h-[calc(50%-0.125rem)] rounded-xl bg-[#f58220] motion-safe:transition-[width,transform] motion-safe:duration-300 motion-safe:ease-out"
+            className="absolute left-0 top-0 h-full rounded-xl bg-[#f58220] motion-safe:transition-[width,transform] motion-safe:duration-300 motion-safe:ease-out"
             style={{
-              width: `calc((100% - ${(columns - 1) * 0.25}rem) / ${columns})`,
-              transform: `translate(calc(${column * 100}% + ${column * 0.25}rem), calc(${row * 100}% + ${row * 0.25}rem))`,
+              width: 'calc((100% - 1rem) / 5)',
+              transform: `translateX(calc(${mobileIndex * 100}% + ${mobileIndex * 0.25}rem))`,
             }}
           />
         </span>
-        {mobileNav.map(([label, id], index) => (
+        {mobileNav.map(([label, id]) => (
           <a
             key={id}
             href={`#${id}`}
             aria-current={active === id ? 'location' : undefined}
-            className={`${index < 4 ? 'col-span-3' : 'col-span-4'} relative flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
+            className={`relative flex min-h-11 items-center justify-center rounded-xl px-1 text-center text-sm font-semibold leading-tight transition-colors ${
               active === id ? 'text-white' :
               id === 'contact' ? 'bg-[#06C755] text-white' : 'text-neutral-600 hover:bg-soft'
             }`}

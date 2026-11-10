@@ -204,8 +204,7 @@ export default function ServiceCards({ children, stock }) {
         </button>
       )}
       {selected === 0 && (
-        <section className="mt-12 sm:mt-16">
-          <h2 ref={stockSection} tabIndex={-1} className="mb-7 scroll-mt-4 text-center text-2xl font-extrabold sm:text-3xl">รุ่นในสต๊อก</h2>
+        <section ref={stockSection} aria-label="รุ่นในสต๊อก" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
           {stock}
         </section>
       )}
