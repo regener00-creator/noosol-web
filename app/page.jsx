@@ -93,7 +93,7 @@ export default async function Home() {
       <section id="portfolio" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="py-20">
-            <div data-reveal className="flex items-center gap-3 sm:gap-5">
+            <div data-reveal className="hidden items-center gap-3 md:flex sm:gap-5">
               <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
               <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
                 ตัวอย่างงาน
@@ -164,7 +164,7 @@ export default async function Home() {
             </div>
 
             <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-              <article data-reveal data-reveal-delay="100" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#fff0eb] px-3 py-4 text-center sm:p-6 text-[#171717]">
+              <article data-reveal data-reveal-delay="100" className="order-3 md:order-none flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#fff0eb] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">SHOPEE</h3>
                 <Image src="/contact-icons/shopee-20261105.jpg" alt="Shopee" width={64} height={64} className="mt-4 h-14 w-14 rounded-full object-contain" />
                 <a href={site.shopee} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#ee4d2d] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#d94124]">
@@ -172,7 +172,7 @@ export default async function Home() {
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="160" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#eaf2ff] px-3 py-4 text-center sm:p-6 text-[#171717]">
+              <article data-reveal data-reveal-delay="160" className="order-4 md:order-none flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#eaf2ff] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">FACEBOOK</h3>
                 <Image src="/contact-icons/facebook-20261105.png" alt="Facebook" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <a href={site.facebook} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#1877f2] px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-[#1267d6]">
@@ -180,7 +180,7 @@ export default async function Home() {
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="220" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] px-3 py-4 text-center sm:p-6 text-[#171717]">
+              <article data-reveal data-reveal-delay="220" className="order-1 md:order-none flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">LINE</h3>
                 <Image src="/contact-icons/line-20261105.png" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <p className="mt-4 text-sm font-bold leading-6 text-neutral-600">
@@ -191,7 +191,7 @@ export default async function Home() {
                 </a>
               </article>
 
-              <article data-reveal data-reveal-delay="280" className="flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e7e7e7] px-3 py-4 text-center sm:p-6 text-[#171717]">
+              <article data-reveal data-reveal-delay="280" className="order-2 md:order-none flex min-h-[220px] min-w-0 sm:min-h-[280px] flex-col items-center rounded-lg bg-[#e7e7e7] px-3 py-4 text-center sm:p-6 text-[#171717]">
                 <h3 className="text-xl font-extrabold">CALL</h3>
                 <Image src="/contact-icons/call-20261105.png" alt="โทรศัพท์" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
                 <a href={site.phoneHref} className="mt-auto w-full rounded-md bg-black px-1 py-3 text-center sm:px-4 text-sm font-bold text-white transition hover:bg-neutral-800">

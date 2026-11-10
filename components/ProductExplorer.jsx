@@ -155,7 +155,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
         )}
 
         {items.length > 0 && (
-          <div className={`${showInfo ? 'mt-6' : ''} grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5`}>
+          <div key={displayed} className={`${showInfo ? 'mt-6' : ''} stock-model-rail grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5`}>
             {items.map((product) => (
               <div key={product.code} className="product-flip-card relative flex min-w-0 [&>div]:w-full">
                 <ShopCard p={product} />

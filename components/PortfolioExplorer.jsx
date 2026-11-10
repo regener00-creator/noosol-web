@@ -182,7 +182,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
   return (
     <div>
       {showHeading && (
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="hidden items-center gap-3 sm:gap-5 md:flex">
           <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
           <h2 className="rounded-full border border-line bg-white px-8 py-3 text-2xl font-extrabold tracking-normal sm:text-3xl">
             ตัวอย่างงาน
@@ -192,7 +192,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
       )}
 
       {/* ปุ่มเลือกหมวดอยู่คนละบรรทัดใต้หัวข้อ */}
-      <div className="mt-7 flex justify-center">
+      <div className="flex justify-center md:mt-7">
         <div
           ref={tabs}
           className="portfolio-category-tabs relative flex w-full items-center overflow-x-auto rounded-full border border-line bg-white p-1 shadow-sm"

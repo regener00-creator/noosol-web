@@ -86,7 +86,6 @@ export default function ProductSizeGuide({ products, index, setIndex, inline = f
   }
 
   function handleKeyDown(event) {
-    if (event.target.tagName === 'SELECT') return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       move(event.key === 'ArrowLeft' ? -1 : 1);
@@ -115,26 +114,6 @@ export default function ProductSizeGuide({ products, index, setIndex, inline = f
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      {(inline || guideSlot) && (
-        <label className="col-span-2 grid gap-1 text-center text-sm font-semibold md:hidden">
-          รุ่นสินค้า
-          <span className="relative block">
-            <select
-              value={index}
-              onChange={(event) => setIndex(Number(event.target.value))}
-              disabled={direction !== 0}
-              className="min-h-11 w-full appearance-none rounded-xl border border-line bg-white px-8 text-center text-base text-ink [text-align-last:center]"
-            >
-              {guides.map((item, i) => (
-                <option key={item.code} value={i}>NO.{item.code} · {item.width} × {item.height} นิ้ว</option>
-              ))}
-            </select>
-            <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500">
-              <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </label>
-      )}
       <div
         className="col-span-2 aspect-[1600/1464] overflow-hidden bg-white"
         style={{ touchAction: 'pan-y pinch-zoom' }}
