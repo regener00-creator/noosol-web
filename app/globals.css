@@ -596,13 +596,8 @@ html.is-loading body {
 @media (prefers-reduced-motion: no-preference) {
   .service-choice-pair::before, .service-choice-pair::after { animation: service-connect 260ms 430ms backwards; }
   .service-choice { transition: color 240ms ease, border-color 240ms ease; }
-  .service-result { animation: service-appear 340ms cubic-bezier(.2,.75,.25,1); }
 }
 @keyframes service-connect { from { opacity: 0; } to { opacity: 1; } }
-@keyframes service-appear {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* Each panel scrolls within the space below the navigation. */
 body:has(.section-deck[data-active]) {

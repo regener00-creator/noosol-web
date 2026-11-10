@@ -60,6 +60,7 @@ export default function ServiceCards({ children, stock }) {
   const choices = useRef(null);
   const centeredTop = useRef(null);
   const chart = useRef(null);
+  const content = useRef(null);
   const activePill = useRef(null);
   const previousPillBounds = useRef(null);
   const format = formats[selected];
@@ -152,6 +153,20 @@ export default function ServiceCards({ children, stock }) {
     return () => lift.cancel();
   }, [hasSelection]);
 
+  useLayoutEffect(() => {
+    if (selected === null || window.location.hash === '#colors' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const body = content.current;
+    const panel = body.closest('#services');
+    const distance = Math.max(0, panel.getBoundingClientRect().bottom - body.getBoundingClientRect().top);
+    const entry = body.animate([
+      { transform: `translateY(${distance}px)`, opacity: 0 },
+      { transform: 'translateY(0)', opacity: 1 },
+    ], { duration: 560, easing: 'cubic-bezier(.22,.8,.22,1)' });
+    return () => entry.cancel();
+  }, [selected]);
+
   function choice(index) {
     return (
       <button
@@ -178,43 +193,13 @@ export default function ServiceCards({ children, stock }) {
   return (
     <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro'}`}>
       {expanded ? (
-        <>
-          <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
-            <div className="service-family" role="group" aria-labelledby="spunbond-family">
-              <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
-              <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
-            </div>
-            {choice(2)}
+        <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
+          <div className="service-family" role="group" aria-labelledby="spunbond-family">
+            <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
+            <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
           </div>
-
-          {format && (
-            <div key={format.label} className="service-result grid gap-4 md:grid-cols-3 md:gap-6">
-              <article className="flex min-w-0 flex-col rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-7">
-                <div className="flex items-center gap-3">
-                  <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-[#eb7300]">
-                    <Image src={format.icon} alt="" fill sizes="48px" className={`${format.iconScale} object-contain brightness-0 invert`} />
-                  </div>
-                  <h2 className="flex-1 text-lg font-extrabold text-ink">{format.title}</h2>
-                  <span className="text-3xl font-bold text-[#d88a46]">{String(selected + 1).padStart(2, '0')}</span>
-                </div>
-                <div className="relative my-3 h-36 sm:h-52 lg:h-64">
-                  <Image src={format.image} alt={format.title} fill sizes="(min-width: 768px) 33vw, 94vw" className="object-contain" />
-                </div>
-                <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
-                  <strong className="block text-ink">{format.description[0]}</strong>
-                  {format.description[1]}
-                </p>
-              </article>
-
-              <article className="flex min-w-0 flex-col items-center justify-center rounded-3xl text-center border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
-                <h3 className="text-xl font-extrabold leading-relaxed text-ink sm:text-2xl">{format.detailTitle}</h3>
-                <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
-                  {format.details.map((detail) => <li key={detail}>{detail}</li>)}
-                </ul>
-              </article>
-            </div>
-          )}
-        </>
+          {choice(2)}
+        </div>
       ) : (
         <div className="service-opening w-full text-center">
           <button type="button" onClick={expand} disabled={stage === 'leaving'} aria-expanded={false} className="service-start">
@@ -235,22 +220,51 @@ export default function ServiceCards({ children, stock }) {
           </div>
         </div>
       )}
-      {selected === 0 && (
-        <section aria-labelledby="stock-screen-heading" className="mt-12 scroll-mt-4 sm:mt-16">
-          <div className="mb-7 flex items-center gap-4 sm:gap-6">
-            <div className="h-px flex-1 bg-neutral-300" />
-            <h2 id="stock-screen-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
-              รุ่นถุงสปันบอนด์{' '}
-              <span className="text-[#eb7300]">สำหรับสกรีน</span>
-            </h2>
-            <div className="h-px flex-1 bg-neutral-300" />
+      <div ref={content} hidden={!hasSelection}>
+        {format && (
+          <div key={format.label} className="service-result grid gap-4 md:grid-cols-3 md:gap-6">
+            <article className="flex min-w-0 flex-col rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-7">
+              <div className="flex items-center gap-3">
+                <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-[#eb7300]">
+                  <Image src={format.icon} alt="" fill sizes="48px" className={`${format.iconScale} object-contain brightness-0 invert`} />
+                </div>
+                <h2 className="flex-1 text-lg font-extrabold text-ink">{format.title}</h2>
+                <span className="text-3xl font-bold text-[#d88a46]">{String(selected + 1).padStart(2, '0')}</span>
+              </div>
+              <div className="relative my-3 h-36 sm:h-52 lg:h-64">
+                <Image src={format.image} alt={format.title} fill sizes="(min-width: 768px) 33vw, 94vw" className="object-contain" />
+              </div>
+              <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
+                <strong className="block text-ink">{format.description[0]}</strong>
+                {format.description[1]}
+              </p>
+            </article>
+
+            <article className="flex min-w-0 flex-col items-center justify-center rounded-3xl text-center border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
+              <h3 className="text-xl font-extrabold leading-relaxed text-ink sm:text-2xl">{format.detailTitle}</h3>
+              <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
+                {format.details.map((detail) => <li key={detail}>{detail}</li>)}
+              </ul>
+            </article>
           </div>
-          {stock}
+        )}
+        {selected === 0 && (
+          <section aria-labelledby="stock-screen-heading" className="mt-12 scroll-mt-4 sm:mt-16">
+            <div className="mb-7 flex items-center gap-4 sm:gap-6">
+              <div className="h-px flex-1 bg-neutral-300" />
+              <h2 id="stock-screen-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
+                รุ่นถุงสปันบอนด์{' '}
+                <span className="text-[#eb7300]">สำหรับสกรีน</span>
+              </h2>
+              <div className="h-px flex-1 bg-neutral-300" />
+            </div>
+            {stock}
+          </section>
+        )}
+        <section ref={chart} id="colors" hidden={!showColors} className="mt-12 scroll-mt-4 sm:mt-16">
+          {children}
         </section>
-      )}
-      <section ref={chart} id="colors" hidden={!showColors} className="mt-12 scroll-mt-4 sm:mt-16">
-        {children}
-      </section>
+      </div>
     </div>
   );
 }
