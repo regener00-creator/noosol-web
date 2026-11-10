@@ -135,7 +135,7 @@ export default async function Home() {
       </section>
 
       {/* Q&A — พื้นขาว */}
-      <section id="qa" className="scroll-mt-16">
+      <section id="qa" className="grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="py-20">
             <div data-reveal className="flex items-center gap-4 sm:gap-6">
