@@ -134,7 +134,7 @@ function PortfolioRail({ group }) {
             aria-hidden={copy !== 1}
           >
             {column.map((src, row) => (
-              <div key={src} className="overflow-hidden rounded-xl border-2 border-neutral-300 bg-white shadow-sm sm:rounded-2xl">
+              <div key={src} className="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
                 <Image
                   src={src}
                   alt={copy === 1 ? `ผลงาน${group.name} NOOSOL รูปที่ ${col * 2 + row + 1}` : ''}
