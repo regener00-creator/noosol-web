@@ -6,6 +6,17 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
 
+const bagExamples = [
+  { file: 'water', alt: 'ถุงผ้าสีครีมหูหิ้วสีน้ำเงิน WATER' },
+  { file: 'kuku', alt: 'กระเป๋าหูหิ้วสีน้ำตาลลาย Ku Ku' },
+  { file: 'hi-project', alt: 'กระเป๋าผ้าสีดำลาย Hi! Project' },
+  { file: 'informa', alt: 'กระเป๋าผ้าสีน้ำเงิน Informa Markets' },
+  { file: 'gsb', alt: 'ถุงหูหิ้วสีชมพู ออมสิน' },
+  { file: 'silom-edge', alt: 'ถุงสีดำหูหิ้วสีรุ้ง Silom Edge' },
+  { file: 'drawstring', alt: 'เป้หูรูดสีแดงลาย Nichakoon Meen' },
+  { file: 'anniversary', alt: 'กระเป๋าผ้าสีขาวลายช้าง 50 ปี' },
+];
+
 const formats = [
   {
     label: 'สต๊อก',
@@ -255,6 +266,15 @@ export default function ServiceCards({ children, stock }) {
               </ul>
             </article>
           </div>
+        )}
+        {selected === 2 && (
+          <ul aria-label="ตัวอย่างงานผลิตกระเป๋า" className="mt-8 grid grid-cols-4 gap-2 sm:mt-12 sm:gap-4">
+            {bagExamples.map(({ file, alt }) => (
+              <li key={file} className="relative aspect-square overflow-hidden rounded-xl border border-line bg-white shadow-sm sm:rounded-2xl">
+                <Image src={`/services/bag-examples/${file}.webp`} alt={alt} fill sizes="(min-width: 1280px) 300px, 24vw" className="object-contain" />
+              </li>
+            ))}
+          </ul>
         )}
         {selected === 0 && (
           <section aria-labelledby="stock-screen-heading" className="mt-12 scroll-mt-4 sm:mt-16">
