@@ -179,7 +179,14 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
         )}
       </div>
       {inlineGuide ? (
-        <div ref={guideSection} role="group" aria-label="สเกล" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+        <div ref={guideSection} role="group" aria-labelledby="stock-compare-heading" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+          <div className="mb-7 flex items-center gap-4 sm:gap-6">
+            <div className="h-px flex-1 bg-neutral-300" />
+            <h2 id="stock-compare-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
+              เปรียบเทียบขนาดสินค้า<span className="text-[#eb7300]">ของแต่ละรุ่น</span>
+            </h2>
+            <div className="h-px flex-1 bg-neutral-300" />
+          </div>
           {sizeGuide}
         </div>
       ) : sizeGuide}
