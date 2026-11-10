@@ -8,7 +8,7 @@ const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp
 
 const bagExamples = [
   { file: 'water', alt: 'ถุงผ้าสีครีมหูหิ้วสีน้ำเงิน WATER' },
-  { file: 'kuku', alt: 'กระเป๋าหูหิ้วสีน้ำตาลลาย Ku Ku' },
+  { file: 'kuku-white', alt: 'กระเป๋าหูหิ้วสีน้ำตาลลาย Ku Ku' },
   { file: 'hi-project', alt: 'กระเป๋าผ้าสีดำลาย Hi! Project' },
   { file: 'informa', alt: 'กระเป๋าผ้าสีน้ำเงิน Informa Markets' },
   { file: 'gsb', alt: 'ถุงหูหิ้วสีชมพู ออมสิน' },
