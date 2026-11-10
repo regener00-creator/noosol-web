@@ -14,7 +14,7 @@ export default function Faq({ items }) {
           <div
             key={i}
             className={`overflow-hidden rounded-[28px] bg-white transition-all duration-300 ${
-              open ? 'ring-1 ring-ink' : 'ring-1 ring-line'
+              open ? '' : 'ring-1 ring-line'
             }`}
           >
             <button
