@@ -189,7 +189,7 @@ export default async function Home() {
               <article data-reveal data-reveal-delay="220" className="flex min-h-[280px] flex-col items-center rounded-lg bg-[#e8faee] p-6 text-center text-[#171717]">
                 <h3 className="text-xl font-extrabold">LINE</h3>
                 <Image src="/contact-icons/line-20261105.png" alt="LINE" width={64} height={64} className="mt-4 h-14 w-14 object-contain" />
-                <p className="mt-4 text-sm leading-6 text-neutral-600">
+                <p className="mt-4 text-sm font-bold leading-6 text-neutral-600">
                   🌟ช่องทางติดต่อที่แนะนำ🌟
                 </p>
                 <a href={site.lineHref} target="_blank" rel="noreferrer" className="mt-auto w-full rounded-md bg-[#06c755] px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-[#05ae4a]">
