@@ -204,7 +204,15 @@ export default function ServiceCards({ children, stock }) {
         </button>
       )}
       {selected === 0 && (
-        <section ref={stockSection} aria-label="รุ่นในสต๊อก" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+        <section ref={stockSection} aria-labelledby="stock-screen-heading" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+          <div className="mb-7 flex items-center gap-4 sm:gap-6">
+            <div className="h-px flex-1 bg-neutral-300" />
+            <h2 id="stock-screen-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
+              รุ่นถุงสปันบอนด์{' '}
+              <span className="text-[#eb7300]">สำหรับสกรีน</span>
+            </h2>
+            <div className="h-px flex-1 bg-neutral-300" />
+          </div>
           {stock}
         </section>
       )}
