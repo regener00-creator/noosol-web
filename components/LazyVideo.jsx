@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-export default function LazyVideo({ src, poster, className, ...props }) {
+export default function LazyVideo({ src, mobileSrc, poster, className, ...props }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -11,21 +11,27 @@ export default function LazyVideo({ src, poster, className, ...props }) {
     const connection = navigator.connection;
     let visible = false;
 
+    function loadSource() {
+      if (video.hasAttribute('src')) return;
+      const compact = window.matchMedia('(max-width: 767px)').matches || connection?.saveData;
+      video.src = compact && mobileSrc ? mobileSrc : src;
+    }
+
     const updatePlayback = () => {
       const manual = reducedMotion.matches || Boolean(connection?.saveData);
       video.controls = manual;
       if (visible && !document.hidden && !manual) {
-        if (!video.hasAttribute('src')) video.src = src;
+        loadSource();
         video.play().catch(() => { video.controls = true; });
       } else {
         video.pause();
         // On reduced-motion/data-saving devices, only load after a deliberate play.
-        if (visible && manual && !video.hasAttribute('src')) video.src = src;
+        if (visible && manual) loadSource();
       }
     };
 
     if (!('IntersectionObserver' in window)) {
-      video.src = src;
+      loadSource();
       video.controls = true;
       return;
     }
@@ -47,7 +53,7 @@ export default function LazyVideo({ src, poster, className, ...props }) {
       connection?.removeEventListener?.('change', updatePlayback);
       video.pause();
     };
-  }, [src]);
+  }, [src, mobileSrc]);
 
   return (
     <video

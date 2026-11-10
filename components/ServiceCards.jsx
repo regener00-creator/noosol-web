@@ -230,6 +230,7 @@ export default function ServiceCards({ children, stock }) {
                 <LazyVideo
                   key={file}
                   src={`/videos/${file}`}
+                  mobileSrc={`/videos/${file.replace('-h264.mp4', '-mobile.mp4')}`}
                   poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
                   aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
                   className="block aspect-[9/16] w-full rounded-2xl bg-black object-cover"

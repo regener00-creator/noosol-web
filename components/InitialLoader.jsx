@@ -1,69 +1,34 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
-
-const MINIMUM_DISPLAY_MS = 1200;
-const MAXIMUM_DISPLAY_MS = 3500;
+import { useEffect, useState } from 'react';
 
 export default function InitialLoader() {
-  const [progress, setProgress] = useState(0);
-  const [exiting, setExiting] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const completed = useRef(false);
+  const [phase, setPhase] = useState('loading');
+  const exiting = phase === 'exiting';
+  const progress = exiting ? 100 : 0;
 
   useEffect(() => {
-    const startedAt = Date.now();
-    let pageReady = document.readyState === 'complete';
-    const timers = [];
+    const root = document.documentElement;
+    delete root.dataset.loaderDone;
+    root.classList.add('is-loading');
+    setPhase('exiting');
 
-    delete document.documentElement.dataset.loaderDone;
-    document.documentElement.classList.add('is-loading');
-
-    const finish = () => {
-      if (completed.current) return;
-      completed.current = true;
-      setProgress(100);
-      timers.push(window.setTimeout(() => setExiting(true), 260));
-      timers.push(window.setTimeout(() => {
-        setHidden(true);
-        document.documentElement.classList.remove('is-loading');
-        document.documentElement.dataset.loaderDone = 'true';
-        window.dispatchEvent(new Event('noosol:loader-complete'));
-      }, 1100));
-    };
-
-    const onLoad = () => {
-      pageReady = true;
-    };
-
-    window.addEventListener('load', onLoad);
-
-    const interval = window.setInterval(() => {
-      const elapsed = Date.now() - startedAt;
-      const waitingTarget = Math.min(92, Math.floor(elapsed / 14));
-
-      setProgress((current) => {
-        if (completed.current) return current;
-        const distance = waitingTarget - current;
-        return distance > 0 ? Math.min(waitingTarget, current + Math.max(1, Math.ceil(distance * 0.16))) : current;
-      });
-
-      if ((pageReady && elapsed >= MINIMUM_DISPLAY_MS) || elapsed >= MAXIMUM_DISPLAY_MS) {
-        window.clearInterval(interval);
-        finish();
-      }
-    }, 35);
-
+    // The page is hydrated. Only wait for the curtain to finish opening.
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400;
+    const timer = window.setTimeout(() => {
+      setPhase('done');
+      root.classList.remove('is-loading');
+      root.dataset.loaderDone = 'true';
+      window.dispatchEvent(new Event('noosol:loader-complete'));
+    }, duration);
     return () => {
-      window.removeEventListener('load', onLoad);
-      window.clearInterval(interval);
-      timers.forEach((timer) => window.clearTimeout(timer));
-      document.documentElement.classList.remove('is-loading');
+      window.clearTimeout(timer);
+      root.classList.remove('is-loading');
     };
   }, []);
 
-  if (hidden) return null;
+  if (phase === 'done') return null;
 
   return (
     <div
@@ -86,6 +51,7 @@ export default function InitialLoader() {
                 alt=""
                 width={1600}
                 height={1600}
+                sizes="156px"
                 priority
                 className="absolute h-[156px] w-[156px] max-w-none -translate-x-[38px] -translate-y-[44px]"
               />
