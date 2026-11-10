@@ -199,9 +199,9 @@ export default function ServiceCards({ children, stock }) {
         <span className="relative z-[2] block">
           {formats[index].label}
           {index === 0 && (
-            <span className="block whitespace-nowrap text-xs leading-tight">
-              <span aria-hidden="true">⭐</span> ยอดนิยม
-            </span>
+            <strong className="block whitespace-nowrap text-xs font-bold leading-tight">
+              <span aria-hidden="true">⭐</span>ยอดนิยม<span aria-hidden="true">⭐</span>
+            </strong>
           )}
         </span>
       </button>
