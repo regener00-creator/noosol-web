@@ -50,12 +50,33 @@ const formats = [
   },
 ];
 
-export default function ServiceCards() {
+export default function ServiceCards({ children }) {
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState(null);
   const origin = useRef(null);
   const choices = useRef(null);
+  const chart = useRef(null);
   const format = formats[selected];
+  const showColors = format?.action?.href === '#colors';
+
+  // Keep shared #colors links and browser history pointed at the inline chart.
+  useLayoutEffect(() => {
+    function openLinkedChart() {
+      if (window.location.hash === '#colors') {
+        setExpanded(true);
+        setSelected(1);
+      }
+    }
+    openLinkedChart();
+    window.addEventListener('noosol:section-change', openLinkedChart);
+    return () => window.removeEventListener('noosol:section-change', openLinkedChart);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (showColors && window.location.hash === '#colors') {
+      chart.current.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  }, [showColors]);
 
   function expand(event) {
     origin.current = event.currentTarget.getBoundingClientRect();
@@ -63,7 +84,7 @@ export default function ServiceCards() {
   }
 
   useLayoutEffect(() => {
-    if (!expanded) return;
+    if (!expanded || !origin.current) return;
     const buttons = Array.from(choices.current.querySelectorAll('button'));
     buttons[0].focus({ preventScroll: true });
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -87,7 +108,12 @@ export default function ServiceCards() {
         type="button"
         className="service-choice"
         aria-pressed={selected === index}
-        onClick={() => setSelected(index)}
+        onClick={() => {
+          if (index !== 1 && window.location.hash === '#colors') {
+            window.history.replaceState(window.history.state, '', '#services');
+          }
+          setSelected(index);
+        }}
       >
         {formats[index].label}
       </button>
@@ -141,6 +167,9 @@ export default function ServiceCards() {
           ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
         </button>
       )}
+      <section ref={chart} id="colors" hidden={!showColors} className="mt-12 scroll-mt-4 sm:mt-16">
+        {children}
+      </section>
     </div>
   );
 }

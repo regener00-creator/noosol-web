@@ -79,7 +79,39 @@ export default async function Home() {
       </section>
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
-        <ServiceCards />
+        <ServiceCards>
+          <div data-reveal className="flex items-center gap-4 sm:gap-6">
+            <div className="h-px flex-1 bg-neutral-300" />
+            <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
+              ชาร์ตสีถุงผ้าสปันบอนด์{' '}
+              <span className="text-[#eb7300]">เฉพาะผลิตใหม่</span>
+            </h2>
+            <div className="h-px flex-1 bg-neutral-300" />
+          </div>
+          <p data-reveal data-reveal-delay="70" className="mt-4 text-center text-neutral-500">
+            สีในรูปอาจจะแตกต่างกันตามจอแสดงผล อาจมีความคลาดเคลื่อน 10-15%
+          </p>
+          <div data-reveal className="color-drop-grid mt-10 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
+            {colors.map((c, index) => (
+              <div
+                key={c.no}
+                className="color-drop-card overflow-hidden rounded-2xl bg-white"
+                style={{ '--color-drop-delay': `${index * 65}ms` }}
+              >
+                <Image
+                  src={`/spun-colors/${c.no}.png`}
+                  alt={`สี${c.name}`}
+                  width={300}
+                  height={300}
+                  className="aspect-square w-full object-cover"
+                />
+                <div className="px-1 py-2 text-center text-xs font-semibold">
+                  {c.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ServiceCards>
       </section>
 
       {/* ผลงาน — พื้นเทาแบบ Apple */}
@@ -123,45 +155,6 @@ export default async function Home() {
         <Container>
           <div className="py-8">
             <div id="size-guide-slot" />
-          </div>
-        </Container>
-      </section>
-
-      {/* ชาร์ตสี — พื้นเทา */}
-      <section id="colors" className="scroll-mt-16 bg-soft">
-        <Container>
-          <div className="py-20">
-            <div data-reveal className="flex items-center gap-4 sm:gap-6">
-              <div className="h-px flex-1 bg-neutral-300" />
-              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
-                ชาร์ตสีถุงผ้าสปันบอนด์{' '}
-                <span className="text-[#eb7300]">เฉพาะผลิตใหม่</span>
-              </h2>
-              <div className="h-px flex-1 bg-neutral-300" />
-            </div>
-            <p data-reveal data-reveal-delay="70" className="mt-4 text-center text-neutral-500">
-              สีในรูปอาจจะแตกต่างกันตามจอแสดงผล อาจมีความคลาดเคลื่อน 10-15%
-            </p>
-            <div data-reveal className="color-drop-grid mt-10 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
-              {colors.map((c, index) => (
-                <div
-                  key={c.no}
-                  className="color-drop-card overflow-hidden rounded-2xl bg-white"
-                  style={{ '--color-drop-delay': `${index * 65}ms` }}
-                >
-                  <Image
-                    src={`/spun-colors/${c.no}.png`}
-                    alt={`สี${c.name}`}
-                    width={300}
-                    height={300}
-                    className="aspect-square w-full object-cover"
-                  />
-                  <div className="px-1 py-2 text-center text-xs font-semibold">
-                    {c.name}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </Container>
       </section>
