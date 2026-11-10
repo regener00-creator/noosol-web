@@ -31,7 +31,7 @@ function GuidePrice({ guide, price }) {
   );
 }
 
-export default function ProductSizeGuide({ products, index, setIndex }) {
+export default function ProductSizeGuide({ products, index, setIndex, inline = false }) {
   const [guideSlot, setGuideSlot] = useState(null);
   const [direction, setDirection] = useState(0);
   const section = useRef(null);
@@ -44,10 +44,11 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
   }));
 
   useEffect(() => {
-    setGuideSlot(document.getElementById('size-guide-slot'));
-  }, []);
+    if (!inline) setGuideSlot(document.getElementById('size-guide-slot'));
+  }, [inline]);
 
   useEffect(() => {
+    if (inline) return;
     let frame;
     const scrollToGuide = () => {
       if (window.location.hash !== '#size-guide' || section.current?.closest('.section-deck[data-active]')) return;
@@ -69,7 +70,7 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
       window.removeEventListener('noosol:loader-complete', scrollToGuide);
       window.removeEventListener('hashchange', onHashChange);
     };
-  }, []);
+  }, [inline]);
 
   function move(nextDirection) {
     if (moving.current) return;
@@ -106,7 +107,7 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
 
   const content = (
     <section
-      id="size-guide"
+      id={inline ? undefined : 'size-guide'}
       ref={section}
       aria-label="ภาพขนาดถุงเทียบกระดาษ A4"
       aria-roledescription="ชุดภาพเลื่อน"
@@ -114,7 +115,7 @@ export default function ProductSizeGuide({ products, index, setIndex }) {
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      {guideSlot && (
+      {(inline || guideSlot) && (
         <label className="col-span-2 grid gap-1 text-center text-sm font-semibold md:hidden">
           รุ่นสินค้า
           <span className="relative block">

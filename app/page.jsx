@@ -79,7 +79,7 @@ export default async function Home() {
       </section>
 
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
-        <ServiceCards>
+        <ServiceCards stock={<ProductExplorer products={products} inlineGuide />}>
           <div data-reveal className="flex items-center gap-4 sm:gap-6">
             <div className="h-px flex-1 bg-neutral-300" />
             <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">

@@ -35,12 +35,13 @@ const stockCats = [
 const categories = stockCats;
 const guideIndexByCode = new Map(guides.map((guide, index) => [guide.code, index]));
 
-export default function ProductExplorer({ products }) {
+export default function ProductExplorer({ products, inlineGuide = false }) {
   const [guideIndex, setGuideIndex] = useState(0);
   const [active, setActive] = useState(categories[0].id);
   const [displayed, setDisplayed] = useState(categories[0].id);
   const [flipPhase, setFlipPhase] = useState('idle');
   const requestedCategory = useRef(categories[0].id);
+  const guideHeading = useRef(null);
   const tabs = useRef(null);
   const indicator = useRef(null);
   const buttons = useRef([]);
@@ -50,7 +51,7 @@ export default function ProductExplorer({ products }) {
 
 
   function selectCategory(id) {
-    if (id !== active && window.matchMedia('(max-width: 767px)').matches) {
+    if (id !== active && (inlineGuide || window.matchMedia('(max-width: 767px)').matches)) {
       const first = products.find((p) => p.category === id && guideIndexByCode.has(p.code));
       if (first) setGuideIndex(guideIndexByCode.get(first.code));
     }
@@ -101,6 +102,8 @@ export default function ProductExplorer({ products }) {
 
     return () => resizeObserver.disconnect();
   }, [active]);
+
+  const ModelControl = inlineGuide ? 'button' : 'a';
 
   return (
     <div>
@@ -156,11 +159,17 @@ export default function ProductExplorer({ products }) {
               <div key={product.code} className="product-flip-card relative flex min-w-0 [&>div]:w-full">
                 <ShopCard p={product} />
                 {guideIndexByCode.has(product.code) && (
-                  <a
-                    href="#size-guide"
-                    onClick={() => setGuideIndex(guideIndexByCode.get(product.code))}
+                  <ModelControl
+                    {...(inlineGuide ? { type: 'button' } : { href: '#size-guide' })}
+                    onClick={() => {
+                      setGuideIndex(guideIndexByCode.get(product.code));
+                      if (inlineGuide) {
+                        guideHeading.current?.focus({ preventScroll: true });
+                        guideHeading.current?.scrollIntoView({ block: 'start' });
+                      }
+                    }}
                     aria-label={`ดูสเกลรุ่น ${product.code}`}
-                    className="absolute inset-0 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500 md:hidden"
+                    className={`absolute inset-0 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500 ${inlineGuide ? '' : 'md:hidden'}`}
                   />
                 )}
               </div>
@@ -168,7 +177,10 @@ export default function ProductExplorer({ products }) {
           </div>
         )}
       </div>
-      <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} />
+      {inlineGuide && (
+        <h2 ref={guideHeading} tabIndex={-1} className="mb-7 mt-12 scroll-mt-4 text-center text-2xl font-extrabold sm:mt-16 sm:text-3xl">สเกล</h2>
+      )}
+      <ProductSizeGuide products={products} index={guideIndex} setIndex={setGuideIndex} inline={inlineGuide} />
     </div>
   );
 }

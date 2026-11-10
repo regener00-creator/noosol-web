@@ -50,12 +50,13 @@ const formats = [
   },
 ];
 
-export default function ServiceCards({ children }) {
+export default function ServiceCards({ children, stock }) {
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState(null);
   const origin = useRef(null);
   const choices = useRef(null);
   const chart = useRef(null);
+  const stockSection = useRef(null);
   const activePill = useRef(null);
   const previousPillBounds = useRef(null);
   const format = formats[selected];
@@ -177,7 +178,18 @@ export default function ServiceCards({ children }) {
                 <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
                   {format.details.map((detail) => <li key={detail}>{detail}</li>)}
                 </ul>
-                {format.action && (
+                {selected === 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      stockSection.current?.focus({ preventScroll: true });
+                      stockSection.current?.scrollIntoView({ block: 'start' });
+                    }}
+                    className="mt-7 rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]"
+                  >
+                    {format.action.label}
+                  </button>
+                ) : format.action && (
                   <a href={format.action.href} className="mt-7 rounded-full bg-[#f58220] px-6 py-3 font-bold text-white hover:bg-[#eb7300]">
                     {format.action.label}
                   </a>
@@ -190,6 +202,12 @@ export default function ServiceCards({ children }) {
         <button type="button" onClick={expand} aria-expanded={false} className="service-start">
           ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
         </button>
+      )}
+      {selected === 0 && (
+        <section className="mt-12 sm:mt-16">
+          <h2 ref={stockSection} tabIndex={-1} className="mb-7 scroll-mt-4 text-center text-2xl font-extrabold sm:text-3xl">รุ่นในสต๊อก</h2>
+          {stock}
+        </section>
       )}
       <section ref={chart} id="colors" hidden={!showColors} className="mt-12 scroll-mt-4 sm:mt-16">
         {children}
