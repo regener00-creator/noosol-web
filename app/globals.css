@@ -468,6 +468,18 @@ html.is-loading body {
   margin-inline: auto;
   gap: clamp(8px, 1.5vw, 18px);
 }
+@media (min-width: 768px) {
+  #home .service-opening-videos {
+    width: 100%;
+    justify-items: center;
+    column-gap: clamp(1rem, 2vw, 2rem);
+  }
+
+  #home .service-opening-videos > video {
+    max-width: min(23.5dvh, 228px);
+  }
+}
+
 @media (max-width: 767px) {
   .service-opening-videos {
     width: min(100%, 100dvh);
