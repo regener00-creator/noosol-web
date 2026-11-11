@@ -791,8 +791,27 @@ body:has(.section-deck[data-active]) > main {
 }
 
 @media (min-width: 768px) {
-  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
-    translate: 0 1.5rem;
+  .section-deck[data-active] .home-intro {
+    /* Split the space around the copy, counting the header's bottom padding. */
+    --home-copy-gap: calc((clamp(1rem, 4dvh, 3rem) + clamp(1.5rem, 7dvh, 6rem) + 1rem) / 2);
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    padding-top: calc(var(--home-copy-gap) - 1rem);
+  }
+  .section-deck[data-active] .home-intro > h1 {
+    margin-top: auto;
+  }
+  .section-deck[data-active] .home-intro > p {
+    margin-bottom: auto;
+  }
+  .section-deck[data-active] .home-logos {
+    margin-top: var(--home-copy-gap);
+  }
+  /* Keep the logos and videos at their original height on taller screens. */
+  .section-deck[data-active] .home-intro::after {
+    content: '';
+    margin-block: auto;
   }
 }
 
@@ -800,10 +819,6 @@ body:has(.section-deck[data-active]) > main {
   .home-logos .logo-marquee-cell {
     width: 144px;
     padding: 2px;
-  }
-  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
-    position: relative;
-    top: clamp(-3rem, calc(3rem - 10dvh), 0px);
   }
   .section-deck[data-active] .home-intro h1 {
     font-size: clamp(3.25rem, 9dvh, 6rem);
