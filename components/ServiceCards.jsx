@@ -257,7 +257,7 @@ export default function ServiceCards({ children, stock }) {
               </div>
               <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
                 <strong className="block text-ink">{format.description[0]}</strong>
-                {format.description[1]}
+                <span className={selected === 0 ? undefined : 'hidden md:inline'}>{format.description[1]}</span>
                 <span className="block md:hidden">{format.leadTime}</span>
                 {selected !== 0 && <span className="block md:hidden">ราคาประเมินตามแบบ สี และ โลโก้</span>}
               </p>

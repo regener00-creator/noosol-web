@@ -493,7 +493,7 @@ html.is-loading body {
     overflow-wrap: anywhere;
   }
   .product-category-tabs button:nth-last-child(-n + 2),
-  .portfolio-category-tabs button:nth-last-child(-n + 4) {
+  .portfolio-category-tabs button {
     grid-column: span 3;
   }
   :is(.product-category-tabs, .portfolio-category-tabs) button[aria-pressed='true'] {

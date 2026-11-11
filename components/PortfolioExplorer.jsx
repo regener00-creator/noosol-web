@@ -6,11 +6,11 @@ import { useLayoutEffect, useRef, useState } from 'react';
 // ผลงาน — ปุ่มเลือกหมวดแนวนอน และแถบรูปเลื่อนเต็มพื้นที่
 const groups = [
   { name: 'ถุงใส่แก้ว', from: 1, to: 12 },
-  { name: 'ถุงสปันบอนด์มินิ', from: 13, to: 24 },
+  { name: 'ถุงสปันบอนด์มินิ', mobileName: 'สปันมินิ', from: 13, to: 24 },
   { name: 'ไม่ขยาย', from: 49, to: 60 },
   { name: 'ขยายเฉพาะก้น', from: 35, to: 48 },
   { name: 'ขยายข้างและก้น', from: 25, to: 34 },
-  { name: 'ผลิตตามแบบ', from: 61, to: 72 },
+  { name: 'ผลิตตามแบบ', desktopOnly: true, from: 61, to: 72 },
   {
     name: 'ผลิตกระเป๋า',
     files: Array.from({ length: 16 }, (_, index) => (
@@ -171,6 +171,10 @@ export default function PortfolioExplorer({ showHeading = true }) {
     if (!tabsEl || !indicatorEl || !activeButton) return;
 
     const moveIndicator = () => {
+      if (group.desktopOnly && getComputedStyle(activeButton).display === 'none') {
+        setActive('ผลิตกระเป๋า');
+        return;
+      }
       indicatorEl.style.width = `${activeButton.offsetWidth}px`;
       indicatorEl.style.transform = `translateX(${activeButton.offsetLeft}px)`;
     };
@@ -180,7 +184,7 @@ export default function PortfolioExplorer({ showHeading = true }) {
     resizeObserver.observe(tabsEl);
 
     return () => resizeObserver.disconnect();
-  }, [active]);
+  }, [active, group]);
 
   return (
     <div>
@@ -213,14 +217,19 @@ export default function PortfolioExplorer({ showHeading = true }) {
                   ref={(element) => { tabButtons.current[index] = element; }}
                   type="button"
                   onClick={() => setActive(grp.name)}
-                  className={`relative z-10 min-h-11 flex-1 shrink-0 whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-colors duration-300 sm:text-base ${
+                  className={`${grp.desktopOnly ? 'hidden md:block' : ''} relative z-10 min-h-11 flex-1 shrink-0 whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-colors duration-300 sm:text-base ${
                     isActive
                       ? 'text-white'
                       : 'text-neutral-500 hover:text-ink'
                   }`}
                   aria-pressed={isActive}
                 >
-                  {grp.name}
+                  {grp.mobileName ? (
+                    <>
+                      <span className="md:hidden">{grp.mobileName}</span>
+                      <span className="hidden md:inline">{grp.name}</span>
+                    </>
+                  ) : grp.name}
                 </button>
               );
             })}
