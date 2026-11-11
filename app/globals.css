@@ -727,6 +727,23 @@ body:has(.section-deck[data-active]) > main {
 .section-deck[data-active] > section:not(.bg-soft) {
   background-color: white;
 }
+@media (min-width: 768px) {
+  .section-deck[data-active] > .desktop-centered-panel > div {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .desktop-centered-panel > div > div {
+    margin-block: auto;
+    padding-block: clamp(1rem, 3dvh, 2rem);
+  }
+
+  #portfolio .portfolio-rail-column {
+    max-width: clamp(10rem, calc((100dvh - 20rem) / 2), 100%);
+  }
+}
+
 .section-deck[data-active] > #home > div:first-child {
   min-height: 100%;
   display: grid;

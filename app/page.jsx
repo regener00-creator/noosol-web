@@ -99,7 +99,7 @@ export default async function Home() {
       </section>
 
       {/* ผลงาน — พื้นเทาแบบ Apple */}
-      <section id="portfolio" className="grain-surface scroll-mt-16 bg-soft">
+      <section id="portfolio" className="desktop-centered-panel grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="pb-20 pt-5 md:pt-20">
             <div data-reveal className="hidden items-center gap-3 md:flex sm:gap-5">
@@ -144,7 +144,7 @@ export default async function Home() {
       </section>
 
       {/* Q&A — พื้นขาว */}
-      <section id="qa" className="grain-surface scroll-mt-16 bg-soft">
+      <section id="qa" className="desktop-centered-panel grain-surface scroll-mt-16 bg-soft">
         <Container>
           <div className="py-20">
             <div data-reveal className="flex items-center gap-4 sm:gap-6">
