@@ -217,7 +217,7 @@ export default function ServiceCards({ children, stock }) {
               <Image src="/services/category-spunbond-cutout.webp" alt="ถุงสปันบอนด์สีดำสกรีนโลโก้เนื้อแท้" width={480} height={480} sizes="(max-width: 950px) 40vw, 380px" className="service-choice-photo" />
             )}
             <span id="spunbond-family" className="service-family-label">ถุงสปันบอนด์</span>
-            <div className="service-choice-pair">{choice(1)}{choice(0)}</div>
+            <div className="service-choice-pair">{choice(0)}{choice(1)}</div>
           </div>
           <div className="service-bag-choice">
             {!hasSelection && (
