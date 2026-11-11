@@ -17,16 +17,18 @@ const bagExamples = [
 
 const formats = [
   {
-    label: 'สต๊อก',
+    label: 'สต็อก',
     title: 'สปันบอนด์สต็อก',
     image: '/services/service-1.png',
     icon: '/services/icon-76.png',
     iconScale: 'scale-[1.15]',
-    description: ['รับสกรีนขั้นต่ำ 100 ใบ', 'เฉพาะสีและขนาดในสต็อก'],
-    detailTitle: '✨ถุงสปันบอนด์ [สต๊อก] ✨',
+    mobileMinimum: 'รับสกรีนขั้นต่ำ 100 ใบ',
+    mobileStockNote: 'เฉพาะสีและขนาดในสต็อก',
+    detailTitle: 'ถุงสปันบอนด์สต็อก',
     detailMinimum: 'รับสกรีนขั้นต่ำเพียง 100 ใบ',
-    leadTime: 'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
-    detailNote: 'เฉพาะ ขนาด & สี ในสต๊อกของทางร้าน',
+    leadTime: 'ใช้เวลาผลิตภายใน 10-15 วัน',
+    mobileLeadTime: 'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
+    detailNote: 'เฉพาะ ขนาด & สี ในสต็อกของทางร้าน',
   },
   {
     label: 'ผลิตใหม่',
@@ -34,10 +36,11 @@ const formats = [
     image: '/services/service-2.png',
     icon: '/services/icon-78.png',
     iconScale: 'scale-[1.30]',
-    description: ['รับผลิตขั้นต่ำ 3,000 ใบ', 'พร้อมสีให้เลือกถึง 30 สี'],
+    mobileMinimum: 'รับผลิตขั้นต่ำ 3,000 ใบ',
     detailTitle: '⭐ถุงสปันบอนด์ผลิตใหม่⭐',
     detailMinimum: 'รับผลิตใหม่ ขั้นต่ำที่ 3,000 ใบ',
-    leadTime: 'ใช้เวลา 15-20 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
+    leadTime: 'ใช้เวลาผลิตภายใน 15-20 วัน',
+    mobileLeadTime: 'ใช้เวลา 15-20 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
     detailNote: 'ราคาประเมินตามแบบ และ สีโลโก้',
   },
   {
@@ -46,7 +49,7 @@ const formats = [
     image: '/services/service-3-311.png',
     icon: '/services/icon-77.png',
     iconScale: 'scale-[1.55]',
-    description: ['รับผลิตขั้นต่ำ 300 ใบ', 'ส่งแบบเพื่อประเมินราคาทางแชท'],
+    mobileMinimum: 'รับผลิตขั้นต่ำ 300 ใบ',
     detailTitle: '🎒 กระเป๋าผลิตใหม่ 🎒',
     detailMinimum: 'รับผลิตใหม่ ขั้นต่ำที่ 300 ใบ',
     leadTime: 'ใช้เวลาผลิตภายใน 30 วัน',
@@ -259,17 +262,17 @@ export default function ServiceCards({ children, stock }) {
                 <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-[#eb7300]">
                   <Image src={format.icon} alt="" fill sizes="48px" className={`${format.iconScale} object-contain brightness-0 invert`} />
                 </div>
-                <h2 className="flex-1 text-lg font-extrabold text-ink">{format.title}</h2>
-                <span className="text-3xl font-bold text-[#d88a46]">{String(selected + 1).padStart(2, '0')}</span>
+                <h2 className="flex-1 text-lg font-extrabold text-ink md:hidden">{format.title}</h2>
+                <span className="ml-auto text-3xl font-bold text-[#d88a46]">{String(selected + 1).padStart(2, '0')}</span>
               </div>
               <div className="relative my-3 h-36 sm:h-52 lg:h-64">
                 <Image src={format.image} alt={format.title} fill sizes="(min-width: 768px) 33vw, 94vw" className="object-contain" />
               </div>
-              <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
-                <strong className="block text-ink">{format.description[0]}</strong>
-                <span className={selected === 0 ? undefined : 'hidden md:inline'}>{format.description[1]}</span>
-                <span className="block md:hidden">{format.leadTime}</span>
-                {selected !== 0 && <span className="block md:hidden">ราคาประเมินตามแบบ สี และ โลโก้</span>}
+              <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base md:hidden">
+                <strong className="block text-ink">{format.mobileMinimum}</strong>
+                {format.mobileStockNote}
+                <span className="block">{format.mobileLeadTime || format.leadTime}</span>
+                {selected !== 0 && <span className="block">ราคาประเมินตามแบบ สี และ โลโก้</span>}
               </p>
             </article>
 
