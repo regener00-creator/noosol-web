@@ -3,14 +3,16 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-export default function LogoMarquee({ images, direction = 'left', duration = '180s' }) {
+const noExtraLogos = [];
+
+export default function LogoMarquee({ images, desktopExtra = noExtraLogos, direction = 'left', duration = '180s' }) {
   const strip = useRef(null);
   const [ready, setReady] = useState(() => new Set(images.slice(0, 3)));
 
   useEffect(() => {
     const root = strip.current;
     if (!('IntersectionObserver' in window)) {
-      setReady(new Set(images));
+      setReady(new Set([...images, ...desktopExtra]));
       return;
     }
 
@@ -27,7 +29,7 @@ export default function LogoMarquee({ images, direction = 'left', duration = '18
     }, { root, rootMargin: '0px 180px' });
     root.querySelectorAll('[data-logo]').forEach((cell) => observer.observe(cell));
     return () => observer.disconnect();
-  }, [images]);
+  }, [images, desktopExtra]);
 
   return (
     <div ref={strip} className="logo-marquee-fade marquee overflow-hidden rounded-xl bg-white py-2">
@@ -37,8 +39,8 @@ export default function LogoMarquee({ images, direction = 'left', duration = '18
       >
         {[0, 1].map((copy) => (
           <div key={copy} aria-hidden={copy === 1} className="flex shrink-0 gap-3 pr-3">
-            {images.map((src) => (
-              <div key={src} data-logo={src} className="logo-marquee-cell flex h-[96px] w-[110px] shrink-0 items-center justify-center p-0.5 sm:h-[104px] sm:w-[120px] md:p-3">
+            {[...images, ...desktopExtra].map((src, index) => (
+              <div key={src} data-logo={src} className={`logo-marquee-cell ${index < images.length ? 'flex' : 'hidden md:flex'} h-[96px] w-[110px] shrink-0 items-center justify-center p-0.5 sm:h-[104px] sm:w-[120px] md:p-3`}>
                 {ready.has(src) && (
                   <Image
                     src={src}

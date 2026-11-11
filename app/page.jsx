@@ -22,6 +22,8 @@ const customerLogos = [
   '50.jpg',
 ].map((f) => `/customers/${f}`);
 
+const thirdRowLogos = customerLogos.slice(33);
+
 // กล่องครอบเนื้อหาแต่ละส่วน
 const Container = ({ children }) => (
   <div className="mx-auto max-w-7xl px-4 sm:px-6">{children}</div>
@@ -46,11 +48,12 @@ export default async function Home() {
               <span className="hero-motion-word">ประสบการณ์มากกว่า</span>{' '}<span className="hero-motion-word hero-motion-underline" style={{ '--hero-word-delay': '110ms' }}>30 ปี</span>
             </p>
 
-            {/* โลโก้ลูกค้าวิ่ง 3 แถว */}
             <div className="home-logos mt-24 space-y-3 sm:mt-32">
-              <LogoMarquee direction="left" images={customerLogos.slice(0, 17)} />
-              <LogoMarquee direction="right" images={customerLogos.slice(17, 33)} />
-              <LogoMarquee direction="left" images={customerLogos.slice(33)} />
+              <LogoMarquee direction="left" images={customerLogos.slice(0, 17)} desktopExtra={thirdRowLogos.filter((_, i) => i % 2 === 0)} />
+              <LogoMarquee direction="right" images={customerLogos.slice(17, 33)} desktopExtra={thirdRowLogos.filter((_, i) => i % 2 === 1)} />
+              <div className="md:hidden">
+                <LogoMarquee direction="left" images={thirdRowLogos} />
+              </div>
             </div>
             <div className="mt-8 hidden md:block">
               <ProductionVideos />

@@ -750,6 +750,12 @@ body:has(.section-deck[data-active]) > main {
   }
 }
 
+@media (min-width: 768px) {
+  .section-deck[data-active] .home-intro > :is(h1, h2, p) {
+    translate: 0 1.5rem;
+  }
+}
+
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   .home-logos .logo-marquee-cell {
     width: 144px;
