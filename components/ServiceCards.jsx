@@ -24,7 +24,7 @@ const formats = [
     iconScale: 'scale-[1.15]',
     mobileMinimum: 'รับสกรีนขั้นต่ำ 100 ใบ',
     mobileStockNote: 'เฉพาะสีและขนาดในสต็อก',
-    detailTitle: 'ถุงสปันบอนด์สต็อก',
+    detailTitle: '⭐ถุงสปันบอนด์สต็อก⭐',
     detailMinimum: 'รับสกรีนขั้นต่ำเพียง 100 ใบ',
     leadTime: 'ใช้เวลาผลิตภายใน 10-15 วัน',
     mobileLeadTime: 'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
