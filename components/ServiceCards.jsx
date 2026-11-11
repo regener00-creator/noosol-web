@@ -26,11 +26,9 @@ const formats = [
     iconScale: 'scale-[1.15]',
     description: ['รับสกรีนขั้นต่ำ 100 ใบ', 'เฉพาะสีและขนาดในสต็อก'],
     detailTitle: '✨ถุงสปันบอนด์ [สต๊อก] ✨',
-    details: [
-      'รับสกรีนขั้นต่ำเพียง 100 ใบ',
-      'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
-      'เฉพาะ ขนาด & สี ในสต๊อกของทางร้าน',
-    ],
+    detailMinimum: 'รับสกรีนขั้นต่ำเพียง 100 ใบ',
+    leadTime: 'ใช้เวลา 10-15 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
+    detailNote: 'เฉพาะ ขนาด & สี ในสต๊อกของทางร้าน',
   },
   {
     label: 'ผลิตใหม่',
@@ -40,11 +38,9 @@ const formats = [
     iconScale: 'scale-[1.30]',
     description: ['รับผลิตขั้นต่ำ 3,000 ใบ', 'พร้อมสีให้เลือกถึง 30 สี'],
     detailTitle: '⭐ถุงสปันบอนด์ผลิตใหม่⭐',
-    details: [
-      'รับผลิตใหม่ ขั้นต่ำที่ 3,000 ใบ',
-      'ใช้เวลา 15-20 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
-      'ราคาประเมินตามแบบ และ สีโลโก้',
-    ],
+    detailMinimum: 'รับผลิตใหม่ ขั้นต่ำที่ 3,000 ใบ',
+    leadTime: 'ใช้เวลา 15-20 วัน ถ้าเสร็จก่อนส่งให้ก่อน',
+    detailNote: 'ราคาประเมินตามแบบ และ สีโลโก้',
   },
   {
     label: 'ผลิตกระเป๋า',
@@ -54,11 +50,9 @@ const formats = [
     iconScale: 'scale-[1.55]',
     description: ['รับผลิตขั้นต่ำ 300 ใบ', 'ส่งแบบเพื่อประเมินราคาทางแชท'],
     detailTitle: '🎒 กระเป๋าผลิตใหม่ 🎒',
-    details: [
-      'รับผลิตใหม่ ขั้นต่ำที่ 300 ใบ',
-      'ใช้เวลาผลิตภายใน 30 วัน',
-      'ราคาประเมินตามแบบ และ สีโลโก้',
-    ],
+    detailMinimum: 'รับผลิตใหม่ ขั้นต่ำที่ 300 ใบ',
+    leadTime: 'ใช้เวลาผลิตภายใน 30 วัน',
+    detailNote: 'ราคาประเมินตามแบบ และ สีโลโก้',
   },
 ];
 
@@ -264,22 +258,24 @@ export default function ServiceCards({ children, stock }) {
               <p className="mt-auto border-t border-line pt-4 text-center text-sm leading-relaxed text-neutral-600 sm:text-base">
                 <strong className="block text-ink">{format.description[0]}</strong>
                 {format.description[1]}
+                <span className="block md:hidden">{format.leadTime}</span>
+                {selected !== 0 && <span className="block md:hidden">ราคาประเมินตามแบบ สี และ โลโก้</span>}
               </p>
             </article>
 
-            <article className="flex min-w-0 flex-col items-center justify-center rounded-3xl text-center border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
+            <article className="hidden min-w-0 flex-col items-center md:flex justify-center rounded-3xl text-center border border-line bg-white p-6 shadow-sm sm:p-9 md:col-span-2 lg:p-12">
               <h3 className="text-xl font-extrabold leading-relaxed text-ink sm:text-2xl">{format.detailTitle}</h3>
               <ul className="mt-5 list-inside list-disc space-y-3 text-base leading-relaxed text-neutral-700 marker:text-[#f58220] sm:text-lg">
-                {format.details.map((detail) => <li key={detail}>{detail}</li>)}
+                {[format.detailMinimum, format.leadTime, format.detailNote].map((detail) => <li key={detail}>{detail}</li>)}
               </ul>
             </article>
           </div>
         )}
         {selected === 2 && (
-          <ul aria-label="ตัวอย่างงานผลิตกระเป๋า" className="mt-8 grid grid-cols-4 gap-2 sm:mt-12 sm:gap-4">
+          <ul aria-label="ตัวอย่างงานผลิตกระเป๋า" className="mt-8 grid grid-cols-3 gap-2 md:grid-cols-4 sm:mt-12 sm:gap-4">
             {bagExamples.map(({ file, alt }) => (
-              <li key={file} className="relative aspect-square overflow-hidden rounded-xl border border-line bg-white shadow-sm sm:rounded-2xl">
-                <Image src={`/services/bag-examples/${file}.webp`} alt={alt} fill sizes="(min-width: 1280px) 300px, 24vw" className="object-contain" />
+              <li key={file} className="relative aspect-square overflow-hidden rounded-xl max-md:first:hidden max-md:last:hidden border border-line bg-white shadow-sm sm:rounded-2xl">
+                <Image src={`/services/bag-examples/${file}.webp`} alt={alt} fill sizes="(min-width: 1280px) 300px, (min-width: 768px) 24vw, 32vw" className="object-contain" />
               </li>
             ))}
           </ul>
