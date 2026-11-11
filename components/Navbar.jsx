@@ -5,13 +5,12 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/site';
 
-const nav = [
-  ['หน้าแรก', 'home'],
-  ['การผลิต', 'services'],
-  ['ผลงาน', 'portfolio'],
-  ['FAQ', 'qa'],
-];
-const mobileNav = [...nav, ['ติดต่อ', 'contact']];
+const home = ['หน้าแรก', 'home'];
+const services = ['การผลิต', 'services'];
+const portfolio = ['ผลงาน', 'portfolio'];
+const faq = ['FAQ', 'qa'];
+const nav = [home, portfolio, services, faq];
+const mobileNav = [home, services, portfolio, faq, ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
@@ -21,8 +20,7 @@ export default function Navbar() {
 
   // scroll spy — ดูว่า section ไหนอยู่บนจอ แล้วเลื่อนเม็ดยาไปที่เมนูนั้น
   useEffect(() => {
-    const sections = [...nav.map(([, id]) => id), 'contact']
-      .map((id) => document.getElementById(id))
+    const sections = mobileNav.map(([, id]) => document.getElementById(id))
       .filter(Boolean);
 
     const onScroll = () => {

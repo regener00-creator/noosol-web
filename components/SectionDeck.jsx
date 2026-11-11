@@ -30,7 +30,7 @@ export default function SectionDeck({ children }) {
       return panel ? { panel, target } : null;
     }
 
-    function show(destination, animate) {
+    function show(destination, animate, fromLink = false) {
       const { panel, target } = destination;
       const previous = current;
       const change = previous !== panel;
@@ -44,7 +44,7 @@ export default function SectionDeck({ children }) {
         }
         deck.dataset.active = panel.id;
       }
-      window.dispatchEvent(new Event('noosol:section-change'));
+      window.dispatchEvent(new CustomEvent('noosol:section-change', { detail: { navigation: change || fromLink } }));
 
       // Measure the anchor in layout coordinates while its reveal animation runs.
       let top = 0;
@@ -60,7 +60,14 @@ export default function SectionDeck({ children }) {
         return;
       }
 
-      const direction = panels.indexOf(panel) > panels.indexOf(previous) ? 1 : -1;
+      function position(item) {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          if (item.id === 'portfolio') return panels.indexOf(document.getElementById('services'));
+          if (item.id === 'services') return panels.indexOf(document.getElementById('portfolio'));
+        }
+        return panels.indexOf(item);
+      }
+      const direction = position(panel) > position(previous) ? 1 : -1;
       const options = { duration: compact.matches ? 240 : 350, easing: 'cubic-bezier(.4,0,.2,1)' };
       const exit = previous.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${-direction * 100}%)` }], options);
       const enter = panel.animate([{ transform: `translateX(${direction * 100}%)` }, { transform: 'translateX(0)' }], options);
@@ -83,7 +90,7 @@ export default function SectionDeck({ children }) {
       if (!destination) return;
       event.preventDefault();
       if (location.hash !== link.hash) history.pushState(null, '', link.hash);
-      show(destination, true);
+      show(destination, true, true);
     }
 
     function disable() {

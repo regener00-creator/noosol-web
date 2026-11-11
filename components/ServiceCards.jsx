@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import LazyVideo from './LazyVideo';
+import ProductionVideos from './ProductionVideos';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-const showcaseVideos = ['K1-h264.mp4', 'K2-h264.mp4', 'K3-h264.mp4', 'K4-h264.mp4'];
+const productionTitle = 'ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ';
 
 const bagExamples = [
   { file: 'water', alt: 'ถุงผ้าสีครีมหูหิ้วสีน้ำเงิน WATER' },
@@ -58,7 +58,7 @@ const formats = [
 
 export default function ServiceCards({ children, stock }) {
   const [stage, setStage] = useState('intro');
-  const expanded = stage === 'choices';
+  const [desktop, setDesktop] = useState(false);
   const clips = useRef(null);
   const [selected, setSelected] = useState(null);
   const origin = useRef(null);
@@ -72,13 +72,25 @@ export default function ServiceCards({ children, stock }) {
   const showColors = selected === 1;
   const hasSelection = selected !== null;
 
+  const expanded = desktop || stage === 'choices' || hasSelection;
+
+  useLayoutEffect(() => {
+    const screen = window.matchMedia('(min-width: 768px)');
+    const sync = () => setDesktop(screen.matches);
+    sync();
+    screen.addEventListener('change', sync);
+    return () => screen.removeEventListener('change', sync);
+  }, []);
+
   // Keep shared #colors links and browser history pointed at the inline chart.
   useLayoutEffect(() => {
-    function openLinkedFormat() {
+    function openLinkedFormat(event) {
       const hash = window.location.hash;
       if (hash === '#colors' || hash === '#compare-sizes') {
         setStage('choices');
         setSelected(hash === '#colors' ? 1 : 0);
+      } else if (hash === '#services' && event?.detail?.navigation && window.matchMedia('(min-width: 768px)').matches) {
+        setSelected(null);
       }
     }
     openLinkedFormat();
@@ -205,7 +217,10 @@ export default function ServiceCards({ children, stock }) {
   }
 
   return (
-    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro'}`}>
+    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro md:content-start md:gap-y-8'}`}>
+      {!hasSelection && (
+        <h2 className="hidden self-start justify-self-center text-center text-2xl font-extrabold text-ink md:block lg:text-3xl">{productionTitle}</h2>
+      )}
       {expanded ? (
         <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
           <div className="service-family" role="group" aria-labelledby="spunbond-family">
@@ -223,23 +238,12 @@ export default function ServiceCards({ children, stock }) {
           </div>
         </div>
       ) : (
-        <div className="service-opening w-full text-center">
+        <div className="service-opening w-full text-center md:hidden">
           <button type="button" onClick={expand} disabled={stage === 'leaving'} aria-expanded={false} className="service-start">
-            ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
+            {productionTitle}
           </button>
-          <div className="mt-5 overflow-clip sm:mt-8">
-            <div ref={clips} className="service-opening-videos">
-              {showcaseVideos.map((file, index) => (
-                <LazyVideo
-                  key={file}
-                  src={`/videos/${file}`}
-                  mobileSrc={`/videos/${file.replace('-h264.mp4', '-mobile.mp4')}`}
-                  poster={`/videos/${file.replace('.mp4', '-poster.jpg')}`}
-                  aria-label={`วิดีโอผลงานการผลิต NOOSOL คลิปที่ ${index + 1}`}
-                  className="block aspect-[9/16] w-full rounded-2xl bg-black object-cover"
-                />
-              ))}
-            </div>
+          <div ref={clips} className="mt-5 overflow-clip sm:mt-8">
+            <ProductionVideos mobile />
           </div>
         </div>
       )}

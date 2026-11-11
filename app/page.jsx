@@ -4,6 +4,7 @@ import { getProducts, getColors, getFaq } from '@/lib/data';
 import ProductExplorer from '@/components/ProductExplorer';
 import ServiceCards from '@/components/ServiceCards';
 import PortfolioExplorer from '@/components/PortfolioExplorer';
+import ProductionVideos from '@/components/ProductionVideos';
 import LogoMarquee from '@/components/LogoMarquee';
 import Faq from '@/components/Faq';
 import { site } from '@/lib/site';
@@ -50,6 +51,9 @@ export default async function Home() {
               <LogoMarquee direction="left" images={customerLogos.slice(0, 17)} />
               <LogoMarquee direction="right" images={customerLogos.slice(17, 33)} />
               <LogoMarquee direction="left" images={customerLogos.slice(33)} />
+            </div>
+            <div className="mt-8 hidden md:block">
+              <ProductionVideos />
             </div>
 
           </div>
