@@ -4,8 +4,6 @@ import Image from 'next/image';
 import ProductionVideos from './ProductionVideos';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-const productionTitle = 'ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ';
-
 const bagExamples = [
   { file: 'water', alt: 'ถุงผ้าสีครีมหูหิ้วสีน้ำเงิน WATER' },
   { file: 'kuku-white', alt: 'กระเป๋าหูหิ้วสีน้ำตาลลาย Ku Ku' },
@@ -217,9 +215,15 @@ export default function ServiceCards({ children, stock }) {
   }
 
   return (
-    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro md:content-start md:gap-y-8'}`}>
+    <div className={`service-layout mx-auto max-w-7xl px-3 sm:px-6 ${hasSelection ? '' : 'service-layout-intro'}`}>
       {!hasSelection && (
-        <h2 className="hidden self-start justify-self-center text-center text-2xl font-extrabold text-ink md:block lg:text-3xl">{productionTitle}</h2>
+        <div className="hidden w-full items-center gap-6 md:flex">
+          <span aria-hidden="true" className="h-px flex-1 bg-neutral-300" />
+          <h2 className="rounded-full border border-line bg-white px-8 py-3 text-center text-3xl font-extrabold tracking-tight">
+            แบบที่ทางเรา<span className="text-[#eb7300]">รับผลิต</span>
+          </h2>
+          <span aria-hidden="true" className="h-px flex-1 bg-neutral-300" />
+        </div>
       )}
       {expanded ? (
         <div ref={choices} data-selected={hasSelection || undefined} role="group" aria-label="แบบที่รับผลิต" className="service-choices relative z-10 w-full">
@@ -240,7 +244,7 @@ export default function ServiceCards({ children, stock }) {
       ) : (
         <div className="service-opening w-full text-center md:hidden">
           <button type="button" onClick={expand} disabled={stage === 'leaving'} aria-expanded={false} className="service-start">
-            {productionTitle}
+            ทางโรงงานรับผลิตทั้งหมด 3 รูปแบบ
           </button>
           <div ref={clips} className="mt-5 overflow-clip sm:mt-8">
             <ProductionVideos mobile />

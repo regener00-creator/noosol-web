@@ -469,6 +469,17 @@ html.is-loading body {
   gap: clamp(8px, 1.5vw, 18px);
 }
 @media (min-width: 768px) {
+  .service-layout-intro {
+    align-content: center;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(1rem, 3dvh, 2rem);
+    padding-block: clamp(1rem, 3dvh, 3rem);
+  }
+
+  .service-layout-intro .service-choice-photo {
+    max-width: min(100%, 39dvh);
+  }
+
   #home .service-opening-videos {
     width: 100%;
     justify-items: center;
