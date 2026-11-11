@@ -74,15 +74,16 @@ export default function ServiceCards({ children, stock }) {
 
   // Keep shared #colors links and browser history pointed at the inline chart.
   useLayoutEffect(() => {
-    function openLinkedChart() {
-      if (window.location.hash === '#colors') {
+    function openLinkedFormat() {
+      const hash = window.location.hash;
+      if (hash === '#colors' || hash === '#compare-sizes') {
         setStage('choices');
-        setSelected(1);
+        setSelected(hash === '#colors' ? 1 : 0);
       }
     }
-    openLinkedChart();
-    window.addEventListener('noosol:section-change', openLinkedChart);
-    return () => window.removeEventListener('noosol:section-change', openLinkedChart);
+    openLinkedFormat();
+    window.addEventListener('noosol:section-change', openLinkedFormat);
+    return () => window.removeEventListener('noosol:section-change', openLinkedFormat);
   }, []);
 
   useLayoutEffect(() => {
@@ -159,7 +160,7 @@ export default function ServiceCards({ children, stock }) {
   }, [hasSelection]);
 
   useLayoutEffect(() => {
-    if (selected === null || window.location.hash === '#colors' ||
+    if (selected === null || ['#colors', '#compare-sizes'].includes(window.location.hash) ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const body = content.current;
@@ -179,7 +180,8 @@ export default function ServiceCards({ children, stock }) {
         className="service-choice"
         aria-pressed={selected === index}
         onClick={() => {
-          if (index !== 1 && window.location.hash === '#colors') {
+          const hash = window.location.hash;
+          if ((hash === '#colors' && index !== 1) || (hash === '#compare-sizes' && index !== 0)) {
             window.history.replaceState(window.history.state, '', '#services');
           }
           if (selected !== index) {

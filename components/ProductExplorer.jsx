@@ -61,6 +61,12 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
   const showInfo = Boolean(current.text);
 
 
+  useLayoutEffect(() => {
+    if (inlineGuide && window.location.hash === '#compare-sizes') {
+      guideSection.current.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  }, [inlineGuide]);
+
   function selectCategory(id) {
     if (id !== active && (inlineGuide || window.matchMedia('(max-width: 767px)').matches)) {
       const first = products.find((p) => p.category === id && guideIndexByCode.has(p.code));
@@ -190,7 +196,7 @@ export default function ProductExplorer({ products, inlineGuide = false }) {
         )}
       </div>
       {inlineGuide ? (
-        <div ref={guideSection} role="group" aria-labelledby="stock-compare-heading" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
+        <div id="compare-sizes" ref={guideSection} role="group" aria-labelledby="stock-compare-heading" tabIndex={-1} className="mt-12 scroll-mt-4 sm:mt-16">
           <div className="mb-7 flex items-center gap-4 sm:gap-6">
             <div className="h-px flex-1 bg-neutral-300" />
             <h2 id="stock-compare-heading" className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">

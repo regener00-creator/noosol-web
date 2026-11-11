@@ -23,7 +23,9 @@ export default function SectionDeck({ children }) {
         const panel = document.getElementById('scale');
         return { panel, target: panel };
       }
-      const target = document.getElementById(hash.slice(1) || 'home');
+      // The inline comparison mounts after the stock format has been selected.
+      const target = document.getElementById(hash.slice(1) || 'home') ||
+        (hash === '#compare-sizes' ? document.getElementById('services') : null);
       const panel = panels.find((item) => item.contains(target));
       return panel ? { panel, target } : null;
     }
