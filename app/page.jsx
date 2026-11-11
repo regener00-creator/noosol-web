@@ -63,6 +63,25 @@ export default async function Home() {
         </Container>
       </section>
 
+      {/* ผลงาน — พื้นเทาแบบ Apple */}
+      <section id="portfolio" className="desktop-centered-panel grain-surface scroll-mt-16 bg-soft">
+        <Container>
+          <div className="pb-20 pt-5 md:pt-20">
+            <div data-reveal className="hidden items-center gap-3 md:flex sm:gap-5">
+              <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
+              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
+                ตัวอย่างงาน
+              </h2>
+              <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
+            </div>
+
+            <div data-reveal>
+              <PortfolioExplorer showHeading={false} />
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <section id="services" className="grain-surface scroll-mt-16 bg-soft">
         <ServiceCards stock={<ProductExplorer products={products} inlineGuide />}>
           <div data-reveal className="flex items-center gap-2 md:gap-6">
@@ -96,25 +115,6 @@ export default async function Home() {
             ))}
           </div>
         </ServiceCards>
-      </section>
-
-      {/* ผลงาน — พื้นเทาแบบ Apple */}
-      <section id="portfolio" className="desktop-centered-panel grain-surface scroll-mt-16 bg-soft">
-        <Container>
-          <div className="pb-20 pt-5 md:pt-20">
-            <div data-reveal className="hidden items-center gap-3 md:flex sm:gap-5">
-              <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
-              <h2 className="rounded-full border border-line bg-white px-5 py-3 text-center text-xl font-extrabold tracking-tight sm:px-8 sm:text-3xl">
-                ตัวอย่างงาน
-              </h2>
-              <div className="hidden h-px flex-1 bg-neutral-300 sm:block" />
-            </div>
-
-            <div data-reveal>
-              <PortfolioExplorer showHeading={false} />
-            </div>
-          </div>
-        </Container>
       </section>
 
       {/* สินค้าของเรา — พื้นขาว */}

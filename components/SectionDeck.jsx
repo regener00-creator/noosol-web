@@ -60,14 +60,7 @@ export default function SectionDeck({ children }) {
         return;
       }
 
-      function position(item) {
-        if (window.matchMedia('(min-width: 768px)').matches) {
-          if (item.id === 'portfolio') return panels.indexOf(document.getElementById('services'));
-          if (item.id === 'services') return panels.indexOf(document.getElementById('portfolio'));
-        }
-        return panels.indexOf(item);
-      }
-      const direction = position(panel) > position(previous) ? 1 : -1;
+      const direction = panels.indexOf(panel) > panels.indexOf(previous) ? 1 : -1;
       const options = { duration: compact.matches ? 240 : 350, easing: 'cubic-bezier(.4,0,.2,1)' };
       const exit = previous.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${-direction * 100}%)` }], options);
       const enter = panel.animate([{ transform: `translateX(${direction * 100}%)` }, { transform: 'translateX(0)' }], options);

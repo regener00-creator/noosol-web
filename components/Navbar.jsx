@@ -10,7 +10,7 @@ const services = ['การผลิต', 'services'];
 const portfolio = ['ผลงาน', 'portfolio'];
 const faq = ['FAQ', 'qa'];
 const nav = [home, portfolio, services, faq];
-const mobileNav = [home, services, portfolio, faq, ['ติดต่อ', 'contact']];
+const mobileNav = [...nav, ['ติดต่อ', 'contact']];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
