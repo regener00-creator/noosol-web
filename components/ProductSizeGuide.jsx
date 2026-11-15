@@ -5,6 +5,57 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import guides from '@/data/size-guides.json';
 
+// Positions of the two printed dimension lines in each guide's 2000 × 2000 artwork.
+// Each pair is [x of the height arrow, y of the width arrow].
+const dimensionLines = {
+  '05402': [1148, 976],
+  '04255': [1048, 976],
+  '05898': [948, 976],
+  '04508': [1048, 876],
+  '11740': [948, 776],
+  '09106': [1248, 1079],
+  '04257': [1046, 1104],
+  '05899': [1046, 1051],
+  '10496': [1148, 976],
+  '05891': [1048, 876],
+  '07041': [1218, 1071],
+  '06074/1': [986, 1011],
+  '04259': [1093, 1046],
+  '10232': [1038, 935],
+  '05712': [1068, 823],
+  '07073': [868, 821],
+  '11144': [748, 906],
+  '06680': [1296, 1378],
+  '10740': [1545, 1329],
+};
+
+function DimensionLabel({ x, y, label, inches, width }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <rect x={-width / 2} y="-30" width={width} height="60" rx="10" fill="#eb7300" />
+      <text y="1" dominantBaseline="central" textAnchor="middle" fill="white" fontSize="31" fontWeight="700">
+        {label} {inches} นิ้ว
+      </text>
+    </g>
+  );
+}
+
+function GuideDimensions({ guide }) {
+  const lines = dimensionLines[guide.code];
+  if (!lines) return null;
+  const [heightX, widthY] = lines;
+  // The front face ends at (1820, 1720), at 50 artwork units per inch.
+  // The narrow cup bag has its printed width caption to the left of the arrow.
+  const widthX = guide.code === '10740' ? 1450 : 1820 - guide.width * 25;
+  const heightY = 1720 - guide.height * 25;
+  return (
+    <svg viewBox="0 0 2000 2000" aria-hidden="true" focusable="false"
+      className="pointer-events-none absolute inset-0 h-full w-full select-none">
+      <DimensionLabel x={widthX} y={widthY} label="กว้าง" inches={guide.width} width={162 + String(guide.width).length * 18} />
+      <DimensionLabel x={heightX} y={heightY} label="สูง" inches={guide.height} width={116 + String(guide.height).length * 18} />
+    </svg>
+  );
+}
 
 function GuidePrice({ guide, price }) {
   if (price == null) return null;
@@ -141,6 +192,7 @@ export default function ProductSizeGuide({ products, index, setIndex, inline = f
                 loading="lazy"
                 draggable={false}
               />
+              <GuideDimensions guide={item} />
               <GuidePrice guide={item} price={products.find((product) => product.code === item.code)?.retail} />
             </div>
           ))}
